@@ -35,7 +35,7 @@
 }
 
 /* =========================================
-   BOTÃO CTA (Vamos Conversar) - REINSERIDO
+   BOTÃO CTA (Vamos Conversar) - Com Animação
    ========================================= */
 .btn {
     display: inline-flex;
@@ -47,7 +47,8 @@
     font-weight: 700;
     text-decoration: none;
     border-radius: 4px;
-    transition: all 0.3s ease;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    /* Efeito elástico sutil */
     cursor: pointer;
     border: none;
     white-space: nowrap;
@@ -57,13 +58,36 @@
     background-color: var(--color-primary);
     color: #FFFFFF;
     box-shadow: 0 0 16px rgba(227, 135, 45, 0.15);
+    position: relative;
+    overflow: hidden;
+    /* Para o efeito de brilho interno */
+}
+
+/* Efeito de flash/brilho passando pelo botão */
+.btn-primary::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.3) 50%, rgba(255, 255, 255, 0) 100%);
+    transform: skewX(-25deg);
+    transition: all 0.5s ease;
 }
 
 .btn-primary:hover,
 .btn-primary:focus {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 20px rgba(227, 135, 45, 0.4);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 24px rgba(227, 135, 45, 0.4);
+    /* Sombra mais densa */
     color: #FFFFFF;
+}
+
+/* Aciona o flash passando pelo botão ao passar o mouse */
+.btn-primary:hover::after {
+    left: 150%;
+    transition: left 0.6s ease;
 }
 
 /* =========================================
@@ -215,11 +239,11 @@
         visibility: visible;
         transform: none;
         pointer-events: auto;
-        
+
         display: flex;
         position: static;
         /* Ocupa todo o espaço restante entre a logo e a margem direita */
-        flex: 1; 
+        flex: 1;
         background-color: transparent;
         padding: 0;
         border: none;
@@ -233,7 +257,7 @@
         align-items: center;
         gap: clamp(1rem, 3vw, 2.5rem);
         /* O "pulo do gato": centraliza a lista no meio do espaço restante */
-        margin: 0 auto; 
+        margin: 0 auto;
     }
 
     /* Restrito apenas aos links do WordPress */

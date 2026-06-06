@@ -1,0 +1,57 @@
+/* =========================================
+   CALL TO ACTION (CTA) SECTION
+   ========================================= */
+.cta-section {
+    padding: clamp(5rem, 10vw, 8rem) 0;
+    background-color: var(--bg-surface);
+    text-align: center;
+    position: relative;
+}
+
+.cta-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.cta-icon {
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* Um sutil glow ao redor do ícone para dar destaque */
+    filter: drop-shadow(0 4px 12px rgba(227, 135, 45, 0.3));
+}
+
+.cta-title {
+    margin-bottom: 16px;
+    font-size: clamp(2rem, 4vw, 2.75rem);
+    line-height: 1.2;
+    color: #FFFFFF;
+    max-width: 700px;
+}
+
+.cta-description {
+    color: var(--text-muted);
+    font-size: clamp(1rem, 1.5vw, 1.125rem);
+    line-height: 1.6;
+    max-width: 650px;
+    /* Mantém a leitura agradável */
+    margin-bottom: 40px;
+}
+
+/* A classe .btn-primary já está definida no seu header.css/base.css 
+   com o visual correto (laranja, bordas e efeitos de hover).
+   Aqui garantimos apenas que o botão do CTA fique um pouco maior se necessário.
+*/
+.cta-section .btn-primary {
+    padding: 16px 36px;
+    font-size: 1.125rem;
+    box-shadow: 0 0 32px rgba(227, 135, 45, 0.25);
+    /* Glow acentuado no botão do CTA */
+}
+
+.cta-section .btn-primary:hover {
+    box-shadow: 0 8px 40px rgba(227, 135, 45, 0.4);
+}

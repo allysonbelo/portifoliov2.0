@@ -51,10 +51,18 @@ function abc_tech_scripts()
     wp_enqueue_style('abc-tech-header', get_template_directory_uri() . '/css/header.css', array('abc-tech-base'), $version);
     wp_enqueue_style('abc-tech-footer', get_template_directory_uri() . '/css/footer.css', array('abc-tech-base'), $version);
 
+    // Enfileiramento das seções
+    wp_enqueue_style('abc-tech-hero', get_template_directory_uri() . '/css/hero.css', array('abc-tech-base'), $version);
+    wp_enqueue_style('abc-tech-stack', get_template_directory_uri() . '/css/stack.css', array('abc-tech-base'), $version);
+    wp_enqueue_style('abc-tech-experience', get_template_directory_uri() . '/css/experience.css', array('abc-tech-base'), $version);
+    wp_enqueue_style('abc-tech-cta', get_template_directory_uri() . '/css/cta.css', array('abc-tech-base'), $version);
+
     // Arquivo style.css principal
     wp_enqueue_style('abc-tech-style', get_stylesheet_uri(), array('abc-tech-base'), $version);
 
     // Enfileiramento do JavaScript Modular (carregado no footer)
     wp_enqueue_script('abc-tech-navigation', get_template_directory_uri() . '/js/navigation.js', array(), $version, true);
+    wp_enqueue_script('abc-tech-animations', get_template_directory_uri() . '/js/animations.js', array(), $version, true);
+    wp_enqueue_script('abc-tech-typing', get_template_directory_uri() . '/js/typing-hero.js', array(), $version, true);
 }
 add_action('wp_enqueue_scripts', 'abc_tech_scripts');
