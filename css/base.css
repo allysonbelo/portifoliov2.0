@@ -1,0 +1,154 @@
+:root {
+    /* Cores - Technical Precision */
+    --bg-base: #0A0F1A;
+    --bg-surface: #041230;
+    --bg-glass: rgba(4, 18, 48, 0.4);
+
+    --text-main: #dee2f2;
+    --text-muted: #8A94A8;
+
+    --color-primary: #E3872D;
+    --color-secondary: #00D1FF;
+    --color-seo-green: #00FFB2;
+    --border-glass: rgba(255, 255, 255, 0.08);
+
+    /* Tipografia */
+    --font-heading: 'Montserrat', sans-serif;
+    --font-body: 'Hanken Grotesk', sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+
+    /* Espaçamento e Grid */
+    --radius-soft: 0.25rem;
+    --radius-card: 0.5rem;
+    --margin-mobile: 20px;
+    --section-padding: 64px;
+    /* Mobile first */
+}
+
+/* =========================================
+   ESTRUTURA BASE (MOBILE-FIRST)
+   ========================================= */
+body {
+    background-color: var(--bg-base);
+    color: var(--text-main);
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* Container de conteúdo */
+.container {
+    width: 100%;
+    max-width: 1280px;
+    margin: 0 auto;
+    padding-left: var(--margin-mobile);
+    padding-right: var(--margin-mobile);
+}
+
+/* =========================================
+   TIPOGRAFIA
+   ========================================= */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    color: #FFFFFF;
+    margin-bottom: 1rem;
+}
+
+h1 {
+    font-size: 40px;
+    /* Mobile */
+    line-height: 1.2;
+}
+
+h2 {
+    font-size: 32px;
+    line-height: 1.2;
+}
+
+h3 {
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 1.4;
+}
+
+p {
+    margin-bottom: 1.5rem;
+    color: var(--text-muted);
+}
+
+/* Span para destaques com a cor primária */
+span.highlight {
+    color: var(--color-primary);
+    font-weight: 600;
+}
+
+/* Textos técnicos e métricas SEO */
+.label-technical,
+kbd,
+code,
+pre {
+    font-family: var(--font-mono);
+    font-size: 14px;
+    letter-spacing: 0.05em;
+    color: var(--color-secondary);
+}
+
+/* =========================================
+   LISTAS E CITAÇÕES
+   ========================================= */
+ul,
+ol {
+    margin-bottom: 1.5rem;
+    padding-left: 1.5rem;
+    color: var(--text-muted);
+}
+
+ul {
+    list-style-type: square;
+}
+
+li {
+    margin-bottom: 0.5rem;
+}
+
+blockquote {
+    border-left: 4px solid var(--color-primary);
+    padding: 1rem 1.5rem;
+    margin: 0 0 1.5rem 0;
+    background: var(--bg-surface);
+    border-radius: 0 var(--radius-soft) var(--radius-soft) 0;
+    font-style: italic;
+    color: var(--text-main);
+}
+
+/* =========================================
+   MEDIA QUERIES (DESKTOP)
+   ========================================= */
+@media (min-width: 768px) {
+    :root {
+        --section-padding: 120px;
+        /* Expansão de respiro no desktop */
+    }
+
+    h1 {
+        font-size: 64px;
+        letter-spacing: -0.02em;
+        line-height: 1.1;
+    }
+
+    h2 {
+        font-size: 40px;
+    }
+
+    p {
+        font-size: 18px;
+        /* body-lg do design system */
+    }
+}
