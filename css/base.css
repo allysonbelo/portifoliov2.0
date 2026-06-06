@@ -17,16 +17,17 @@
     --font-body: 'Hanken Grotesk', sans-serif;
     --font-mono: 'JetBrains Mono', monospace;
 
-    /* Espaçamento e Grid */
+    /* Espaçamento e Grid (Fluidos com Clamp) */
     --radius-soft: 0.25rem;
     --radius-card: 0.5rem;
-    --margin-mobile: 20px;
-    --section-padding: 64px;
-    /* Mobile first */
+    /* Margem lateral: min 16px, ideal 4vw, max 32px */
+    --margin-mobile: clamp(1rem, 4vw, 2rem);
+    /* Padding das seções: min 64px (4rem), ideal 8vw, max 120px (7.5rem) */
+    --section-padding: clamp(4rem, 8vw, 7.5rem);
 }
 
 /* =========================================
-   ESTRUTURA BASE (MOBILE-FIRST)
+   ESTRUTURA BASE
    ========================================= */
 body {
     background-color: var(--bg-base);
@@ -47,14 +48,9 @@ body {
 }
 
 /* =========================================
-   TIPOGRAFIA
+   TIPOGRAFIA FLUIDA (Sem Media Queries)
    ========================================= */
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
+h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-heading);
     font-weight: 700;
     color: #FFFFFF;
@@ -62,18 +58,21 @@ h6 {
 }
 
 h1 {
-    font-size: 40px;
-    /* Mobile */
-    line-height: 1.2;
+    /* De 40px (2.5rem) até 64px (4rem) */
+    font-size: clamp(2.5rem, 5vw + 1rem, 4rem);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
 }
 
 h2 {
-    font-size: 32px;
+    /* De 32px (2rem) até 40px (2.5rem) */
+    font-size: clamp(2rem, 4vw, 2.5rem);
     line-height: 1.2;
 }
 
 h3 {
-    font-size: 24px;
+    /* De 20px (1.25rem) até 24px (1.5rem) */
+    font-size: clamp(1.25rem, 3vw, 1.5rem);
     font-weight: 600;
     line-height: 1.4;
 }
@@ -81,6 +80,8 @@ h3 {
 p {
     margin-bottom: 1.5rem;
     color: var(--text-muted);
+    /* De 16px (1rem) a 18px (1.125rem) */
+    font-size: clamp(1rem, 1.5vw + 0.5rem, 1.125rem);
 }
 
 /* Span para destaques com a cor primária */
@@ -103,8 +104,7 @@ pre {
 /* =========================================
    LISTAS E CITAÇÕES
    ========================================= */
-ul,
-ol {
+ul, ol {
     margin-bottom: 1.5rem;
     padding-left: 1.5rem;
     color: var(--text-muted);
@@ -126,29 +126,4 @@ blockquote {
     border-radius: 0 var(--radius-soft) var(--radius-soft) 0;
     font-style: italic;
     color: var(--text-main);
-}
-
-/* =========================================
-   MEDIA QUERIES (DESKTOP)
-   ========================================= */
-@media (min-width: 768px) {
-    :root {
-        --section-padding: 120px;
-        /* Expansão de respiro no desktop */
-    }
-
-    h1 {
-        font-size: 64px;
-        letter-spacing: -0.02em;
-        line-height: 1.1;
-    }
-
-    h2 {
-        font-size: 40px;
-    }
-
-    p {
-        font-size: 18px;
-        /* body-lg do design system */
-    }
 }
