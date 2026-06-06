@@ -1,0 +1,90 @@
+/* =========================================
+   FOOTER (Mobile First)
+   ========================================= */
+.site-footer {
+    background-color: var(--bg-base); /* Fundo #0A0F1A */
+    border-top: 1px solid var(--border-glass);
+    padding: 40px 0;
+    margin-top: auto; /* Empurra o footer para o final da tela caso haja pouco conteúdo */
+}
+
+.footer-inner {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    align-items: center;
+    text-align: center;
+}
+
+/* Marca e Copyright */
+.footer-branding {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.footer-title {
+    font-family: var(--font-heading);
+    font-size: 24px;
+    font-weight: 700;
+    color: #FFFFFF;
+    text-decoration: none;
+    letter-spacing: -0.02em;
+}
+
+.footer-copyright {
+    color: var(--color-primary); /* Laranja #E3872D conforme o design */
+    font-family: var(--font-body);
+    font-size: 14px;
+    margin: 0;
+}
+
+/* Navegação Social */
+.footer-social ul {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 24px;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-social a {
+    font-family: var(--font-mono); /* Tipografia técnica: JetBrains Mono */
+    font-size: 14px;
+    color: var(--text-muted); /* Cor cinza sutil do design */
+    text-decoration: none;
+    letter-spacing: 0.05em;
+    transition: color 0.3s ease;
+}
+
+.footer-social a:hover,
+.footer-social a:focus {
+    color: var(--color-secondary); /* Efeito neon blue ao passar o mouse */
+    outline: none;
+}
+
+/* =========================================
+   MEDIA QUERIES (DESKTOP)
+   ========================================= */
+@media (min-width: 768px) {
+    .site-footer {
+        padding: 56px 0;
+    }
+
+    .footer-inner {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        text-align: left;
+    }
+
+    .footer-branding {
+        align-items: flex-start;
+    }
+
+    .footer-social ul {
+        justify-content: flex-end;
+        gap: 32px;
+    }
+}

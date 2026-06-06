@@ -1,25 +1,31 @@
 <?php
+
 /**
- * Configurações e Inicialização do Tema Technical Precision.
- * Foco em segurança, escaping e suporte a internacionalização (Polylang).
+ * Configurações e Inicialização do Tema ABC tech.
+ * Foco em segurança, escaping, suporte a internacionalização (Polylang) e performance.
  */
 
-if ( ! defined( 'ABSPATH' ) ) {
+if (! defined('ABSPATH')) {
     exit; // Previne acesso direto por segurança
 }
 
-function technical_precision_setup() {
+function abc_tech_setup()
+{
     // Carrega o domínio de texto para tradução (Polylang)
-    load_theme_textdomain( 'technical-precision', get_template_directory() . '/languages' );
+    load_theme_textdomain('abc-tech', get_template_directory() . '/languages');
+
+    register_nav_menus(array(
+        'menu-1' => esc_html__('Primary Menu', 'abc-tech'),
+    ));
 
     // Suporte a tags de título nativas do WP (Melhor prática de SEO)
-    add_theme_support( 'title-tag' );
+    add_theme_support('title-tag');
 
     // Suporte a miniaturas de post
-    add_theme_support( 'post-thumbnails' );
+    add_theme_support('post-thumbnails');
 
     // Suporte a HTML5 para elementos mais semânticos
-    add_theme_support( 'html5', array(
+    add_theme_support('html5', array(
         'search-form',
         'comment-form',
         'comment-list',
@@ -27,20 +33,28 @@ function technical_precision_setup() {
         'caption',
         'style',
         'script',
-    ) );
+    ));
 }
-add_action( 'after_setup_theme', 'technical_precision_setup' );
+add_action('after_setup_theme', 'abc_tech_setup');
 
-function technical_precision_scripts() {
-    // Removemos a versão do WP dos assets para segurança
+function abc_tech_scripts()
+{
+    // Versão do tema para cache busting controlado
     $version = '1.0.0';
 
     // Enfileiramento das folhas de estilo
-    wp_enqueue_style( 'tp-reset', get_template_directory_uri() . '/css/reset.css', array(), $version );
-    wp_enqueue_style( 'tp-base', get_template_directory_uri() . '/css/base.css', array('tp-reset'), $version );
-    wp_enqueue_style( 'tp-style', get_stylesheet_uri(), array('tp-base'), $version );
-    
-    // Fontes Google (Carregamento performático)
-    wp_enqueue_style( 'tp-fonts', 'https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500&family=JetBrains+Mono:wght@500&family=Montserrat:wght@600;700&display=swap', array(), null );
+    wp_enqueue_style('abc-tech-reset', get_template_directory_uri() . '/css/reset.css', array(), $version);
+    wp_enqueue_style('abc-tech-fonts', get_template_directory_uri() . '/css/fonts.css', array(), $version);
+    wp_enqueue_style('abc-tech-base', get_template_directory_uri() . '/css/base.css', array('abc-tech-reset', 'abc-tech-fonts'), $version);
+
+    // Arquivos modulares criados anteriormente
+    wp_enqueue_style('abc-tech-header', get_template_directory_uri() . '/css/header.css', array('abc-tech-base'), $version);
+    wp_enqueue_style('abc-tech-footer', get_template_directory_uri() . '/css/footer.css', array('abc-tech-base'), $version);
+
+    // Arquivo style.css principal
+    wp_enqueue_style('abc-tech-style', get_stylesheet_uri(), array('abc-tech-base'), $version);
+
+    // Enfileiramento do JavaScript Modular (carregado no footer)
+    wp_enqueue_script('abc-tech-navigation', get_template_directory_uri() . '/js/navigation.js', array(), $version, true);
 }
-add_action( 'wp_enqueue_scripts', 'technical_precision_scripts' );
+add_action('wp_enqueue_scripts', 'abc_tech_scripts');
