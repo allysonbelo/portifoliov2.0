@@ -1,0 +1,289 @@
+/* =========================================
+   TECH STACK & EXPERTISE (Bento Grid)
+   ========================================= */
+.stack-section {
+    padding: var(--section-padding) 0;
+    background-color: var(--bg-surface);
+}
+
+.section-header {
+    margin-bottom: clamp(2rem, 5vw, 4rem);
+    max-width: 600px;
+}
+
+.section-header h2 {
+    margin-bottom: 1rem;
+}
+
+/* =========================================
+   BENTO GRID (Mobile First)
+   ========================================= */
+.bento-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    /* 1 coluna no mobile */
+    gap: 24px;
+}
+
+/* Estilo Base dos Cards */
+.bento-card {
+    background-color: var(--bg-surface);
+    border: 1px solid var(--border-glass);
+    border-radius: 12px;
+    padding: clamp(24px, 4vw, 32px);
+    transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+.bento-card:hover {
+    border-color: rgba(255, 255, 255, 0.15);
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 16px;
+}
+
+.card-header h3 {
+    margin: 0;
+    font-size: clamp(1.125rem, 2vw, 1.25rem);
+    /* Ajuste de h3 para os cards */
+}
+
+/* =========================================
+   ELEMENTOS INTERNOS DOS CARDS
+   ========================================= */
+
+/* Chips da Arquitetura */
+.tech-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 24px;
+}
+
+.chip {
+    background-color: rgba(10, 15, 26, 0.6);
+    /* Fundo bem escuro */
+    border: 1px solid var(--border-glass);
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--text-muted);
+}
+
+.chip-icon {
+    font-weight: 700;
+}
+
+/* Utilitários de Cor */
+.text-orange {
+    color: var(--color-primary);
+}
+
+.text-yellow {
+    color: #FFBD2E;
+}
+
+.text-blue {
+    color: var(--color-secondary);
+}
+
+.text-white {
+    color: #FFFFFF;
+}
+
+/* Lista de Performance */
+.feature-list {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.feature-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin: 0;
+    color: var(--text-muted);
+}
+
+.check-icon {
+    width: 20px;
+    height: 20px;
+    color: var(--color-secondary);
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+/* Badge Technical SEO (O 99+ verde) */
+.text-center {
+    text-align: center;
+}
+
+.seo-badge-container {
+    display: flex;
+    justify-content: center;
+    margin: 10px 0;
+}
+
+.seo-badge {
+    width: 120px;
+    height: 120px;
+    border: 6px solid var(--color-seo-green);
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 24px rgba(0, 255, 178, 0.2), inset 0 0 24px rgba(0, 255, 178, 0.1);
+}
+
+.seo-score {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 48px;
+    color: var(--color-seo-green);
+    letter-spacing: -0.05em;
+}
+
+.small-text {
+    font-size: 14px;
+    line-height: 1.5;
+    margin-top: 16px;
+}
+
+/* Grid de Infraestrutura (Células Internas) */
+.infra-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+    margin-top: 24px;
+}
+
+.infra-item {
+    background-color: rgba(10, 15, 26, 0.6);
+    border: 1px solid var(--border-glass);
+    padding: 16px;
+    border-radius: 6px;
+    text-align: center;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--text-muted);
+}
+
+/* =========================================
+   DESKTOP (A partir de 1024px)
+   A Mágica do Bento Grid (12 Colunas)
+   ========================================= */
+@media (min-width: 1024px) {
+    .bento-grid {
+        grid-template-columns: repeat(12, 1fr);
+    }
+
+    /* Top Row */
+    .card-arquitetura {
+        grid-column: span 8;
+        justify-content: center;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .card-seo {
+        grid-column: span 4;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    /* Bottom Row */
+    .card-performance {
+        grid-column: span 6;
+    }
+
+    .card-infra {
+        grid-column: span 6;
+    }
+
+    /* Coloca os itens de infra em 2 colunas dentro do próprio card */
+    .infra-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+/* =========================================
+   SCROLL REVEAL ANIMATIONS (Intersection Observer)
+   ========================================= */
+.reveal-element {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s cubic-bezier(0.2, 0.8, 0.2, 1),
+        transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+    will-change: opacity, transform;
+}
+
+.reveal-element.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Cascateamento (Stagger) para os cards carregarem um após o outro */
+.card-arquitetura {
+    transition-delay: 0.1s;
+}
+
+.card-seo {
+    transition-delay: 0.2s;
+}
+
+.card-performance {
+    transition-delay: 0.3s;
+}
+
+.card-infra {
+    transition-delay: 0.4s;
+}
+
+/* =========================================
+   HOVER INTERACTIONS (Mouse no Desktop)
+   ========================================= */
+.bento-card {
+    /* Mantém a transição base já existente e adiciona box-shadow e transform */
+    transition: transform 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
+}
+
+.bento-card:hover {
+    border-color: rgba(255, 255, 255, 0.15);
+    transform: translateY(-4px);
+    /* Card "flutua" levemente */
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4);
+    /* Sombra macia abaixo */
+}
+
+/* Interação exclusiva no Card de SEO */
+.seo-badge {
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease;
+}
+
+.card-seo:hover .seo-badge {
+    transform: scale(1.05);
+    /* O 99+ infla como uma pulsação */
+    box-shadow: 0 0 32px rgba(0, 255, 178, 0.4), inset 0 0 24px rgba(0, 255, 178, 0.2);
+}
+
+/* Efeito nos chips da Arquitetura */
+.chip {
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.card-arquitetura:hover .chip {
+    background-color: rgba(10, 15, 26, 0.9);
+    border-color: rgba(255, 255, 255, 0.15);
+}

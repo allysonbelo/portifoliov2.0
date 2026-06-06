@@ -1,0 +1,190 @@
+/* =========================================
+   HERO SECTION (Mobile First)
+   ========================================= */
+.hero-section {
+    padding: var(--section-padding) 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-inner {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: clamp(3rem, 8vw, 6rem);
+    align-items: center;
+}
+
+/* =========================================
+   ANIMAÇÕES DE ENTRADA (Corrigidas)
+   ========================================= */
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translate3d(0, 30px, 0); }
+    to { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+
+/* Aplicamos a classe que contém a animação */
+.hero-status, .hero-title, .hero-description, .hero-actions, .hero-visual {
+    opacity: 0;
+    animation: fadeInUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+    will-change: opacity, transform;
+}
+
+.hero-status { animation-delay: 0.1s; }
+.hero-title { animation-delay: 0.2s; }
+.hero-description { animation-delay: 0.3s; }
+.hero-actions { animation-delay: 0.4s; }
+.hero-visual { animation-delay: 0.5s; }
+
+/* =========================================
+   HERO CONTENT
+   ========================================= */
+.hero-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 24px;
+}
+
+.status-dot {
+    width: 8px;
+    height: 8px;
+    background-color: var(--color-seo-green);
+    border-radius: 50%;
+    box-shadow: 0 0 8px var(--color-seo-green);
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(0, 255, 178, 0.4); }
+    70% { box-shadow: 0 0 0 8px rgba(0, 255, 178, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(0, 255, 178, 0); }
+}
+
+.status-text {
+    font-family: var(--font-mono);
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--color-seo-green);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.hero-title { margin-bottom: 24px; line-height: 1.1; }
+.title-line { display: inline-block; }
+.text-white { color: #FFFFFF; }
+.text-blue { color: var(--color-secondary); }
+.text-orange { color: var(--color-primary); }
+.hero-description { max-width: 600px; margin-bottom: 40px; }
+.hero-actions { display: flex; flex-wrap: wrap; gap: 24px; }
+
+.btn-secondary {
+    background-color: transparent;
+    color: var(--color-secondary);
+    border: 1px solid var(--color-secondary);
+    font-family: var(--font-mono);
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.btn-secondary:hover {
+    background-color: rgba(0, 209, 255, 0.1);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 20px rgba(0, 209, 255, 0.2);
+}
+
+/* =========================================
+   TERMINAL (Figma Fidelity Sync)
+   ========================================= */
+.hero-visual {
+    position: relative;
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.code-window {
+    background-color: rgba(14, 19, 30, 0.7); /* Fundo glass escuro */
+    border: 1px solid rgba(255, 255, 255, 0.03); /* Borda quase invisível */
+    border-radius: 12px;
+    min-height: 320px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    z-index: 2;
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    box-shadow: 0 24px 48px rgba(0, 0, 0, 0.4);
+    overflow: hidden; /* Mantém o brilho interno contido */
+}
+
+/* Brilho interno do card simulando o efeito do Figma */
+.code-window::before {
+    content: '';
+    position: absolute;
+    bottom: -50px;
+    right: -50px;
+    width: 250px;
+    height: 250px;
+    background: radial-gradient(circle, rgba(0, 209, 255, 0.15) 0%, rgba(0, 0, 0, 0) 70%);
+    z-index: -1;
+    pointer-events: none;
+}
+
+.window-header {
+    display: flex;
+    padding: 24px 32px 16px 32px;
+    border-bottom: none; /* Removida a linha divisória */
+}
+
+.mac-dots { display: flex; gap: 8px; }
+.dot { width: 10px; height: 10px; border-radius: 50%; }
+.dot-red { background-color: #FF9B9B; } /* Rosa Pastel */
+.dot-yellow { background-color: #E3872D; } /* Laranja do Design System */
+.dot-green { background-color: #00FFB2; } /* Verde Mint */
+
+.window-body {
+    padding: 0 32px 32px 32px; /* Ajuste para unificar com o header */
+    flex: 1;
+    display: flex;
+    align-items: flex-start;
+}
+
+#typing-text {
+    font-family: var(--font-mono);
+    color: var(--text-muted); /* Cinza azulado para chaves e caracteres padrões */
+    font-size: 15px;
+    line-height: 1.9;
+    white-space: pre-wrap;
+}
+
+#typing-text::after {
+    content: '|';
+    animation: blink 1s infinite;
+    color: var(--color-primary);
+}
+
+@keyframes blink { 50% { opacity: 0; } }
+
+/* Cores de Sintaxe (Figma) */
+.token-keyword { color: var(--color-secondary); }
+.token-variable { color: #ffb77c; }
+.token-string { color: var(--color-seo-green); }
+.token-number { color: var(--color-primary); }
+.token-function { color: var(--text-muted); } /* No Figma, a função fica cinza */
+
+/* Glow Externo Fundo */
+.hero-glow {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%; height: 90%;
+    background: radial-gradient(circle, rgba(0, 209, 255, 0.15) 0%, rgba(0, 0, 0, 0) 60%);
+    z-index: 1;
+    filter: blur(60px);
+    pointer-events: none;
+}
+
+@media (min-width: 1024px) {
+    .hero-inner { grid-template-columns: 1.9fr 1fr; }
+    .hero-visual { margin: 0; }
+}
