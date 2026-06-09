@@ -1,0 +1,554 @@
+/* =========================================
+   PÁGINA DE PROJETOS (Header & Controles)
+   ========================================= */
+.projects-hero {
+    padding: var(--section-padding) 0 clamp(3rem, 5vw, 4rem) 0;
+    text-align: center;
+}
+
+.projects-hero .page-title {
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    margin-bottom: 24px;
+}
+
+.projects-hero .page-description {
+    max-width: 600px;
+    margin: 0 auto;
+    font-size: clamp(1rem, 1.5vw, 1.125rem);
+    color: var(--text-muted);
+}
+
+.projects-showcase {
+    padding-bottom: var(--section-padding);
+}
+
+/* =========================================
+   CONTROLES DE FILTRO
+   ========================================= */
+.projects-controls {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 32px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border-glass);
+}
+
+.view-label {
+    color: var(--text-muted);
+    font-size: 14px;
+    font-family: var(--font-mono);
+}
+
+.view-toggle-group {
+    display: flex;
+    gap: 8px;
+    background-color: var(--bg-glass);
+    padding: 4px;
+    border-radius: var(--radius-card);
+    border: 1px solid var(--border-glass);
+}
+
+.view-btn {
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    padding: 8px;
+    border-radius: var(--radius-soft);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    transition: all 0.3s ease;
+    justify-content: center;
+}
+
+.view-btn:hover {
+    color: #fff;
+}
+
+.view-btn.is-active {
+    background-color: rgba(0, 209, 255, 0.1);
+    color: var(--color-secondary);
+}
+
+/* =========================================
+   BASE DO CARD (Terminal Glassmorphism)
+   ========================================= */
+.project-card {
+    background-color: var(--bg-glass);
+    border: 1px solid var(--border-glass);
+    border-radius: var(--radius-card);
+    position: relative;
+    z-index: 2;
+    backdrop-filter: blur(12px);
+    /* Blur oficial do Design System */
+    -webkit-backdrop-filter: blur(12px);
+    box-shadow: 0 24px 48px rgba(0, 0, 0, 0.4);
+    overflow: hidden;
+    transition: transform 0.4s ease, box-shadow 0.4s ease, border-color 0.4s ease;
+}
+
+.project-card::before {
+    content: '';
+    position: absolute;
+    bottom: -50px;
+    right: -50px;
+    width: 250px;
+    height: 250px;
+    /* Glow usando a base do secondary-container */
+    background: radial-gradient(circle, rgba(20, 209, 255, 0.1) 0%, rgba(0, 0, 0, 0) 70%);
+    z-index: -1;
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+}
+
+.project-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(255, 255, 255, 0.15);
+    box-shadow: 0 32px 64px rgba(0, 0, 0, 0.5);
+}
+
+.project-card:hover::before {
+    opacity: 0.8;
+}
+
+.project-link {
+    display: flex;
+    text-decoration: none;
+    height: 100%;
+}
+
+/* =========================================
+   ESTÉTICA BROWSER / TERMINAL DA IMAGEM
+   ========================================= */
+.project-image-wrapper {
+    position: relative;
+    background-color: var(--bg-base);
+    display: flex;
+    flex-direction: column;
+}
+
+.window-header-mini {
+    display: flex;
+    align-items: center;
+    padding: 12px 16px;
+    background-color: rgba(255, 255, 255, 0.02);
+    border-bottom: 1px solid var(--border-glass);
+}
+
+.mac-dots {
+    display: flex;
+    gap: 6px;
+}
+
+.mac-dots .dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+}
+
+.dot-red {
+    background-color: #FF5F56;
+}
+
+.dot-yellow {
+    background-color: #FFBD2E;
+}
+
+.dot-green {
+    background-color: #27C93F;
+}
+
+.img-container {
+    flex: 1;
+    overflow: hidden;
+    position: relative;
+}
+
+.project-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top;
+    transition: transform 0.6s ease;
+}
+
+.project-card:hover .project-img {
+    transform: scale(1.05);
+}
+
+/* =========================================
+   CONTEÚDO DO CARD E SPECS TÉCNICAS
+   ========================================= */
+.project-content {
+    background-color: transparent;
+    display: flex;
+    flex-direction: column;
+}
+
+.project-content-inner {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.project-title {
+    color: var(--text-main);
+    transition: color 0.3s ease;
+}
+
+.project-card:hover .project-title {
+    color: var(--color-secondary);
+}
+
+.project-excerpt {
+    color: var(--text-muted);
+}
+
+.project-specs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin: 24px 0;
+    padding: 16px;
+    background-color: rgba(4, 18, 48, 0.6);
+    /* Surface deep com opacidade */
+    border-radius: var(--radius-soft);
+    border: 1px solid var(--border-glass);
+}
+
+.spec-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.spec-label {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.spec-value {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-main);
+}
+
+.spec-value.text-green {
+    color: var(--color-seo-green);
+}
+
+/* =========================================
+   EFEITO TYPEWRITER (Terminal)
+   ========================================= */
+.type-wrap {
+    display: inline-flex;
+    align-items: center;
+    min-height: 20px;
+}
+
+.spec-value.token-keyword {
+    color: var(--color-secondary);
+}
+
+.spec-value.token-string {
+    color: var(--color-seo-green);
+}
+
+.cursor {
+    color: var(--color-primary);
+    margin-left: 2px;
+    font-weight: 400;
+    animation: blinkCursor 1s step-end infinite;
+}
+
+@keyframes blinkCursor {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0;
+    }
+}
+
+/* =========================================
+   LAYOUT 1: LISTA HORIZONTAL (Padrão)
+   ========================================= */
+.list-view {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
+
+.list-view .project-link {
+    flex-direction: column;
+}
+
+.list-view .project-image-wrapper {
+    height: 250px;
+}
+
+.list-view .project-content {
+    padding: 32px;
+}
+
+.list-view .project-title {
+    font-size: clamp(1.5rem, 2.5vw, 2rem);
+    margin-bottom: 16px;
+}
+
+.list-view .project-excerpt {
+    font-size: 1.05rem;
+    line-height: 1.6;
+}
+
+@media (min-width: 1024px) {
+    .list-view .project-link {
+        flex-direction: row;
+    }
+
+    .list-view .project-image-wrapper {
+        width: 50%;
+        height: auto;
+        min-height: 350px;
+        border-right: 1px solid var(--border-glass);
+    }
+
+    .list-view .project-content {
+        width: 50%;
+        padding: 48px;
+        justify-content: center;
+    }
+
+    .list-view .project-card:nth-child(even) .project-link {
+        flex-direction: row-reverse;
+    }
+
+    .list-view .project-card:nth-child(even) .project-image-wrapper {
+        border-right: none;
+        border-left: 1px solid var(--border-glass);
+    }
+}
+
+/* =========================================
+   LAYOUT 2: GRID (4 Colunas)
+   ========================================= */
+.grid-view {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 32px;
+}
+
+.grid-view .project-link {
+    flex-direction: column;
+}
+
+.grid-view .project-image-wrapper {
+    width: 100%;
+    height: clamp(300px, 22.8vw, 350px);
+    border-bottom: 1px solid var(--border-glass);
+}
+
+.grid-view .project-content {
+    padding: 24px;
+    flex: 1;
+}
+
+.grid-view .project-title {
+    font-size: 1.25rem;
+    margin-bottom: 12px;
+}
+
+.grid-view .project-excerpt {
+    font-size: 0.9rem;
+    margin-bottom: 16px;
+    flex: 1;
+}
+
+.grid-view .project-specs {
+    margin: 16px 0;
+    padding: 12px;
+    gap: 8px;
+    grid-template-columns: 1fr;
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+    .grid-view {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (min-width: 1024px) {
+    .grid-view {
+        grid-template-columns: repeat(3, 1fr);
+        /* 3 colunas conforme sua alteração anterior */
+    }
+}
+
+/* =========================================
+   REFINAMENTO DE CONTEÚDO (Meta e Footer)
+   ========================================= */
+.project-meta-top {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.project-year {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--text-muted);
+    letter-spacing: 0.05em;
+}
+
+.project-footer {
+    margin-top: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid var(--border-glass);
+    padding-top: 20px;
+    gap: 16px;
+}
+
+.btn-view-case {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-main);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    transition: color 0.3s ease;
+}
+
+.btn-view-case svg {
+    transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.project-card:hover .btn-view-case {
+    color: var(--color-primary);
+}
+
+.project-card:hover .btn-view-case svg {
+    transform: translateX(6px);
+}
+
+.grid-view .btn-view-case {
+    display: none;
+}
+
+.grid-view .project-footer {
+    border-top: none;
+    padding-top: 0;
+}
+
+/* =========================================
+   TAGS & META
+   ========================================= */
+.live-indicator {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background-color: rgba(0, 255, 178, 0.1);
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--color-seo-green);
+}
+
+.live-indicator .dot {
+    width: 6px;
+    height: 6px;
+    background-color: var(--color-seo-green);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+}
+
+.tech-stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: auto;
+}
+
+.tech-pill {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--color-secondary);
+    background-color: rgba(0, 209, 255, 0.05);
+    border: 1px solid rgba(0, 209, 255, 0.1);
+    padding: 4px 10px;
+    border-radius: var(--radius-soft);
+}
+
+/* =========================================
+   ANIMAÇÕES DE ENTRADA (BLINDAGEM TOTAL)
+   ========================================= */
+.projects-showcase {
+    overflow-x: hidden;
+}
+
+/* 1. Configuração Base: Preservando o PHP e matando conflitos */
+.list-view .project-card.reveal-element,
+.grid-view .project-card.reveal-element {
+    animation: none !important; /* Desliga qualquer @keyframe global do .reveal-element */
+    
+    /* Separamos as propriedades para NÃO sobrescrever o seu style="transition-delay" gerado no PHP! */
+    transition-property: opacity, transform !important;
+    transition-duration: 0.8s, 0.8s !important;
+    transition-timing-function: cubic-bezier(0.2, 0.8, 0.2, 1), cubic-bezier(0.2, 0.8, 0.2, 1) !important;
+}
+
+/* =========================================
+   MODO LISTA (Ziguezague Lateral)
+   ========================================= */
+.list-view .project-card.reveal-element {
+    opacity: 0 !important;
+}
+
+/* Forçamos o eixo Y a ser 0 (translate X, Y) para proibir que o card suba */
+.list-view .project-card.reveal-element:nth-child(odd) {
+    transform: translate(-100px, 0) !important; /* Puxa para a esquerda */
+}
+
+.list-view .project-card.reveal-element:nth-child(even) {
+    transform: translate(100px, 0) !important; /* Puxa para a direita */
+}
+
+/* Ajusta o Glow do glassmorphism no card par */
+.list-view .project-card.reveal-element:nth-child(even)::before {
+    right: auto !important;
+    left: -50px !important;
+}
+
+/* Estado Final (Visível) */
+.list-view .project-card.reveal-element.is-visible {
+    opacity: 1 !important;
+    transform: translate(0, 0) !important; /* Encaixa no centro perfeito */
+}
+
+/* =========================================
+   MODO GRID (De baixo para cima)
+   ========================================= */
+.grid-view .project-card.reveal-element {
+    opacity: 0 !important;
+    transform: translate(0, 80px) !important; /* Eixo X fica no 0, forçamos nascer 80px abaixo */
+}
+
+/* Estado Final (Visível) */
+.grid-view .project-card.reveal-element.is-visible {
+    opacity: 1 !important;
+    transform: translate(0, 0) !important; /* Desliza para cima */
+}
