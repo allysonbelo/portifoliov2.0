@@ -29,3 +29,37 @@ document.addEventListener('DOMContentLoaded', () => {
         observer.observe(element);
     });
 });
+
+/**
+ * FAQ Accordion Animation (Calculada Dinamicamente)
+ */
+document.addEventListener('DOMContentLoaded', () => {
+    const faqQuestions = document.querySelectorAll('.rank-math-question');
+
+    faqQuestions.forEach(question => {
+        question.addEventListener('click', () => {
+            const faqItem = question.closest('.rank-math-faq-item');
+            const answer = faqItem.querySelector('.rank-math-answer');
+            const isOpen = faqItem.classList.contains('is-open');
+
+            // 1. Fecha todos os outros itens (para manter o visual limpo)
+            document.querySelectorAll('.rank-math-faq-item').forEach(item => {
+                item.classList.remove('is-open');
+                const otherAnswer = item.querySelector('.rank-math-answer');
+                if (otherAnswer) {
+                    otherAnswer.style.maxHeight = null; // Reseta a altura inline
+                }
+            });
+
+            // 2. Abre ou fecha o item clicado calculando a altura exata
+            if (!isOpen) {
+                faqItem.classList.add('is-open');
+                // scrollHeight mede a altura exata que o conteúdo precisa
+                answer.style.maxHeight = answer.scrollHeight + "px"; 
+            } else {
+                faqItem.classList.remove('is-open');
+                answer.style.maxHeight = null; // Força a voltar a 0px
+            }
+        });
+    });
+});

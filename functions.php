@@ -58,6 +58,21 @@ function abc_tech_scripts()
     wp_enqueue_style('abc-tech-cta', get_template_directory_uri() . '/css/cta.css', array('abc-tech-base'), $version);
     wp_enqueue_style('abc-tech-projetos', get_template_directory_uri() . '/css/projetos.css', array('abc-tech-base'), $version);
 
+    if (is_singular('project')) {
+        // CORRIGIDO: Nome do arquivo agora bate com o que está na pasta css/ (single-projeto.css)
+        $css_path = get_template_directory() . '/css/single-projeto.css';
+
+        // Blindagem: Só lê a data se o arquivo realmente existir no disco
+        if (file_exists($css_path)) {
+            $versao_css = filemtime($css_path);
+        } else {
+            $versao_css = '1.0.fallback-' . time();
+        }
+
+        // CORRIGIDO: URL do arquivo corrigida e adicionada a dependência do 'abc-tech-base'
+        wp_enqueue_style('abc-tech-single-project', get_template_directory_uri() . '/css/single-projeto.css', array('abc-tech-base'), $versao_css, 'all');
+    }
+
     // Arquivo style.css principal
     wp_enqueue_style('abc-tech-style', get_stylesheet_uri(), array('abc-tech-base'), $version);
 

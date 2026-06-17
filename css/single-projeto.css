@@ -1,0 +1,554 @@
+/* =========================================
+   PROJETO SINGLE - LAYOUT BLINDADO
+   ========================================= */
+
+/* 1. HERO SECTION (Forçando o espaçamento do Header) */
+main.project-single .project-hero {
+    /* O padding-top agressivo de 180px garante que descole do header fixo */
+    padding-top: clamp(160px, 15vw, 200px); 
+    padding-bottom: clamp(60px, 8vw, 100px);
+}
+
+main.project-single .hero-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: clamp(40px, 6vw, 80px);
+    align-items: center;
+}
+
+/* Força 50/50 no Desktop */
+@media (min-width: 1024px) {
+    main.project-single .hero-grid {
+        grid-template-columns: 1fr 1fr; 
+    }
+}
+
+/* Tipografia e Botões do Hero */
+main.project-single .project-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background-color: var(--bg-surface);
+    border: 1px solid var(--border-glass);
+    padding: 6px 16px;
+    border-radius: var(--radius-soft);
+    color: var(--color-secondary);
+    margin-bottom: 24px;
+    font-family: var(--font-mono);
+    font-size: 14px;
+}
+
+main.project-single .dot-indicator {
+    width: 8px;
+    height: 8px;
+    background-color: var(--color-secondary);
+    border-radius: 50%;
+    box-shadow: 0 0 8px var(--color-secondary);
+}
+
+main.project-single .project-title {
+    margin-bottom: 24px;
+    color: var(--text-main);
+}
+
+main.project-single .project-description {
+    margin-bottom: 40px;
+    color: var(--text-muted);
+    max-width: 500px;
+}
+
+main.project-single .project-actions {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+main.project-single .btn-primary {
+    background-color: var(--color-primary);
+    color: var(--bg-base);
+    padding: 14px 28px;
+    border-radius: var(--radius-soft);
+    font-family: var(--font-heading);
+    font-weight: 700;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: transform 0.3s ease;
+}
+
+main.project-single .btn-secondary {
+    background-color: transparent;
+    color: var(--color-secondary);
+    border: 1px solid var(--color-secondary);
+    padding: 14px 28px;
+    border-radius: var(--radius-soft);
+    font-family: var(--font-mono);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Browser Mockup */
+main.project-single .browser-frame {
+    background-color: var(--bg-surface);
+    border-radius: var(--radius-card);
+    border: 1px solid var(--border-glass);
+    overflow: hidden;
+    box-shadow: 0 24px 48px rgba(0, 0, 0, 0.4);
+}
+
+main.project-single .window-header-mini {
+    display: flex;
+    align-items: center;
+    padding: 12px 16px;
+    background-color: rgba(255, 255, 255, 0.02);
+    border-bottom: 1px solid var(--border-glass);
+}
+
+main.project-single .mac-dots { display: flex; gap: 6px; }
+main.project-single .mac-dots .dot { width: 10px; height: 10px; border-radius: 50%; }
+main.project-single .dot-red { background-color: #FF5F56; }
+main.project-single .dot-yellow { background-color: #FFBD2E; }
+main.project-single .dot-green { background-color: #27C93F; }
+main.project-single .featured-project-img { width: 100%; height: auto; display: block; }
+
+/* =========================================
+   2. EDITORIAL BODY (O Card de Leitura)
+   ========================================= */
+main.project-single .project-editorial {
+    padding: clamp(2rem, 5vw, 6rem) 20px;
+}
+
+main.project-single .editorial-content {
+    max-width: 840px !important; 
+    margin: 0 auto !important; 
+    background-color: var(--bg-surface);
+    border: 1px solid var(--border-glass);
+    border-radius: var(--radius-card);
+    padding: clamp(32px, 6vw, 64px) !important;
+    box-shadow: 0 32px 64px rgba(0, 0, 0, 0.3);
+}
+
+/* -----------------------------------------
+   TIPOGRAFIA BASE DO EDITOR
+   ----------------------------------------- */
+main.project-single .editorial-content h2,
+main.project-single .editorial-content .wp-block-heading {
+    font-family: var(--font-heading);
+    font-size: clamp(1.75rem, 3vw, 2rem) !important;
+    color: var(--text-main) !important;
+    margin-top: 2.5em;
+    margin-bottom: 0.8em;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border-glass);
+    font-weight: 700 !important;
+}
+
+main.project-single .editorial-content h3 {
+    font-family: var(--font-heading);
+    font-size: clamp(1.25rem, 2vw, 1.5rem);
+    color: var(--text-main);
+    margin-top: 2em;
+    margin-bottom: 1em;
+}
+
+main.project-single .editorial-content p {
+    font-family: var(--font-body);
+    font-size: 1.125rem;
+    line-height: 1.8;
+    color: var(--text-muted) !important;
+    margin-bottom: 1.8em;
+}
+
+main.project-single .editorial-content img,
+main.project-single .editorial-content .wp-block-image img {
+    max-width: 100%;
+    height: auto;
+    border-radius: var(--radius-card);
+    margin: 2em auto;
+    display: block;
+    border: 1px solid var(--border-glass);
+}
+
+/* Legendas de imagem */
+main.project-single .editorial-content figcaption {
+    text-align: center;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-top: -1em;
+    margin-bottom: 3em;
+}
+
+/* -----------------------------------------
+   LISTAS E ÍNDICE (TABLE OF CONTENTS)
+   ----------------------------------------- */
+/* Estilizando o TOC do plugin Rank Math para parecer um componente nativo */
+main.project-single .editorial-content .wp-block-rank-math-toc-block {
+    background: rgba(255, 255, 255, 0.02) !important;
+    border: 1px solid var(--border-glass);
+    border-left: 3px solid var(--color-secondary);
+    border-radius: var(--radius-card);
+    padding: 32px;
+    margin: 3em 0;
+}
+
+main.project-single .editorial-content .wp-block-rank-math-toc-block h2 {
+    margin-top: 0;
+    border: none;
+    padding: 0;
+    font-size: 1.25rem !important;
+}
+
+/* Listas gerais e itens do TOC */
+main.project-single .editorial-content ul, 
+main.project-single .editorial-content ol {
+    margin-bottom: 2.5em;
+    padding-left: 1.5rem;
+}
+
+/* Limpa o visual do TOC specifically */
+main.project-single .editorial-content .wp-block-rank-math-toc-block ul {
+    list-style: none;
+    padding-left: 0;
+    margin-bottom: 0;
+}
+main.project-single .editorial-content .wp-block-rank-math-toc-block ul ul {
+    padding-left: 20px; /* Indentação de sub-itens */
+    margin-top: 8px;
+}
+
+main.project-single .editorial-content li {
+    font-family: var(--font-body);
+    font-size: 1.125rem;
+    line-height: 1.8;
+    color: var(--text-muted);
+    margin-bottom: 0.8em;
+}
+
+main.project-single .editorial-content a {
+    color: var(--color-secondary);
+    text-decoration: none;
+    transition: opacity 0.3s ease;
+}
+main.project-single .editorial-content a:hover {
+    opacity: 0.8;
+}
+
+/* -----------------------------------------
+   CORREÇÃO DO BLOCO DE COLUNAS NO TOPO (Used Skills)
+   ----------------------------------------- */
+/* Neutraliza os fundos e cores forçados do Gutenberg */
+main.project-single .editorial-content .wp-block-group.has-background {
+    background: transparent !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+}
+
+main.project-single .editorial-content .wp-block-columns {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 32px;
+    margin-bottom: 3em;
+    border: 1px solid var(--border-glass);
+    border-radius: var(--radius-card);
+    padding: 32px;
+    background: rgba(0, 0, 0, 0.2);
+}
+
+main.project-single .editorial-content .wp-block-column {
+    flex: 1;
+    min-width: 250px;
+}
+
+/* Remove a linha divisória inútil do Gutenberg */
+main.project-single .editorial-content hr.wp-block-separator,
+main.project-single .editorial-content .wp-block-column.desktop-only {
+    display: none !important;
+}
+
+/* Botão nativo do editor */
+main.project-single .editorial-content .wp-block-button__link {
+    background-color: rgba(255, 255, 255, 0.05) !important;
+    color: #fff !important;
+    border: 1px solid var(--border-glass) !important;
+    border-radius: var(--radius-soft) !important;
+    font-family: var(--font-mono);
+    font-size: 14px;
+}
+main.project-single .editorial-content .wp-block-button__link:hover {
+    background-color: var(--color-secondary) !important;
+    color: var(--bg-base) !important;
+}
+
+/* -----------------------------------------
+   BLOCO DE FAQ (Acordeão Animado)
+   ----------------------------------------- */
+main.project-single .editorial-content .rank-math-faq-item {
+    border-bottom: 1px solid var(--border-glass);
+    padding: 24px 0;
+    overflow: hidden; /* Evita que o texto vaze durante a animação */
+}
+
+main.project-single .editorial-content .rank-math-faq-item:last-child {
+    border-bottom: none;
+}
+
+/* A Pergunta (Gatilho do Clique) */
+main.project-single .editorial-content .rank-math-question {
+    font-family: var(--font-heading);
+    font-size: 1.25rem;
+    color: var(--text-main);
+    margin: 0;
+    font-weight: 600;
+    cursor: pointer; /* Mostra a mãozinha de clique */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: color 0.3s ease;
+}
+
+main.project-single .editorial-content .rank-math-question:hover {
+    color: var(--color-primary);
+}
+
+/* Ícone de "+" usando pseudo-elemento */
+main.project-single .editorial-content .rank-math-question::after {
+    content: '+';
+    font-size: 1.75rem;
+    font-weight: 300;
+    color: var(--color-secondary);
+    transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), color 0.3s ease;
+}
+
+/* A Resposta (Oculta por padrão) */
+main.project-single .editorial-content .rank-math-answer {
+    color: var(--text-muted);
+    font-size: 1.05rem;
+    line-height: 1.6;
+    
+    /* Configuração base para a animação JS */
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden; /* Obriga o texto a ficar contido */
+    margin-top: 0;
+    transition: max-height 0.4s ease-in-out, opacity 0.4s ease-in-out, margin-top 0.4s ease-in-out;
+}
+
+
+
+/* =========================================
+   ESTADO ATIVO (Quando a classe .is-open é adicionada via JS)
+   ========================================= */
+
+/* Transforma o "+" em "x" e muda a cor */
+main.project-single .editorial-content .rank-math-faq-item.is-open .rank-math-question::after {
+    transform: rotate(45deg);
+    color: var(--color-primary);
+}
+
+/* Expande a resposta suavemente */
+main.project-single .editorial-content .rank-math-faq-item.is-open .rank-math-answer {
+    max-height: 800px; /* Um valor seguro que caiba o texto */
+    opacity: 1;
+    margin-top: 16px;
+    transition: max-height 0.6s ease-in, opacity 0.5s ease-in 0.1s, margin-top 0.3s ease;
+}
+
+/* =========================================
+   3. TECH STACK SECTION
+   ========================================= */
+main.project-single .project-tech-stack {
+    margin-top: clamp(4rem, 8vw, 8rem);
+    padding-top: clamp(4rem, 8vw, 6rem);
+    border-top: 1px solid var(--border-glass);
+}
+
+main.project-single .section-heading-wrapper {
+    margin-bottom: 48px;
+    text-align: center;
+}
+
+main.project-single .section-title {
+    font-family: var(--font-heading);
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    color: var(--text-main);
+    display: inline-block;
+}
+
+main.project-single .tech-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 24px;
+}
+
+@media (min-width: 768px) {
+    main.project-single .tech-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (min-width: 1024px) {
+    main.project-single .tech-grid { grid-template-columns: repeat(4, 1fr); }
+}
+
+main.project-single .stack-card {
+    background-color: var(--bg-surface);
+    border: 1px solid var(--border-glass);
+    border-radius: var(--radius-card);
+    padding: 32px 24px;
+}
+
+main.project-single .stack-icon {
+    width: 48px;
+    height: 48px;
+    background-color: rgba(255, 255, 255, 0.02);
+    border-radius: var(--radius-soft);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 24px;
+    border: 1px solid var(--border-glass);
+}
+
+main.project-single .stack-name {
+    font-family: var(--font-mono);
+    font-size: 16px;
+    color: var(--text-main);
+    margin-bottom: 8px;
+}
+
+main.project-single .stack-desc {
+    font-family: var(--font-body);
+    font-size: 14px;
+    color: var(--text-muted);
+    margin: 0;
+}
+
+/* =========================================
+   4. BLOCOS CUSTOMIZADOS DO GUTENBERG (Figma to WP)
+   ========================================= */
+
+/* --- 4.1 ÍCONES DE HABILIDADES (Used Skills) --- */
+main.project-single .editorial-content .wp-block-group.is-layout-flex:has(.icon-skill-project),
+main.project-single .editorial-content .wp-block-group.is-layout-flex:has(.wp-block-cover) {
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+/* Padroniza as imagens e o bloco de texto (ACF) como quadrados perfeitos de vidro */
+main.project-single .editorial-content .icon-skill-project,
+main.project-single .editorial-content .wp-block-cover.is-light {
+    background: rgba(255, 255, 255, 0.02) !important;
+    border: 1px solid var(--border-glass) !important;
+    border-radius: var(--radius-soft) !important;
+    padding: 12px !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 64px !important;
+    height: 64px !important;
+    min-height: auto !important;
+    margin: 0 !important;
+    transition: border-color 0.3s ease;
+}
+
+main.project-single .editorial-content .icon-skill-project:hover,
+main.project-single .editorial-content .wp-block-cover.is-light:hover {
+    border-color: var(--color-secondary) !important;
+}
+
+main.project-single .editorial-content .icon-skill-project img {
+    margin: 0 !important;
+    border: none !important;
+    width: 100% !important;
+    height: auto !important;
+}
+
+main.project-single .editorial-content .wp-block-cover__background {
+    display: none !important; /* Remove o fundo nativo do WordPress no cover */
+}
+
+main.project-single .editorial-content .wp-block-cover p {
+    margin: 0 !important;
+    font-family: var(--font-mono) !important;
+    color: var(--text-main) !important;
+}
+
+
+/* --- 4.2 TAGS / PILLS DE TECNOLOGIA --- */
+/* Sequestra os blocos que o WP tentou arredondar com inline styles */
+main.project-single .editorial-content .wp-block-group[style*="border-radius:100px"] {
+    background: rgba(0, 209, 255, 0.05) !important;
+    border: 1px solid rgba(0, 209, 255, 0.1) !important;
+    border-radius: 20px !important;
+    padding: 6px 16px !important;
+    margin: 0 !important;
+}
+
+main.project-single .editorial-content .wp-block-group[style*="border-radius:100px"] p {
+    margin: 0 !important;
+    color: var(--color-secondary) !important;
+    font-family: var(--font-mono);
+    font-size: 13px !important;
+    font-weight: 500 !important;
+}
+
+main.project-single .editorial-content .wp-block-group.is-layout-flex[style*="font-size:0.8rem"] {
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 3em;
+}
+
+
+/* --- 4.3 GRID DE PERFORMANCE (PageSpeed Insights) --- */
+/* Força o flex-nowrap do WP a virar um CSS Grid responsivo */
+main.project-single .editorial-content .wp-block-group.is-nowrap.is-layout-flex {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr); /* 2 colunas no mobile */
+    gap: 24px;
+    flex-wrap: wrap;
+    margin: 3em 0;
+}
+
+@media (min-width: 768px) {
+    main.project-single .editorial-content .wp-block-group.is-nowrap.is-layout-flex {
+        grid-template-columns: repeat(4, 1fr); /* 4 colunas no Desktop */
+    }
+}
+
+/* Transforma as colunas internas em Cards Elevados */
+main.project-single .editorial-content .wp-block-group.is-nowrap > .wp-block-group {
+    background: var(--bg-surface) !important;
+    border: 1px solid var(--border-glass) !important;
+    border-radius: var(--radius-card) !important;
+    padding: 32px 16px !important;
+    box-shadow: 0 16px 32px rgba(0,0,0,0.2);
+    transition: transform 0.3s ease, border-color 0.3s ease;
+    align-items: center;
+}
+
+main.project-single .editorial-content .wp-block-group.is-nowrap > .wp-block-group:hover {
+    transform: translateY(-4px);
+    border-color: var(--color-seo-green) !important; /* Brilha verde no hover */
+}
+
+/* Os números (ex: 96, 100) */
+main.project-single .editorial-content .wp-block-group.is-nowrap > .wp-block-group p:first-child {
+    font-family: var(--font-mono);
+    font-size: clamp(2.5rem, 4vw, 3rem) !important;
+    font-weight: 700 !important;
+    margin-bottom: 8px !important;
+    color: var(--color-seo-green) !important; /* Força verde SEO ao invés do azul do WP */
+    line-height: 1;
+}
+
+/* Os rótulos (ex: Performance, SEO) */
+main.project-single .editorial-content .wp-block-group.is-nowrap > .wp-block-group p:last-child {
+    font-family: var(--font-body);
+    font-size: 0.85rem !important;
+    color: var(--text-muted) !important;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin: 0 !important;
+}
