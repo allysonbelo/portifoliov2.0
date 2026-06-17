@@ -1,0 +1,289 @@
+/* =========================================
+   PÁGINA DE CONTATO
+   ========================================= */
+.page-contact {
+    padding-top: clamp(8rem, 12vw, 12rem);
+    padding-bottom: clamp(6rem, 10vw, 10rem);
+}
+
+.contact-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 64px;
+}
+
+@media (min-width: 1024px) {
+    .contact-grid {
+        grid-template-columns: 1.7fr 0.9fr; /* O lado esquerdo ganha um pouco mais de espaço */
+        align-items: start;
+    }
+}
+
+/* --- HEADER ESQUERDO --- */
+.secure-protocol {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 24px;
+    color: var(--color-secondary);
+    text-transform: uppercase;
+}
+
+/* Linha cyan antes do texto "INITIATE SECURE PROTOCOL" */
+.secure-protocol::before {
+    content: '';
+    display: block;
+    width: 32px;
+    height: 1px;
+    background-color: var(--color-secondary);
+}
+
+.contact-title {
+    margin-bottom: 16px;
+    line-height: 1.1;
+}
+
+.contact-description {
+    max-width: 500px;
+    margin-bottom: 64px;
+}
+
+/* =========================================
+   FIX DO CONTACT FORM 7 (Domando as tags <p> e <br>)
+   ========================================= */
+/* Extermina as quebras de linha automáticas do plugin */
+.cf7-terminal-wrapper br {
+    display: none !important;
+    height: 0;
+    margin: 0;
+}
+
+/* Transforma a tag <p> invisível do CF7 no nosso verdadeiro container Flex */
+.cf7-terminal-wrapper .terminal-form p {
+    display: flex;
+    flex-direction: column;
+    gap: 8px; /* Espaço exato e milimétrico entre a Label e o Input */
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+/* Remove a margem do parágrafo que envolve o botão Submit */
+.cf7-terminal-wrapper .terminal-form > p:last-child {
+    margin: 16px 0 0 0 !important;
+    padding: 0 !important;
+}
+
+/* Restaura o espaçamento geral entre os campos */
+.cf7-terminal-wrapper .terminal-form {
+    display: flex;
+    flex-direction: column;
+    gap: 40px; /* Distância exata entre um campo (Nome) e outro (Email) */
+    max-width: 540px;
+}
+
+/* O CF7 cria um span em volta do input. Precisamos que ocupe 100% */
+.cf7-terminal-wrapper .wpcf7-form-control-wrap {
+    display: block;
+    width: 100%;
+}
+
+/* Tipografia das Labels */
+.cf7-terminal-wrapper .terminal-form label {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--text-muted);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+
+/* Estilização dos Inputs Minimalistas */
+.cf7-terminal-wrapper input[type="text"],
+.cf7-terminal-wrapper input[type="email"],
+.cf7-terminal-wrapper textarea {
+    width: 100%;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid var(--border-glass);
+    color: var(--text-main);
+    font-family: var(--font-body);
+    font-size: 1rem;
+    padding: 8px 0;
+    transition: border-color 0.3s ease;
+    resize: vertical;
+    box-shadow: none !important; /* Remove sombras nativas do browser */
+}
+
+.cf7-terminal-wrapper input:focus,
+.cf7-terminal-wrapper textarea:focus {
+    outline: none;
+    border-bottom-color: var(--color-secondary);
+}
+
+/* =========================================
+   MELHORIA DE UX: PLACEHOLDERS E ÁREA DE CLIQUE
+   ========================================= */
+
+/* Estilização subtil dos textos de exemplo */
+.cf7-terminal-wrapper input::placeholder,
+.cf7-terminal-wrapper textarea::placeholder {
+    color: rgba(138, 148, 168, 0.4); /* var(--text-muted) com opacidade reduzida */
+    font-style: italic;
+    font-size: 0.95rem;
+    font-family: var(--font-body);
+}
+
+/* Aumenta a área de respiração interna dos campos para facilitar o clique */
+.cf7-terminal-wrapper input[type="text"],
+.cf7-terminal-wrapper input[type="email"],
+.cf7-terminal-wrapper textarea {
+    padding: 12px 0; /* Aumentado de 8px para 12px */
+}
+
+/* Altera subtilmente a cor de fundo ao focar no campo, guiando o olhar do usuário */
+.cf7-terminal-wrapper input:focus,
+.cf7-terminal-wrapper textarea:focus {
+    background-color: rgba(255, 255, 255, 0.02);
+    border-bottom-color: var(--color-secondary);
+}
+
+/* -----------------------------------------
+   MENSAGENS DE ERRO E SUCESSO DO CF7
+   ----------------------------------------- */
+/* Erro individual debaixo do campo */
+.cf7-terminal-wrapper .wpcf7-not-valid-tip {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: #FF5F56; 
+    margin-top: 4px;
+}
+
+/* Ocultar spinner padrão feio do CF7 */
+.cf7-terminal-wrapper .wpcf7-spinner {
+    display: none;
+}
+
+/* Caixa de Resposta Global (Sucesso ou Erro) */
+.cf7-terminal-wrapper .wpcf7-response-output {
+    margin: 24px 0 0 0 !important;
+    padding: 16px 24px !important;
+    border-radius: var(--radius-soft) !important;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    background: var(--bg-surface);
+}
+
+/* Estado de Sucesso */
+.cf7-terminal-wrapper form.sent .wpcf7-response-output {
+    border: 1px solid var(--color-seo-green) !important;
+    color: var(--color-seo-green);
+    background: rgba(0, 255, 178, 0.05);
+}
+
+/* Estado de Erro/Falha */
+.cf7-terminal-wrapper form.invalid .wpcf7-response-output,
+.cf7-terminal-wrapper form.failed .wpcf7-response-output {
+    border: 1px solid #FF5F56 !important;
+    color: #FF5F56;
+    background: rgba(255, 95, 86, 0.05);
+}
+
+/* =========================================
+   CARD DATA LINKS (LADO DIREITO - STICKY)
+   ========================================= */
+.data-links-card {
+    background-color: var(--bg-surface);
+    border: 1px solid var(--border-glass);
+    border-radius: var(--radius-card);
+    padding: 48px;
+    position: relative;
+    box-shadow: 0 24px 48px rgba(0, 0, 0, 0.4);
+}
+
+/* Efeito Sticky apenas para Desktop */
+@media (min-width: 1024px) {
+    .contact-info-col {
+        position: sticky;
+        /* Distância do topo para não bater no Header fixo do site */
+        top: clamp(100px, 10vw, 140px); 
+        align-self: start; /* Requisito obrigatório para o sticky funcionar dentro do Grid */
+        z-index: 10;
+    }
+}
+
+/* Bolinhas no canto superior direito */
+.card-dots {
+    position: absolute;
+    top: 24px;
+    right: 24px;
+    display: flex;
+    gap: 6px;
+}
+
+.card-dots .dot { width: 10px; height: 10px; border-radius: 50%; }
+.dot-red { background-color: #FF5F56; }
+.dot-yellow { background-color: #FFBD2E; }
+.dot-green { background-color: #27C93F; }
+
+.card-title {
+    font-family: var(--font-heading);
+    font-size: 1.5rem;
+    margin-bottom: 48px;
+    color: var(--text-main);
+}
+
+.data-list {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+}
+
+.data-item {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
+
+.data-icon {
+    width: 48px;
+    height: 48px;
+    background-color: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--border-glass);
+    border-radius: var(--radius-soft);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-muted);
+    flex-shrink: 0;
+    transition: color 0.3s ease, border-color 0.3s ease;
+}
+
+.data-item:hover .data-icon {
+    color: var(--color-secondary);
+    border-color: rgba(0, 209, 255, 0.2);
+}
+
+.data-text {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.data-label {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text-muted);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+
+.data-value {
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    color: var(--text-main);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.data-value:hover {
+    color: var(--color-secondary);
+}
