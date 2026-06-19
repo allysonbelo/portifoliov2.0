@@ -2,7 +2,7 @@
    PÁGINA DE CONTATO
    ========================================= */
 .page-contact {
-    padding-top: clamp(8rem, 12vw, 12rem);
+    padding-top: clamp(5rem, 9.4vw, 7.5rem);
     padding-bottom: clamp(6rem, 10vw, 10rem);
 }
 

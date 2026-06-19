@@ -1,0 +1,239 @@
+/* =========================================
+   PÁGINA 404
+   ========================================= */
+.page-404 {
+    padding-top: clamp(2rem, 5vw, 4rem);
+    padding-bottom: clamp(2rem, 5vw, 4rem);
+    min-height: 80vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Brilho de fundo (Ambient Glow) inspirado no Figma */
+.page-404::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 60vw;
+    height: 60vh;
+    background: radial-gradient(circle, rgba(0, 209, 255, 0.05) 0%, rgba(10, 15, 26, 0) 70%);
+    z-index: -1;
+    pointer-events: none;
+}
+
+.error-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    max-width: 800px;
+}
+
+/* =========================================
+   TERMINAL MOCKUP
+   ========================================= */
+.terminal-window {
+    width: 100%;
+    background-color: var(--bg-surface);
+    border: 1px solid var(--border-glass);
+    border-radius: var(--radius-card);
+    overflow: hidden;
+    box-shadow: 0 24px 48px rgba(0, 0, 0, 0.4);
+    text-align: left;
+}
+
+.terminal-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* Centraliza o título */
+    padding: 12px 16px;
+    background-color: rgba(255, 255, 255, 0.02);
+    border-bottom: 1px solid var(--border-glass);
+    position: relative;
+}
+
+.terminal-dots {
+    display: flex;
+    gap: 6px;
+    position: absolute;
+    left: 16px;
+}
+
+.terminal-dots .dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+}
+
+.dot-red {
+    background-color: #FF5F56;
+}
+
+.dot-yellow {
+    background-color: #FFBD2E;
+}
+
+.dot-green {
+    background-color: #27C93F;
+}
+
+.terminal-title {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+.terminal-body {
+    padding: 24px;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    /* Fonte ligeiramente menor para imitar console */
+    line-height: 1.8;
+    color: var(--text-muted);
+}
+
+.terminal-body p {
+    margin: 0;
+    font-family: var(--font-mono);
+}
+
+.terminal-body .prompt {
+    color: var(--color-secondary);
+}
+
+.terminal-body .http-error {
+    color: #FF5F56;
+    /* Vermelho/Laranja para o Erro */
+    font-weight: 600;
+}
+
+.terminal-body .x-status {
+    color: var(--color-secondary);
+    /* Azul Cyan para o cabeçalho customizado */
+}
+
+/* Animação do Cursor a piscar */
+.terminal-body .cursor {
+    animation: blink 1s step-end infinite;
+    color: var(--text-main);
+}
+
+@keyframes blink {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0;
+    }
+}
+
+/* =========================================
+   TEXTOS DE ERRO E ANIMAÇÃO 404
+   ========================================= */
+.error-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 56px;
+}
+
+.glitch-wrapper {
+    position: relative;
+    margin-bottom: 16px;
+    z-index: 1;
+    /* Garante que as cores não sumam atrás do background */
+}
+
+.glitch-404 {
+    font-family: var(--font-heading);
+    font-size: clamp(5rem, 12vw, 8rem);
+    font-weight: 900;
+    line-height: 1;
+    color: var(--text-main);
+    margin: 0;
+    position: relative;
+    display: inline-block;
+    letter-spacing: -0.02em;
+
+    /* A Mágica: Efeito "Filme de Terror" / Lâmpada Falhando */
+    animation: flicker-lamp 4s infinite;
+}
+
+/* Camadas de Cor Sólida (Baseadas no Figma) */
+.glitch-404::before,
+.glitch-404::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+}
+
+/* Camada Laranja (Deslocada para baixo e esquerda) */
+.glitch-404::before {
+    color: var(--color-primary);
+    transform: translate(-6px, 4px);
+}
+
+/* Camada Cyan (Deslocada para baixo e direita) */
+.glitch-404::after {
+    color: var(--color-secondary);
+    transform: translate(6px, 4px);
+    z-index: -2;
+    /* Fica atrás da camada laranja */
+}
+
+.error-title {
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    margin-bottom: 24px;
+}
+
+.error-description {
+    max-width: 600px;
+    margin: 0 auto 40px;
+    font-size: 1.125rem;
+    color: var(--text-muted);
+}
+
+/* =========================================
+   KEYFRAMES: Falha de Energia (Flicker)
+   ========================================= */
+@keyframes flicker-lamp {
+
+    0%,
+    19%,
+    21%,
+    23%,
+    25%,
+    54%,
+    56%,
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    /* Quedas rápidas de energia */
+    20%,
+    24%,
+    55% {
+        opacity: 0.6;
+        transform: scale(0.995);
+        /* Leve tremor de tensão */
+    }
+
+    /* Queda brusca (quase apagando) */
+    22% {
+        opacity: 0.2;
+    }
+}
