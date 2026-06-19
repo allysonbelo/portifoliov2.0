@@ -99,6 +99,19 @@ function abc_tech_scripts()
         wp_enqueue_style('abc-tech-404', get_template_directory_uri() . '/css/404.css', array('abc-tech-base'), $versao_css, 'all');
     }
 
+    // Carrega o CSS apenas se a página estiver usando o template "Sobre"
+    if (is_page_template('template-sobre.php')) {
+        $css_path = get_template_directory() . '/css/sobre.css';
+
+        if (file_exists($css_path)) {
+            $versao_css = filemtime($css_path);
+        } else {
+            $versao_css = '1.0.fallback-' . time();
+        }
+
+        wp_enqueue_style('abc-tech-sobre', get_template_directory_uri() . '/css/sobre.css', array('abc-tech-base'), $versao_css, 'all');
+    }
+
     // Arquivo style.css principal
     wp_enqueue_style('abc-tech-style', get_stylesheet_uri(), array('abc-tech-base'), $version);
 

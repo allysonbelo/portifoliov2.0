@@ -1,0 +1,319 @@
+/* =========================================
+   PÁGINA SOBRE
+   ========================================= */
+.page-about {
+    padding-top: clamp(2rem, 5vw, 4rem);
+    padding-bottom: clamp(6rem, 10vw, 10rem);
+}
+
+/* =========================================
+   1. HERO SECTION
+   ========================================= */
+.about-hero-section {
+    margin-bottom: clamp(6rem, 10vw, 10rem);
+}
+
+.about-hero-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 64px;
+    align-items: center;
+}
+
+.system-prompt {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--color-secondary);
+    margin-bottom: 24px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    letter-spacing: 0.05em;
+}
+
+.prompt-icon { color: var(--color-primary); font-weight: bold; }
+
+.about-title {
+    font-size: clamp(2.5rem, 4.5vw, 4rem);
+    line-height: 1.1;
+    margin-bottom: 32px;
+}
+
+.highlight-primary { color: var(--color-primary); }
+
+.about-bio {
+    margin-bottom: 40px;
+}
+
+.about-bio p {
+    font-size: 1.125rem;
+    line-height: 1.8;
+    color: var(--text-muted);
+    margin-bottom: 1.5em;
+}
+
+.about-bio p:last-child { margin-bottom: 0; }
+
+.btn-download-cv {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    font-family: var(--font-mono);
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--color-secondary);
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-left: 3px solid var(--color-secondary);
+    padding: 4px 0 4px 16px;
+    transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.btn-download-cv:hover {
+    transform: translateX(8px);
+    color: #FFFFFF;
+}
+
+/* --- Imagem e Badge (Ajustado para Mobile) --- */
+.about-image-wrapper {
+    position: relative;
+    border-radius: var(--radius-card);
+    margin: 0 auto; /* Centraliza no Mobile */
+    max-width: 450px; /* Evita que a foto fique gigante em tablets */
+    width: 100%;
+}
+
+.image-glow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 120%;
+    height: 120%;
+    background: radial-gradient(circle, rgba(0, 209, 255, 0.1) 0%, rgba(10, 15, 26, 0) 70%);
+    z-index: -1;
+    pointer-events: none;
+}
+
+.profile-image {
+    width: 100%;
+    height: auto;
+    max-height: 680px; /* Limite de altura no Mobile */
+    object-fit: cover;
+    object-position: center top; /* Garante que o rosto aparece sempre */
+    border-radius: var(--radius-card);
+    display: block;
+    border: 1px solid rgba(255,255,255,0.05);
+    filter: grayscale(80%) contrast(1.1); 
+    transition: filter 0.5s ease;
+    margin: 0 auto;
+}
+
+.about-image-wrapper:hover .profile-image {
+    filter: grayscale(0%) contrast(1);
+}
+
+.status-badge {
+    position: absolute;
+    bottom: 24px;
+    left: -24px; 
+    background-color: var(--bg-surface);
+    border: 1px solid var(--border-glass);
+    border-radius: var(--radius-soft);
+    padding: 16px 24px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    box-shadow: 0 16px 32px rgba(0,0,0,0.5);
+    backdrop-filter: blur(8px);
+}
+
+@media (max-width: 768px) {
+    .status-badge { left: 24px; right: 24px; bottom: 16px; justify-content: center; }
+}
+
+.status-icon {
+    width: 40px;
+    height: 40px;
+    border: 1px solid var(--color-seo-green);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-seo-green);
+    background: rgba(0, 255, 178, 0.05);
+}
+
+.status-info { display: flex; flex-direction: column; gap: 4px; }
+
+.status-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--text-muted);
+    letter-spacing: 0.05em;
+}
+
+.status-value {
+    font-family: var(--font-body);
+    font-size: 14px;
+    color: var(--text-main);
+    font-weight: 600;
+}
+
+/* --- Layout Desktop do Hero --- */
+@media (min-width: 1024px) {
+    .about-hero-grid {
+        grid-template-columns: 1.1fr 0.9fr;
+    }
+    
+    .about-image-wrapper {
+        max-width: none; /* No Desktop, volta a ocupar a coluna inteira */
+        margin: 0;
+    }
+}
+
+/* =========================================
+   2. FORMAÇÃO & ESPECIALIZAÇÃO
+   ========================================= */
+.education-section {
+    margin-bottom: clamp(6rem, 10vw, 10rem);
+}
+
+.section-title {
+    display: flex;
+    align-items: center;
+    font-size: clamp(1.75rem, 3vw, 2.25rem);
+    margin-bottom: 48px;
+}
+
+.section-title.centered { justify-content: center; text-align: center; }
+
+.education-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 32px;
+}
+
+@media (min-width: 768px) {
+    .education-grid { grid-template-columns: 1fr 1fr; }
+}
+
+.edu-card {
+    background-color: var(--bg-surface);
+    border: 1px solid var(--border-glass);
+    border-radius: var(--radius-card);
+    padding: 40px;
+    transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+.edu-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(255,255,255,0.15);
+}
+
+.edu-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 24px;
+}
+
+.edu-icon {
+    width: 48px;
+    height: 48px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--border-glass);
+    border-radius: var(--radius-soft);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-muted);
+}
+
+.edu-year {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--text-muted);
+    background: rgba(255,255,255,0.05);
+    padding: 6px 12px;
+    border-radius: 100px;
+    border: 1px solid var(--border-glass);
+}
+
+.edu-title {
+    font-size: 1.25rem;
+    margin-bottom: 8px;
+}
+
+.edu-institution {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--color-primary);
+    margin-bottom: 24px;
+}
+
+.edu-desc {
+    color: var(--text-muted);
+    font-size: 1rem;
+    line-height: 1.7;
+    margin: 0;
+}
+
+/* =========================================
+   3. MÉTRICAS OPERACIONAIS
+   ========================================= */
+.metrics-section {
+    border-top: 1px solid var(--border-glass);
+    padding-top: clamp(4rem, 8vw, 8rem);
+}
+
+.metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+}
+
+@media (min-width: 1024px) {
+    .metrics-grid { grid-template-columns: repeat(4, 1fr); }
+}
+
+.metric-card {
+    background-color: var(--bg-surface);
+    border: 1px solid var(--border-glass);
+    border-radius: var(--radius-card);
+    padding: 40px 24px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: transform 0.3s ease;
+}
+
+.metric-card:hover { transform: translateY(-4px); }
+
+.metric-icon {
+    color: var(--text-muted);
+    margin-bottom: 24px;
+    opacity: 0.5;
+}
+
+.metric-value {
+    font-family: var(--font-mono);
+    font-size: clamp(2.5rem, 4vw, 3rem);
+    font-weight: 700;
+    line-height: 1;
+    margin-bottom: 12px;
+}
+
+.color-green { color: var(--color-seo-green); text-shadow: 0 0 16px rgba(0,255,178,0.2); }
+.color-cyan { color: var(--color-secondary); text-shadow: 0 0 16px rgba(0,209,255,0.2); }
+.color-orange { color: var(--color-primary); text-shadow: 0 0 16px rgba(227,135,45,0.2); }
+
+.metric-label {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text-muted);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
