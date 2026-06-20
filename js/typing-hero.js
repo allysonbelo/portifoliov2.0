@@ -1,30 +1,40 @@
 /**
- * Efeito de Digitação Avançado (Figma Sync)
+ * Efeito de Digitação Avançado (Sincronizado com o ACF)
  */
-
 document.addEventListener('DOMContentLoaded', () => {
     const container = document.getElementById('typing-text');
     if (!container) return;
 
-    // Array ajustado para mapear perfeitamente o design
-    const codeChunks = [
-        { text: "const ", cls: "token-keyword" },
-        { text: "developer ", cls: "token-variable" },
-        { text: "= {\n  name: ", cls: "" },
-        { text: "'Allyson Belo'", cls: "token-string" },
-        { text: ",\n  role: ", cls: "" },
-        { text: "'WP Architect'", cls: "token-string" },
-        { text: ",\n  focus: [", cls: "" },
-        { text: "'Performance'", cls: "token-string" },
-        { text: ", ", cls: "" },
-        { text: "'SEO'", cls: "token-string" },
-        { text: "],\n  pagespeed: ", cls: "" },
-        { text: "100", cls: "token-number" },
-        { text: "\n};\n\n", cls: "" },
-        { text: "await ", cls: "token-keyword" },
-        { text: "developer.optimize();", cls: "" }
-    ];
+    // 1. Resgata o texto dinâmico configurado no WordPress (ACF)
+    const rawText = container.getAttribute('data-typing');
+    if (!rawText) return;
 
+    // 2. Mini "Parser" para aplicar as cores do Figma automaticamente no texto do banco
+    const codeChunks = [];
+    
+    // Regex inteligente para identificar: Strings ('' ou ""), Palavras-chave, Números e Restante
+    const tokenRegex = /('[^']*'|"[^"]*")|\b(const|let|var|function|return|await|async|class|if|else|true|false)\b|\b(\d+)\b|([^'"0-9a-zA-Z_]+|[a-zA-Z_]+)/g;
+    
+    let match;
+    while ((match = tokenRegex.exec(rawText)) !== null) {
+        if (match[1]) {
+            codeChunks.push({ text: match[1], cls: "token-string" }); // Textos em aspas
+        } else if (match[2]) {
+            codeChunks.push({ text: match[2], cls: "token-keyword" }); // Comandos JS
+        } else if (match[3]) {
+            codeChunks.push({ text: match[3], cls: "token-number" }); // Números
+        } else if (match[4]) {
+            // Agrupa textos neutros para não criar excesso de tags HTML
+            const last = codeChunks[codeChunks.length - 1];
+            if (last && !last.cls) {
+                last.text += match[4];
+            } else {
+                codeChunks.push({ text: match[4], cls: "" });
+            }
+        }
+    }
+
+    // 3. Motor de Digitação (Inalterado)
     let chunkIndex = 0;
     let charIndex = 0;
     let currentSpan = null;
@@ -49,6 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 charIndex = 0;
             }
 
+            // Velocidade da digitação (em milissegundos)
             setTimeout(typeCode, 40); 
         }
     }

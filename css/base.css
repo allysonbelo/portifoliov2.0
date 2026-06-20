@@ -127,3 +127,52 @@ blockquote {
     font-style: italic;
     color: var(--text-main);
 }
+
+/* =========================================
+   ÍCONE DE EDIÇÃO ACF FRONTEND (Apenas Admins)
+   ========================================= */
+
+/* O Contentor Pai precisa segurar o ícone */
+.editable-section {
+    position: relative;
+}
+
+/* Estilo do Ícone Flutuante */
+.abc_tech-acf-edit-icon {
+    position: absolute;
+    top: 50%;
+    transform: translate(0px, -50%); 
+    left: 16px;
+    width: 32px;
+    height: 32px;
+    background-color: var(--color-primary); /* Azul Cyan Técnico */
+    color: var(--bg-base); /* Ícone escuro para contraste */
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 99; 
+    transition: opacity 0.3s ease, transform 0.2s ease, background-color 0.3s ease;
+    text-decoration: none;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+/* Efeito Hover: Fica nítido e dá um pequeno zoom */
+.abc_tech-acf-edit-icon:hover {
+    opacity: 1;
+    transform: translate(0px, -50%) scale(1.1); 
+    background-color: var(--color-secondary); /* Fica Laranja no Hover */
+    color: #FFFFFF;
+}
+
+/* Ajuste no Mobile: Evita que o ícone fique fora da tela */
+@media (max-width: 768px) {
+    .abc_tech-acf-edit-icon {
+        right: 8px;
+        top: 24px;
+        transform: none;
+    }
+    .abc_tech-acf-edit-icon:hover {
+        transform: scale(1.1);
+    }
+}
