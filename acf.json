@@ -1,0 +1,24 @@
+[
+  {
+    "key": "group_about_hero",
+    "title": "Secção: Hero & Biografia",
+    "fields": [
+      {
+        "key": "field_about_prompt",
+        "label": "Texto do Terminal (Prompt)",
+        "name": "about_prompt",
+        "type": "text",
+        "instructions": "Ex: // SYSTEM.OUT.PRINTLN(\"HELLO, WORLD\");"
+      },
+      { "key": "field_about_t1", "label": "Título 1 (Branco)", "name": "about_title_1", "type": "text", "wrapper": { "width": "50" } },
+      { "key": "field_about_t2", "label": "Título 2 (Cor Destaque)", "name": "about_title_2", "type": "text", "wrapper": { "width": "50" } },
+      { "key": "field_about_bio", "label": "Biografia", "name": "about_bio", "type": "wysiwyg", "tabs": "all", "toolbar": "basic", "media_upload": 0 },
+      { "key": "field_about_cv", "label": "Link do Download do CV", "name": "about_cv_file", "type": "url", "wrapper": { "width": "33" } },
+      { "key": "field_about_status_l", "label": "Label do Status", "name": "about_status_label", "type": "text", "wrapper": { "width": "33" } },
+      { "key": "field_about_status_v", "label": "Valor do Status", "name": "about_status_value", "type": "text", "wrapper": { "width": "33" } },
+      { "key": "field_about_img", "label": "Foto de Perfil", "name": "about_image", "type": "image", "return_format": "array", "preview_size": "medium" }
+    ],
+    "location": [ [ { "param": "page_template", "operator": "==", "value": "template-about.php" } ] ],
+    "active": true
+  }
+]

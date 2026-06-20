@@ -123,3 +123,158 @@ function abc_tech_scripts()
     wp_enqueue_script('abc-tech-typewriter-cards', get_template_directory_uri() . '/js/typewriter-cards.js', array(), $version, true);
 }
 add_action('wp_enqueue_scripts', 'abc_tech_scripts');
+
+// =========================================================================
+// Ícone de Edição Contextual ACF no Frontend (Apenas para Admins)
+// =========================================================================
+
+// 1. Adicionar Página de Opções do ACF (Para o Header, Footer, Contactos Globais)
+if (function_exists('acf_add_options_page')) {
+    acf_add_options_page(array(
+        'page_title'    => 'Opções do Tema',
+        'menu_title'    => 'Opções do Tema',
+        'menu_slug'     => 'opcoes-tema',
+        'capability'    => 'edit_posts',
+        'redirect'      => false,
+        'icon_url'      => 'dashicons-admin-generic', // Ícone de engrenagem
+    ));
+}
+
+// 2. Função para exibir o ícone no front-end
+function abc_tech_edit_section_icon($acf_target, $page_id = null)
+{
+    // Só exibe se o utilizador tiver permissão para editar
+    if (!current_user_can('edit_posts')) return;
+
+    $edit_url = '';
+
+    // Verifica se estamos a apontar para a Página de Opções
+    if ($page_id === 'option' || $page_id === 'options') {
+        $edit_url = admin_url('admin.php?page=opcoes-tema') . '&acf_focus=' . $acf_target;
+    } else {
+        // Se não for passado um ID, tenta usar o post atual
+        if (!$page_id) {
+            global $post;
+            $page_id = isset($post->ID) ? $post->ID : false;
+        }
+
+        if (!$page_id) return;
+
+        // Cria o link de edição do post com o parâmetro de foco
+        $edit_url = html_entity_decode(get_edit_post_link($page_id)) . '&acf_focus=' . $acf_target;
+    }
+
+    echo '<a href="' . esc_url($edit_url) . '" class="abc_tech-acf-edit-icon" target="_blank" title="Editar esta secção">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+          </a>';
+}
+
+// 3. Script para fechar blocos e fazer scroll/destaque no painel do WordPress
+add_action('admin_footer', 'abc_tech_acf_highlight_script');
+function abc_tech_acf_highlight_script()
+{
+    // Impede a execução do script dentro do painel de construção do próprio ACF
+    $screen = function_exists('get_current_screen') ? get_current_screen() : null;
+    if ( $screen && $screen->post_type === 'acf-field-group' ) {
+        return;
+    }
+
+    $focus = isset($_GET['acf_focus']) ? sanitize_text_field($_GET['acf_focus']) : '';
+?>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            
+            if (document.body.classList.contains('post-type-acf-field-group')) return;
+
+            // =========================================================================
+            // 1. FUNÇÕES AUXILIARES DE ESTILO
+            // =========================================================================
+            
+            // Limpa o destaque de TODOS os blocos e campos
+            function clearAllActiveStyles() {
+                const allBlocks = document.querySelectorAll('.postbox.acf-postbox, .acf-field');
+                allBlocks.forEach(block => {
+                    block.classList.remove('abc-tech-active-block');
+                    block.style.backgroundColor = '';
+                    block.style.borderLeft = '';
+                });
+            }
+
+            // Aplica o estilo Laranja
+            function applyActiveStyles(element) {
+                element.style.backgroundColor = 'rgba(249, 160, 69, 0.05)';
+                element.style.borderLeft = '4px solid rgb(249 160 69)';
+            }
+
+
+            // =========================================================================
+            // 2. LÓGICA DE REDIRECIONAMENTO E PISCAR (Vindo do Frontend)
+            // =========================================================================
+            const focusName = "<?php echo esc_js($focus); ?>";
+            
+            if (focusName) {
+                const acfMetaboxes = document.querySelectorAll('.postbox.acf-postbox');
+                acfMetaboxes.forEach(box => box.classList.add('closed'));
+
+                const targetElement = document.querySelector('[data-name="' + focusName + '"]') || document.getElementById('acf-' + focusName);
+
+                if (targetElement) {
+                    const metabox = targetElement.closest('.postbox');
+                    if (metabox) {
+                        metabox.classList.remove('closed');
+                        const toggleBtn = metabox.querySelector('.handlediv');
+                        if (toggleBtn) toggleBtn.setAttribute('aria-expanded', 'true');
+                    }
+
+                    setTimeout(() => {
+                        targetElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+                        let isHighlight = false;
+                        let blinks = 0;
+                        const originalBg = targetElement.style.backgroundColor;
+                        targetElement.style.transition = 'background-color 0.3s ease, border-left 0.3s ease';
+
+                        const blinkInterval = setInterval(() => {
+                            targetElement.style.backgroundColor = isHighlight ? originalBg : 'rgb(249 160 69)';
+                            isHighlight = !isHighlight;
+                            blinks++;
+
+                            if (blinks >= 6) {
+                                clearInterval(blinkInterval);
+                                clearAllActiveStyles(); 
+                                targetElement.classList.add('abc-tech-active-block');
+                                applyActiveStyles(targetElement);
+                            }
+                        }, 300);
+                    }, 150);
+                }
+            }
+
+            // =========================================================================
+            // 3. LÓGICA DE FOCO ATIVO GERAL (Cliques e Teclado no Painel)
+            // =========================================================================
+            const adminContent = document.getElementById('wpcontent');
+            if (adminContent) {
+                
+                function handleSectionActivation(e) {
+                    const targetSection = e.target.closest('.postbox.acf-postbox');
+                    
+                    if (targetSection) {
+                        if (targetSection.classList.contains('abc-tech-active-block')) return;
+
+                        clearAllActiveStyles();
+
+                        targetSection.classList.add('abc-tech-active-block');
+                        targetSection.style.transition = 'background-color 0.3s ease, border-left 0.3s ease';
+                        applyActiveStyles(targetSection);
+                    }
+                }
+
+                adminContent.addEventListener('click', handleSectionActivation);
+                adminContent.addEventListener('focusin', handleSectionActivation);
+            }
+
+        });
+    </script>
+<?php
+}
