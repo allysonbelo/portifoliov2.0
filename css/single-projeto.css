@@ -3,7 +3,7 @@
    ========================================= */
 
 /* 1. HERO SECTION (Forçando o espaçamento do Header) */
-main.project-single .project-hero {
+.project-single .project-hero {
     /* O padding-top agressivo de 180px garante que descole do header fixo */
     padding-top: clamp(60px, 15vw, 120px);
     padding-bottom: clamp(60px, 8vw, 100px);
@@ -13,7 +13,7 @@ main.project-single .project-hero {
     padding-bottom: clamp(60px, 8vw, 100px);
 }
 
-main.project-single .hero-grid {
+.project-single .hero-grid {
     display: grid;
     grid-template-columns: 1fr;
     gap: clamp(40px, 6vw, 80px);
@@ -22,14 +22,14 @@ main.project-single .hero-grid {
 
 /* Força 50/50 no Desktop */
 @media (min-width: 1024px) {
-    main.project-single .hero-grid {
+    .project-single .hero-grid {
         grid-template-columns: 1.3fr 1fr;
         align-items: flex-start;
     }
 }
 
 /* Tipografia e Botões do Hero */
-main.project-single .project-badge {
+.project-single .project-badge {
     display: inline-flex;
     align-items: center;
     gap: 8px;
@@ -43,7 +43,7 @@ main.project-single .project-badge {
     font-size: 14px;
 }
 
-main.project-single .dot-indicator {
+.project-single .dot-indicator {
     width: 8px;
     height: 8px;
     background-color: var(--color-secondary);
@@ -51,24 +51,24 @@ main.project-single .dot-indicator {
     box-shadow: 0 0 8px var(--color-secondary);
 }
 
-main.project-single .project-title {
+.project-single .project-title {
     margin-bottom: 24px;
     color: var(--text-main);
 }
 
-main.project-single .project-description {
+.project-single .project-description {
     margin-bottom: 40px;
     color: var(--text-muted);
     max-width: 500px;
 }
 
-main.project-single .project-actions {
+.project-single .project-actions {
     display: flex;
     gap: 16px;
     flex-wrap: wrap;
 }
 
-main.project-single .btn-primary {
+.project-single .btn-primary {
     background-color: var(--color-primary);
     color: var(--bg-base);
     padding: 14px 28px;
@@ -82,7 +82,7 @@ main.project-single .btn-primary {
     transition: transform 0.3s ease;
 }
 
-main.project-single .btn-secondary {
+.project-single .btn-secondary {
     background-color: transparent;
     color: var(--color-secondary);
     border: 1px solid var(--color-secondary);
@@ -96,7 +96,7 @@ main.project-single .btn-secondary {
 }
 
 /* Browser Mockup */
-main.project-single .browser-frame {
+.project-single .browser-frame {
     background-color: var(--bg-surface);
     border-radius: var(--radius-card);
     border: 1px solid var(--border-glass);
@@ -104,7 +104,7 @@ main.project-single .browser-frame {
     box-shadow: 0 24px 48px rgba(0, 0, 0, 0.4);
 }
 
-main.project-single .window-header-mini {
+.project-single .window-header-mini {
     display: flex;
     align-items: center;
     padding: 12px 16px;
@@ -112,30 +112,30 @@ main.project-single .window-header-mini {
     border-bottom: 1px solid var(--border-glass);
 }
 
-main.project-single .mac-dots {
+.project-single .mac-dots {
     display: flex;
     gap: 6px;
 }
 
-main.project-single .mac-dots .dot {
+.project-single .mac-dots .dot {
     width: 10px;
     height: 10px;
     border-radius: 50%;
 }
 
-main.project-single .dot-red {
+.project-single .dot-red {
     background-color: #FF5F56;
 }
 
-main.project-single .dot-yellow {
+.project-single .dot-yellow {
     background-color: #FFBD2E;
 }
 
-main.project-single .dot-green {
+.project-single .dot-green {
     background-color: #27C93F;
 }
 
-main.project-single .featured-project-img {
+.project-single .featured-project-img {
     width: 100%;
     height: auto;
     display: block;
@@ -145,7 +145,7 @@ main.project-single .featured-project-img {
    2. EDITORIAL BODY (O Card de Leitura)
    ========================================= */
 
-main.project-single .editorial-content {
+.project-single .editorial-content {
     max-width: 1120px !important;
     margin: 0 auto !important;
     background-color: var(--bg-surface);
@@ -158,8 +158,8 @@ main.project-single .editorial-content {
 /* -----------------------------------------
    TIPOGRAFIA BASE DO EDITOR
    ----------------------------------------- */
-main.project-single .editorial-content h2,
-main.project-single .editorial-content .wp-block-heading {
+.project-single .editorial-content h2,
+.project-single .editorial-content .wp-block-heading {
     font-family: var(--font-heading);
     font-size: clamp(1.75rem, 3vw, 2rem) !important;
     color: var(--text-main) !important;
@@ -170,7 +170,7 @@ main.project-single .editorial-content .wp-block-heading {
     font-weight: 700 !important;
 }
 
-main.project-single .editorial-content h3 {
+.project-single .editorial-content h3 {
     font-family: var(--font-heading);
     font-size: clamp(1.25rem, 2vw, 1.5rem);
     color: var(--text-main);
@@ -178,7 +178,7 @@ main.project-single .editorial-content h3 {
     margin-bottom: 1em;
 }
 
-main.project-single .editorial-content p {
+.project-single .editorial-content p {
     font-family: var(--font-body);
     font-size: 1.125rem;
     line-height: 1.8;
@@ -186,8 +186,8 @@ main.project-single .editorial-content p {
     margin-bottom: 1.8em;
 }
 
-main.project-single .editorial-content img,
-main.project-single .editorial-content .wp-block-image img {
+.project-single .editorial-content img,
+.project-single .editorial-content .wp-block-image img {
     max-width: 100%;
     height: auto;
     border-radius: var(--radius-card);
@@ -197,7 +197,7 @@ main.project-single .editorial-content .wp-block-image img {
 }
 
 /* Legendas de imagem */
-main.project-single .editorial-content figcaption {
+.project-single .editorial-content figcaption {
     text-align: center;
     font-family: var(--font-mono);
     font-size: 13px;
@@ -210,7 +210,7 @@ main.project-single .editorial-content figcaption {
    LISTAS E ÍNDICE (TABLE OF CONTENTS)
    ----------------------------------------- */
 /* Estilizando o TOC do plugin Rank Math para parecer um componente nativo */
-main.project-single .editorial-content .wp-block-rank-math-toc-block {
+.project-single .editorial-content .wp-block-rank-math-toc-block {
     background: rgba(255, 255, 255, 0.02) !important;
     border: 1px solid var(--border-glass);
     border-left: 3px solid var(--color-secondary);
@@ -219,7 +219,7 @@ main.project-single .editorial-content .wp-block-rank-math-toc-block {
     margin: 3em 0;
 }
 
-main.project-single .editorial-content .wp-block-rank-math-toc-block h2 {
+.project-single .editorial-content .wp-block-rank-math-toc-block h2 {
     margin-top: 0;
     border: none;
     padding: 0;
@@ -227,26 +227,26 @@ main.project-single .editorial-content .wp-block-rank-math-toc-block h2 {
 }
 
 /* Listas gerais e itens do TOC */
-main.project-single .editorial-content ul,
-main.project-single .editorial-content ol {
+.project-single .editorial-content ul,
+.project-single .editorial-content ol {
     margin-bottom: 2.5em;
     padding-left: 1.5rem;
 }
 
 /* Limpa o visual do TOC specifically */
-main.project-single .editorial-content .wp-block-rank-math-toc-block ul {
+.project-single .editorial-content .wp-block-rank-math-toc-block ul {
     list-style: none;
     padding-left: 0;
     margin-bottom: 0;
 }
 
-main.project-single .editorial-content .wp-block-rank-math-toc-block ul ul {
+.project-single .editorial-content .wp-block-rank-math-toc-block ul ul {
     padding-left: 20px;
     /* Indentação de sub-itens */
     margin-top: 8px;
 }
 
-main.project-single .editorial-content li {
+.project-single .editorial-content li {
     font-family: var(--font-body);
     font-size: 1.125rem;
     line-height: 1.8;
@@ -254,13 +254,13 @@ main.project-single .editorial-content li {
     margin-bottom: 0.8em;
 }
 
-main.project-single .editorial-content a {
+.project-single .editorial-content a {
     color: var(--color-secondary);
     text-decoration: none;
     transition: opacity 0.3s ease;
 }
 
-main.project-single .editorial-content a:hover {
+.project-single .editorial-content a:hover {
     opacity: 0.8;
 }
 
@@ -268,13 +268,13 @@ main.project-single .editorial-content a:hover {
    CORREÇÃO DO BLOCO DE COLUNAS NO TOPO (Used Skills)
    ----------------------------------------- */
 /* Neutraliza os fundos e cores forçados do Gutenberg */
-main.project-single .editorial-content .wp-block-group.has-background {
+.project-single .editorial-content .wp-block-group.has-background {
     background: transparent !important;
     box-shadow: none !important;
     padding: 0 !important;
 }
 
-main.project-single .editorial-content .wp-block-columns {
+.project-single .editorial-content .wp-block-columns {
     display: flex;
     flex-wrap: wrap;
     gap: 32px;
@@ -285,19 +285,19 @@ main.project-single .editorial-content .wp-block-columns {
     background: rgba(0, 0, 0, 0.2);
 }
 
-main.project-single .editorial-content .wp-block-column {
+.project-single .editorial-content .wp-block-column {
     flex: 1;
     min-width: 250px;
 }
 
 /* Remove a linha divisória inútil do Gutenberg */
-main.project-single .editorial-content hr.wp-block-separator,
-main.project-single .editorial-content .wp-block-column.desktop-only {
+.project-single .editorial-content hr.wp-block-separator,
+.project-single .editorial-content .wp-block-column.desktop-only {
     display: none !important;
 }
 
 /* Botão nativo do editor */
-main.project-single .editorial-content .wp-block-button__link {
+.project-single .editorial-content .wp-block-button__link {
     background-color: rgba(255, 255, 255, 0.05) !important;
     color: #fff !important;
     border: 1px solid var(--border-glass) !important;
@@ -306,7 +306,7 @@ main.project-single .editorial-content .wp-block-button__link {
     font-size: 14px;
 }
 
-main.project-single .editorial-content .wp-block-button__link:hover {
+.project-single .editorial-content .wp-block-button__link:hover {
     background-color: var(--color-secondary) !important;
     color: var(--bg-base) !important;
 }
@@ -314,19 +314,19 @@ main.project-single .editorial-content .wp-block-button__link:hover {
 /* -----------------------------------------
    BLOCO DE FAQ (Acordeão Animado)
    ----------------------------------------- */
-main.project-single .editorial-content .rank-math-faq-item {
+.project-single .editorial-content .rank-math-faq-item {
     border-bottom: 1px solid var(--border-glass);
     padding: 24px 0;
     overflow: hidden;
     /* Evita que o texto vaze durante a animação */
 }
 
-main.project-single .editorial-content .rank-math-faq-item:last-child {
+.project-single .editorial-content .rank-math-faq-item:last-child {
     border-bottom: none;
 }
 
 /* A Pergunta (Gatilho do Clique) */
-main.project-single .editorial-content .rank-math-question {
+.project-single .editorial-content .rank-math-question {
     font-family: var(--font-heading);
     font-size: 1.25rem;
     color: var(--text-main);
@@ -340,12 +340,12 @@ main.project-single .editorial-content .rank-math-question {
     transition: color 0.3s ease;
 }
 
-main.project-single .editorial-content .rank-math-question:hover {
+.project-single .editorial-content .rank-math-question:hover {
     color: var(--color-primary);
 }
 
 /* Ícone de "+" usando pseudo-elemento */
-main.project-single .editorial-content .rank-math-question::after {
+.project-single .editorial-content .rank-math-question::after {
     content: '+';
     font-size: 1.75rem;
     font-weight: 300;
@@ -354,7 +354,7 @@ main.project-single .editorial-content .rank-math-question::after {
 }
 
 /* A Resposta (Oculta por padrão) */
-main.project-single .editorial-content .rank-math-answer {
+.project-single .editorial-content .rank-math-answer {
     color: var(--text-muted);
     font-size: 1.05rem;
     line-height: 1.6;
@@ -375,13 +375,13 @@ main.project-single .editorial-content .rank-math-answer {
    ========================================= */
 
 /* Transforma o "+" em "x" e muda a cor */
-main.project-single .editorial-content .rank-math-faq-item.is-open .rank-math-question::after {
+.project-single .editorial-content .rank-math-faq-item.is-open .rank-math-question::after {
     transform: rotate(45deg);
     color: var(--color-primary);
 }
 
 /* Expande a resposta suavemente */
-main.project-single .editorial-content .rank-math-faq-item.is-open .rank-math-answer {
+.project-single .editorial-content .rank-math-faq-item.is-open .rank-math-answer {
     max-height: 800px;
     /* Um valor seguro que caiba o texto */
     opacity: 1;
@@ -392,25 +392,25 @@ main.project-single .editorial-content .rank-math-faq-item.is-open .rank-math-an
 /* =========================================
    3. TECH STACK SECTION (Layout Moderno e Compacto)
    ========================================= */
-main.project-single .project-tech-stack {
+.project-single .project-tech-stack {
     padding-top: clamp(4rem, 8vw, 6rem);
     padding-bottom: clamp(4rem, 8vw, 6rem);
     border-top: 1px solid var(--border-glass);
 }
 
-main.project-single .section-heading-wrapper {
+.project-single .section-heading-wrapper {
     margin-bottom: 48px;
     text-align: center;
 }
 
-main.project-single .section-title {
+.project-single .section-title {
     font-family: var(--font-heading);
     font-size: clamp(1.5rem, 3vw, 2rem);
     color: var(--text-main);
     display: inline-block;
 }
 
-main.project-single .tech-grid {
+.project-single .tech-grid {
     display: grid;
     /* Grid fluido: Cria colunas automaticamente baseadas no tamanho do ecrã */
     grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
@@ -418,7 +418,7 @@ main.project-single .tech-grid {
 }
 
 /* O novo Card Horizontal */
-main.project-single .stack-card {
+.project-single .stack-card {
     background-color: var(--bg-surface);
     border: 1px solid var(--border-glass);
     border-radius: var(--radius-soft);
@@ -429,7 +429,7 @@ main.project-single .stack-card {
     transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-main.project-single .stack-card:hover {
+.project-single .stack-card:hover {
     transform: translateY(-3px);
     border-color: #00ffb291;
     /* Mantendo a identidade visual do verde SEO */
@@ -437,7 +437,7 @@ main.project-single .stack-card:hover {
 }
 
 /* Ícone alinhado à esquerda */
-main.project-single .stack-icon {
+.project-single .stack-icon {
     width: 40px;
     height: 40px;
     background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0) 100%);
@@ -451,14 +451,14 @@ main.project-single .stack-icon {
 }
 
 /* Ajusta o tamanho do símbolo </> */
-main.project-single .stack-icon span {
+.project-single .stack-icon span {
     font-size: 16px !important;
     color: var(--color-seo-green) !important;
     font-weight: 700;
 }
 
 /* O Texto da Tecnologia */
-main.project-single .stack-name {
+.project-single .stack-name {
     font-family: var(--font-mono);
     font-size: 15px;
     color: var(--text-main);
@@ -469,25 +469,25 @@ main.project-single .stack-name {
 }
 
 @media (min-width: 768px) {
-    main.project-single .tech-grid {
+    .project-single .tech-grid {
         grid-template-columns: repeat(2, 1fr);
     }
 }
 
 @media (min-width: 1024px) {
-    main.project-single .tech-grid {
+    .project-single .tech-grid {
         grid-template-columns: repeat(4, 1fr);
     }
 }
 
-main.project-single .stack-card {
+.project-single .stack-card {
     background-color: var(--bg-surface);
     border: 1px solid var(--border-glass);
     border-radius: var(--radius-card);
     padding: 32px 24px;
 }
 
-main.project-single .stack-icon {
+.project-single .stack-icon {
     width: 48px;
     height: 48px;
     background-color: rgba(255, 255, 255, 0.02);
@@ -498,13 +498,13 @@ main.project-single .stack-icon {
     border: 1px solid var(--border-glass);
 }
 
-main.project-single .stack-name {
+.project-single .stack-name {
     font-family: var(--font-mono);
     font-size: 16px;
     color: var(--text-main);
 }
 
-main.project-single .stack-desc {
+.project-single .stack-desc {
     font-family: var(--font-body);
     font-size: 14px;
     color: var(--text-muted);
@@ -516,15 +516,15 @@ main.project-single .stack-desc {
    ========================================= */
 
 /* --- 4.1 ÍCONES DE HABILIDADES (Used Skills) --- */
-main.project-single .editorial-content .wp-block-group.is-layout-flex:has(.icon-skill-project),
-main.project-single .editorial-content .wp-block-group.is-layout-flex:has(.wp-block-cover) {
+.project-single .editorial-content .wp-block-group.is-layout-flex:has(.icon-skill-project),
+.project-single .editorial-content .wp-block-group.is-layout-flex:has(.wp-block-cover) {
     gap: 16px;
     flex-wrap: wrap;
 }
 
 /* Padroniza as imagens e o bloco de texto (ACF) como quadrados perfeitos de vidro */
-main.project-single .editorial-content .icon-skill-project,
-main.project-single .editorial-content .wp-block-cover.is-light {
+.project-single .editorial-content .icon-skill-project,
+.project-single .editorial-content .wp-block-cover.is-light {
     background: rgba(255, 255, 255, 0.02) !important;
     border: 1px solid var(--border-glass) !important;
     border-radius: var(--radius-soft) !important;
@@ -539,24 +539,24 @@ main.project-single .editorial-content .wp-block-cover.is-light {
     transition: border-color 0.3s ease;
 }
 
-main.project-single .editorial-content .icon-skill-project:hover,
-main.project-single .editorial-content .wp-block-cover.is-light:hover {
+.project-single .editorial-content .icon-skill-project:hover,
+.project-single .editorial-content .wp-block-cover.is-light:hover {
     border-color: var(--color-secondary) !important;
 }
 
-main.project-single .editorial-content .icon-skill-project img {
+.project-single .editorial-content .icon-skill-project img {
     margin: 0 !important;
     border: none !important;
     width: 100% !important;
     height: auto !important;
 }
 
-main.project-single .editorial-content .wp-block-cover__background {
+.project-single .editorial-content .wp-block-cover__background {
     display: none !important;
     /* Remove o fundo nativo do WordPress no cover */
 }
 
-main.project-single .editorial-content .wp-block-cover p {
+.project-single .editorial-content .wp-block-cover p {
     margin: 0 !important;
     font-family: var(--font-mono) !important;
     color: var(--text-main) !important;
@@ -565,7 +565,7 @@ main.project-single .editorial-content .wp-block-cover p {
 
 /* --- 4.2 TAGS / PILLS DE TECNOLOGIA --- */
 /* Sequestra os blocos que o WP tentou arredondar com inline styles */
-main.project-single .editorial-content .wp-block-group[style*="border-radius:100px"] {
+.project-single .editorial-content .wp-block-group[style*="border-radius:100px"] {
     background: rgba(0, 209, 255, 0.05) !important;
     border: 1px solid rgba(0, 209, 255, 0.1) !important;
     border-radius: 20px !important;
@@ -573,7 +573,7 @@ main.project-single .editorial-content .wp-block-group[style*="border-radius:100
     margin: 0 !important;
 }
 
-main.project-single .editorial-content .wp-block-group[style*="border-radius:100px"] p {
+.project-single .editorial-content .wp-block-group[style*="border-radius:100px"] p {
     margin: 0 !important;
     color: var(--color-secondary) !important;
     font-family: var(--font-mono);
@@ -581,7 +581,7 @@ main.project-single .editorial-content .wp-block-group[style*="border-radius:100
     font-weight: 500 !important;
 }
 
-main.project-single .editorial-content .wp-block-group.is-layout-flex[style*="font-size:0.8rem"] {
+.project-single .editorial-content .wp-block-group.is-layout-flex[style*="font-size:0.8rem"] {
     gap: 12px;
     flex-wrap: wrap;
     margin-bottom: 3em;
@@ -590,7 +590,7 @@ main.project-single .editorial-content .wp-block-group.is-layout-flex[style*="fo
 
 /* --- 4.3 GRID DE PERFORMANCE (PageSpeed Insights) --- */
 /* Força o flex-nowrap do WP a virar um CSS Grid responsivo */
-main.project-single .editorial-content .wp-block-group.is-nowrap.is-layout-flex {
+.project-single .editorial-content .wp-block-group.is-nowrap.is-layout-flex {
     display: grid !important;
     grid-template-columns: repeat(2, 1fr);
     /* 2 colunas no mobile */
@@ -600,14 +600,14 @@ main.project-single .editorial-content .wp-block-group.is-nowrap.is-layout-flex 
 }
 
 @media (min-width: 768px) {
-    main.project-single .editorial-content .wp-block-group.is-nowrap.is-layout-flex {
+    .project-single .editorial-content .wp-block-group.is-nowrap.is-layout-flex {
         grid-template-columns: repeat(4, 1fr);
         /* 4 colunas no Desktop */
     }
 }
 
 /* Transforma as colunas internas em Cards Elevados */
-main.project-single .editorial-content .wp-block-group.is-nowrap>.wp-block-group {
+.project-single .editorial-content .wp-block-group.is-nowrap>.wp-block-group {
     background: var(--bg-surface) !important;
     border: 1px solid var(--border-glass) !important;
     border-radius: var(--radius-card) !important;
@@ -617,14 +617,14 @@ main.project-single .editorial-content .wp-block-group.is-nowrap>.wp-block-group
     align-items: center;
 }
 
-main.project-single .editorial-content .wp-block-group.is-nowrap>.wp-block-group:hover {
+.project-single .editorial-content .wp-block-group.is-nowrap>.wp-block-group:hover {
     transform: translateY(-4px);
     border-color: var(--color-seo-green) !important;
     /* Brilha verde no hover */
 }
 
 /* Os números (ex: 96, 100) */
-main.project-single .editorial-content .wp-block-group.is-nowrap>.wp-block-group p:first-child {
+.project-single .editorial-content .wp-block-group.is-nowrap>.wp-block-group p:first-child {
     font-family: var(--font-mono);
     font-size: clamp(2.5rem, 4vw, 3rem) !important;
     font-weight: 700 !important;
@@ -635,7 +635,7 @@ main.project-single .editorial-content .wp-block-group.is-nowrap>.wp-block-group
 }
 
 /* Os rótulos (ex: Performance, SEO) */
-main.project-single .editorial-content .wp-block-group.is-nowrap>.wp-block-group p:last-child {
+.project-single .editorial-content .wp-block-group.is-nowrap>.wp-block-group p:last-child {
     font-family: var(--font-body);
     font-size: 0.85rem !important;
     color: var(--text-muted) !important;

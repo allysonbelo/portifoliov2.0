@@ -127,17 +127,23 @@ get_header(); ?>
 
                     <div class="tech-grid">
                         <?php
-                        // Puxa a string separada por vírgulas do seu ACF atual
                         $tech_string = get_field('project_tech_stack');
+                        $stacks = array();
 
-                        if ($tech_string):
-                            // Transforma a string numa array
-                            $stacks = explode(',', $tech_string);
+                        if ($tech_string) {
+                            $stacks = array_filter(array_map('trim', explode(',', $tech_string)));
+                        } else {
+                            $terms = get_the_terms(get_the_ID(), 'tech_stack');
+                            if (!empty($terms) && !is_wp_error($terms)) {
+                                foreach ($terms as $term) {
+                                    $stacks[] = $term->name;
+                                }
+                            }
+                        }
+
+                        if (!empty($stacks)):
                             $delay = 0;
-
-                            foreach ($stacks as $stack):
-                                $stack_name = trim($stack);
-                                if (empty($stack_name)) continue;
+                            foreach ($stacks as $stack_name):
                         ?>
                                 <div class="stack-card reveal-element" style="transition-delay: <?php echo $delay; ?>s;">
                                     <div class="stack-icon">
