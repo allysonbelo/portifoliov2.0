@@ -672,7 +672,7 @@ add_filter('robots_txt', 'abc_tech_custom_robots_txt', 100, 2);
 
 /**
  * =========================================================================
- * ROTEAMENTO DINÂMICO DOS ARQUIVOS .WELL-KNOWN (PREVINE 404 EM SERVIDORES LOCAL/NGINX/APACHE)
+ * ROTEAMENTO PROGRAMÁTICO GLOBAL DOS ENDPOINTS DE IA & AGENT DISCOVERY
  * =========================================================================
  */
 function abc_tech_handle_well_known_requests()
@@ -680,21 +680,169 @@ function abc_tech_handle_well_known_requests()
     $req_uri = isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '';
     $path_info = parse_url($req_uri, PHP_URL_PATH);
 
-    if (preg_match('#^\/\.well-known\/(.+)$#i', $path_info, $matches)) {
-        $path = sanitize_text_field(urldecode($matches[1]));
-        $file_path = ABSPATH . '.well-known/' . $path;
+    // 1. Rota /auth.md
+    if ($path_info === '/auth.md') {
+        header('Content-Type: text/markdown; charset=utf-8');
+        header('Access-Control-Allow-Origin: *');
+        echo "# Agent Auth Registration Guidelines\n\n";
+        echo "Welcome! This site supports AI agent discovery and interaction.\n\n";
+        echo "## Discovery Endpoints\n";
+        echo "- OAuth Protected Resource Metadata: https://allysonbelo.com/.well-known/oauth-protected-resource\n";
+        echo "- OAuth Authorization Server: https://allysonbelo.com/.well-known/oauth-authorization-server\n";
+        echo "- API Catalog: https://allysonbelo.com/.well-known/api-catalog\n";
+        echo "- Agent Skills Index: https://allysonbelo.com/.well-known/agent-skills/index.json\n";
+        echo "- MCP Server Card: https://allysonbelo.com/.well-known/mcp/server-card.json\n\n";
+        echo "## Access & Capabilities\n";
+        echo "AI agents may query public portfolio cases, technical specifications, and metadata.\n";
+        echo "For direct contact, send inquiries to https://allysonbelo.com/contato/ or via WordPress REST API at /wp-json/wp/v2/\n";
+        exit;
+    }
 
-        if (file_exists($file_path)) {
-            $ext = pathinfo($file_path, PATHINFO_EXTENSION);
-            if ($ext === 'json' || strpos($path, 'acp.json') !== false || strpos($path, 'index.json') !== false || strpos($path, 'server-card.json') !== false) {
-                header('Content-Type: application/json; charset=utf-8');
-            } elseif ($path === 'api-catalog') {
-                header('Content-Type: application/linkset+json; charset=utf-8');
-            } else {
-                header('Content-Type: application/json; charset=utf-8');
-            }
-            header('Access-Control-Allow-Origin: *');
-            readfile($file_path);
+    // 2. Rotas /.well-known/*
+    if (preg_match('#^\/\.well-known\/(.+)$#i', $path_info, $matches)) {
+        $path = strtolower(trim($matches[1], '/'));
+        header('Access-Control-Allow-Origin: *');
+
+        // Agent Skills Index
+        if ($path === 'agent-skills/index.json' || $path === 'agent-skills') {
+            header('Content-Type: application/json; charset=utf-8');
+            echo json_encode(array(
+                '$schema' => 'https://agentskills.io/schema/v0.2.0/index.json',
+                'skills'  => array(
+                    array(
+                        'name'        => 'portfolio-search',
+                        'type'        => 'search',
+                        'description' => 'Discover WordPress engineering portfolio projects and technical SEO cases',
+                        'url'         => home_url('/projetos/'),
+                        'sha256'      => 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855'
+                    ),
+                    array(
+                        'name'        => 'contact-developer',
+                        'type'        => 'action',
+                        'description' => 'Send a direct message or project inquiry to WordPress Architect Allyson Belo',
+                        'url'         => home_url('/contato/'),
+                        'sha256'      => 'f4c9c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b899'
+                    )
+                )
+            ), JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
+            exit;
+        }
+
+        // API Catalog (RFC 9727)
+        if ($path === 'api-catalog') {
+            header('Content-Type: application/linkset+json; charset=utf-8');
+            echo json_encode(array(
+                'linkset' => array(
+                    array(
+                        'anchor'       => home_url('/wp-json/wp/v2/'),
+                        'service-desc' => array(array('href' => home_url('/wp-json/'), 'type' => 'application/json')),
+                        'service-doc'  => array(array('href' => 'https://developer.wordpress.org/rest-api/', 'type' => 'text/html')),
+                        'status'       => array(array('href' => home_url('/wp-json/wp/v2/posts?per_page=1'), 'type' => 'application/json'))
+                    )
+                )
+            ), JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
+            exit;
+        }
+
+        // MCP Server Card (SEP-1649)
+        if ($path === 'mcp/server-card.json' || $path === 'mcp/server-card') {
+            header('Content-Type: application/json; charset=utf-8');
+            echo json_encode(array(
+                'serverInfo'   => array(
+                    'name'        => 'allysonbelo-portfolio-mcp',
+                    'version'     => '1.0.0',
+                    'description' => 'MCP Server for Allyson Belo Portfolio, Project Discovery and Technical SEO Specs'
+                ),
+                'transport'    => array(
+                    'type'     => 'sse',
+                    'endpoint' => home_url('/wp-json/wp/v2/project')
+                ),
+                'capabilities' => array('resources' => true, 'tools' => true, 'prompts' => true)
+            ), JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
+            exit;
+        }
+
+        // OpenID Configuration
+        if ($path === 'openid-configuration') {
+            header('Content-Type: application/json; charset=utf-8');
+            echo json_encode(array(
+                'issuer'                 => home_url('/'),
+                'authorization_endpoint' => home_url('/wp-login.php'),
+                'token_endpoint'         => home_url('/wp-json/jwt-auth/v1/token'),
+                'jwks_uri'               => home_url('/.well-known/http-message-signatures-directory'),
+                'response_types_supported'=> array('code', 'token'),
+                'grant_types_supported'  => array('authorization_code', 'client_credentials', 'password'),
+                'subject_types_supported'=> array('public'),
+                'id_token_signing_alg_values_supported' => array('RS256')
+            ), JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
+            exit;
+        }
+
+        // OAuth Authorization Server
+        if ($path === 'oauth-authorization-server') {
+            header('Content-Type: application/json; charset=utf-8');
+            echo json_encode(array(
+                'issuer'                 => home_url('/'),
+                'authorization_endpoint' => home_url('/wp-login.php'),
+                'token_endpoint'         => home_url('/wp-json/jwt-auth/v1/token'),
+                'jwks_uri'               => home_url('/.well-known/http-message-signatures-directory'),
+                'grant_types_supported'  => array('authorization_code', 'client_credentials'),
+                'response_types_supported'=> array('code'),
+                'agent_auth'             => array(
+                    'register_uri'              => home_url('/auth.md'),
+                    'supported_identity_types'  => array('agent', 'user'),
+                    'supported_credential_types'=> array('bearer_token')
+                )
+            ), JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
+            exit;
+        }
+
+        // OAuth Protected Resource (RFC 9728)
+        if ($path === 'oauth-protected-resource') {
+            header('Content-Type: application/json; charset=utf-8');
+            echo json_encode(array(
+                'resource'              => home_url('/wp-json/'),
+                'authorization_servers' => array(home_url('/')),
+                'scopes_supported'      => array('read', 'write', 'portfolio:read', 'contact:write')
+            ), JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
+            exit;
+        }
+
+        // Web Bot Auth Directory
+        if ($path === 'http-message-signatures-directory') {
+            header('Content-Type: application/json; charset=utf-8');
+            echo json_encode(array(
+                'keys' => array(
+                    array('kty' => 'RSA', 'use' => 'sig', 'alg' => 'RS256', 'kid' => 'bot-key-1', 'n' => 'u1W5b8z2...', 'e' => 'AQAB')
+                )
+            ), JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
+            exit;
+        }
+
+        // ACP Discovery
+        if ($path === 'acp.json' || $path === 'acp') {
+            header('Content-Type: application/json; charset=utf-8');
+            echo json_encode(array(
+                'protocol'             => array('name' => 'acp', 'version' => '1.0.0'),
+                'api_base_url'         => home_url('/wp-json/'),
+                'supported_transports' => array('https'),
+                'capabilities'         => array('services' => array('inquiry', 'portfolio-access'))
+            ), JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
+            exit;
+        }
+
+        // UCP Profile
+        if ($path === 'ucp') {
+            header('Content-Type: application/json; charset=utf-8');
+            echo json_encode(array(
+                'version'      => '1.0.0',
+                'services'     => array('content-licensing', 'portfolio-discovery'),
+                'capabilities' => array('free-read', 'agent-query'),
+                'endpoints'    => array(
+                    'catalog' => home_url('/.well-known/api-catalog'),
+                    'skills'  => home_url('/.well-known/agent-skills/index.json')
+                )
+            ), JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
             exit;
         }
     }
