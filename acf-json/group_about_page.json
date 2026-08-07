@@ -1,0 +1,98 @@
+{
+    "key": "group_about_page",
+    "title": "Página Sobre (Hero & Biografia)",
+    "fields": [
+        {
+            "key": "field_about_prompt",
+            "label": "System Prompt (Terminal)",
+            "name": "about_prompt",
+            "type": "text",
+            "instructions": "Ex: // SYSTEM.OUT.PRINTLN(\"HELLO, WORLD\");",
+            "required": false,
+            "default_value": "// SYSTEM.OUT.PRINTLN(\"HELLO, WORLD\");"
+        },
+        {
+            "key": "field_about_title_1",
+            "label": "Título Parte 1",
+            "name": "about_title_1",
+            "type": "text",
+            "instructions": "Ex: Arquitetando a Web",
+            "required": false,
+            "default_value": "Arquitetando a Web"
+        },
+        {
+            "key": "field_about_title_2",
+            "label": "Título Parte 2 (Destaque)",
+            "name": "about_title_2",
+            "type": "text",
+            "instructions": "Ex: Linha por Linha.",
+            "required": false,
+            "default_value": "Linha por Linha."
+        },
+        {
+            "key": "field_about_bio",
+            "label": "Biografia / Apresentação",
+            "name": "about_bio",
+            "type": "wysiwyg",
+            "instructions": "Texto de apresentação profissional.",
+            "required": false,
+            "tabs": "all",
+            "toolbar": "full",
+            "media_upload": 0
+        },
+        {
+            "key": "field_about_cv_file",
+            "label": "Arquivo / Link do Currículo (CV)",
+            "name": "about_cv_file",
+            "type": "file",
+            "instructions": "Faça upload do arquivo PDF do seu CV ou insira o link direto.",
+            "required": false,
+            "return_format": "array",
+            "library": "all"
+        },
+        {
+            "key": "field_about_image",
+            "label": "Foto de Perfil",
+            "name": "about_image",
+            "type": "image",
+            "instructions": "Foto principal da página sobre.",
+            "required": false,
+            "return_format": "array",
+            "preview_size": "medium",
+            "library": "all"
+        },
+        {
+            "key": "field_about_status_label",
+            "label": "Rótulo do Status",
+            "name": "about_status_label",
+            "type": "text",
+            "instructions": "Ex: STATUS",
+            "required": false,
+            "default_value": "STATUS"
+        },
+        {
+            "key": "field_about_status_value",
+            "label": "Valor do Status",
+            "name": "about_status_value",
+            "type": "text",
+            "instructions": "Ex: Otimização Extrema",
+            "required": false,
+            "default_value": "Otimização Extrema"
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "page_template",
+                "operator": "==",
+                "value": "template-sobre.php"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "active": true
+}

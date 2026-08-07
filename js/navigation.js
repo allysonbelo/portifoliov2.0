@@ -14,15 +14,27 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
     }
 
-    menuToggle.addEventListener('click', () => {
-        // Alterna a classe de visibilidade do menu
-        mainNavigation.classList.toggle('is-open');
-        
-        // Alterna a classe para a animação do botão (Hamburger para X)
-        menuToggle.classList.toggle('is-active');
+    function toggleMenu(forceClose = false) {
+        const isOpen = mainNavigation.classList.contains('is-open');
 
-        // Atualiza os atributos de acessibilidade (Screen Readers)
-        const isExpanded = menuToggle.getAttribute('aria-expanded') === 'true';
-        menuToggle.setAttribute('aria-expanded', !isExpanded);
+        if (forceClose || isOpen) {
+            mainNavigation.classList.remove('is-open');
+            menuToggle.classList.remove('is-active');
+            menuToggle.setAttribute('aria-expanded', 'false');
+        } else {
+            mainNavigation.classList.add('is-open');
+            menuToggle.classList.add('is-active');
+            menuToggle.setAttribute('aria-expanded', 'true');
+        }
+    }
+
+    menuToggle.addEventListener('click', () => toggleMenu());
+
+    // Fechar menu mobile ao pressionar a tecla ESC (A11y Best Practice)
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && mainNavigation.classList.contains('is-open')) {
+            toggleMenu(true);
+            menuToggle.focus();
+        }
     });
 });

@@ -15,7 +15,8 @@ function abc_tech_setup()
     load_theme_textdomain('abc-tech', get_template_directory() . '/languages');
 
     register_nav_menus(array(
-        'menu-1' => esc_html__('Primary Menu', 'abc-tech'),
+        'menu-1'      => esc_html__('Primary Menu', 'abc-tech'),
+        'footer-menu' => esc_html__('Footer Menu', 'abc-tech'),
     ));
 
     // Suporte a tags de título nativas do WP (Melhor prática de SEO)
@@ -23,6 +24,18 @@ function abc_tech_setup()
 
     // Suporte a miniaturas de post
     add_theme_support('post-thumbnails');
+
+    // Suporte a Logo Personalizada via Customizer
+    add_theme_support('custom-logo', array(
+        'height'      => 80,
+        'width'       => 240,
+        'flex-height' => true,
+        'flex-width'  => true,
+    ));
+
+    // Suporte a embeds responsivos e alinhamentos largos do Gutenberg
+    add_theme_support('responsive-embeds');
+    add_theme_support('align-wide');
 
     // Suporte a HTML5 para elementos mais semânticos
     add_theme_support('html5', array(
@@ -36,6 +49,226 @@ function abc_tech_setup()
     ));
 }
 add_action('after_setup_theme', 'abc_tech_setup');
+
+/**
+ * Registro Nativo do Custom Post Type "project"
+ */
+function abc_tech_register_cpts()
+{
+    if (post_type_exists('project')) {
+        return;
+    }
+
+    $labels = array(
+        'name'               => _x('Projetos', 'Post Type General Name', 'abc-tech'),
+        'singular_name'      => _x('Projeto', 'Post Type Singular Name', 'abc-tech'),
+        'menu_name'          => __('Projetos', 'abc-tech'),
+        'all_items'          => __('Todos os Projetos', 'abc-tech'),
+        'add_new_item'       => __('Adicionar Novo Projeto', 'abc-tech'),
+        'add_new'            => __('Adicionar Novo', 'abc-tech'),
+        'edit_item'          => __('Editar Projeto', 'abc-tech'),
+        'update_item'        => __('Atualizar Projeto', 'abc-tech'),
+        'view_item'          => __('Ver Projeto', 'abc-tech'),
+        'search_items'       => __('Buscar Projeto', 'abc-tech'),
+        'not_found'          => __('Nenhum projeto encontrado', 'abc-tech'),
+    );
+    $args = array(
+        'label'              => __('Projeto', 'abc-tech'),
+        'labels'             => $labels,
+        'supports'           => array('title', 'editor', 'thumbnail', 'excerpt', 'page-attributes'),
+        'public'             => true,
+        'show_ui'            => true,
+        'show_in_menu'       => true,
+        'menu_position'      => 5,
+        'menu_icon'          => 'dashicons-portfolio',
+        'has_archive'        => true,
+        'show_in_rest'       => true,
+        'capability_type'    => 'post',
+    );
+    register_post_type('project', $args);
+
+    // Registro da Taxonomia "tech_stack" (Categorias de Tecnologia)
+    if (!taxonomy_exists('tech_stack')) {
+        $tax_labels = array(
+            'name'              => _x('Tecnologias', 'taxonomy general name', 'abc-tech'),
+            'singular_name'     => _x('Tecnologia', 'taxonomy singular name', 'abc-tech'),
+            'search_items'      => __('Buscar Tecnologias', 'abc-tech'),
+            'all_items'         => __('Todas as Tecnologias', 'abc-tech'),
+            'edit_item'         => __('Editar Tecnologia', 'abc-tech'),
+            'update_item'       => __('Atualizar Tecnologia', 'abc-tech'),
+            'add_new_item'      => __('Adicionar Nova Tecnologia', 'abc-tech'),
+            'new_item_name'     => __('Nome da Nova Tecnologia', 'abc-tech'),
+            'menu_name'         => __('Tecnologias', 'abc-tech'),
+        );
+        register_taxonomy('tech_stack', array('project'), array(
+            'hierarchical'      => false,
+            'labels'            => $tax_labels,
+            'show_ui'           => true,
+            'show_admin_column' => true,
+            'query_var'         => true,
+            'rewrite'           => array('slug' => 'tecnologia'),
+            'show_in_rest'      => true,
+        ));
+    }
+}
+add_action('init', 'abc_tech_register_cpts', 0);
+
+/**
+ * =========================================================================
+ * 1. ACF LOCAL JSON (Sincronização Automática via Git)
+ * =========================================================================
+ */
+add_filter('acf/settings/save_json', function ($path) {
+    return get_template_directory() . '/acf-json';
+});
+
+add_filter('acf/settings/load_json', function ($paths) {
+    unset($paths[0]);
+    $paths[] = get_template_directory() . '/acf-json';
+    return $paths;
+});
+
+/**
+ * =========================================================================
+ * 2. PERFORMANCE & DEFER SCRIPT LOADING
+ * =========================================================================
+ */
+
+// Adiciona atributo 'defer' aos scripts JS enfileirados pelo tema
+function abc_tech_defer_scripts($tag, $handle, $src)
+{
+    if (is_admin()) return $tag;
+
+    $defer_scripts = array(
+        'abc-tech-navigation',
+        'abc-tech-animations',
+        'abc-tech-typing',
+        'abc-tech-projetos-view',
+        'abc-tech-typewriter-cards',
+    );
+
+    if (in_array($handle, $defer_scripts, true)) {
+        return '<script src="' . esc_url($src) . '" id="' . esc_attr($handle) . '-js" defer></script>' . "\n";
+    }
+
+    return $tag;
+}
+add_filter('script_loader_tag', 'abc_tech_defer_scripts', 10, 3);
+
+// Desativa Emojis Nativos do WordPress (Economiza requisições HTTP e bytes no head)
+function abc_tech_disable_emojis()
+{
+    remove_action('wp_head', 'print_emoji_detection_script', 7);
+    remove_action('admin_print_scripts', 'print_emoji_detection_script');
+    remove_action('wp_print_styles', 'print_emoji_styles');
+    remove_action('admin_print_styles', 'print_emoji_styles');
+    remove_filter('the_content_feed', 'wp_staticize_emoji');
+    remove_filter('comment_text_rss', 'wp_staticize_emoji');
+    remove_filter('wp_mail', 'wp_staticize_emoji_for_email');
+}
+add_action('init', 'abc_tech_disable_emojis');
+
+/**
+ * =========================================================================
+ * 3. HARDENING DE SEGURANÇA NO WORDPRESS
+ * =========================================================================
+ */
+function abc_tech_security_cleanup()
+{
+    // Oculta a versão do WordPress
+    remove_action('wp_head', 'wp_generator');
+
+    // Desativa XML-RPC (Previne força bruta e ataques amplificados)
+    add_filter('xmlrpc_enabled', '__return_false');
+
+    // Limpa links desnecessários no <head>
+    remove_action('wp_head', 'rsd_link');
+    remove_action('wp_head', 'wlwmanifest_link');
+    // Desativa a barra de administração do WordPress no front-end
+    add_filter('show_admin_bar', '__return_false');
+}
+add_action('init', 'abc_tech_security_cleanup');
+
+/**
+ * Injeta o Favicon SVG Animado no <head> (Fallback se não houver Ícone de Site definido)
+ */
+function abc_tech_render_favicon()
+{
+    if (!has_site_icon()) {
+        $favicon_url = get_template_directory_uri() . '/images/favicon.svg';
+        echo '<link rel="icon" type="image/svg+xml" href="' . esc_url($favicon_url) . '">' . "\n";
+        echo '<link rel="alternate icon" href="' . esc_url($favicon_url) . '">' . "\n";
+    }
+}
+add_action('wp_head', 'abc_tech_render_favicon', 5);
+
+/**
+ * =========================================================================
+ * 4. SEO TÉCNICO: MARCAÇÃO SCHEMA.ORG (JSON-LD)
+ * =========================================================================
+ */
+function abc_tech_render_schema_org()
+{
+    $schema = array();
+
+    if (is_front_page() || is_home() || is_page_template('template-sobre.php')) {
+        $schema = array(
+            '@context'  => 'https://schema.org',
+            '@type'     => 'Person',
+            'name'      => 'Allyson Belo Cavalcante',
+            'jobTitle'  => 'WordPress Architect & Front-End Developer',
+            'url'       => home_url('/'),
+            'sameAs'    => array(
+                'https://github.com/allysonbelo',
+                'https://www.linkedin.com/in/allysoncavalcante/',
+            ),
+            'knowsAbout' => array(
+                'WordPress Development',
+                'SEO Técnico',
+                'Core Web Vitals',
+                'PHP',
+                'JavaScript',
+                'Front-End Architecture'
+            )
+        );
+    } elseif (is_page_template('template-projetos.php')) {
+        $schema = array(
+            '@context'    => 'https://schema.org',
+            '@type'       => 'CollectionPage',
+            'name'        => get_the_title() ?: 'Portfólio de Projetos',
+            'description' => get_field('portfolio_description') ?: 'Uma seleção de projetos de alta performance, focados em arquitetura WordPress, otimização técnica de SEO e interfaces conversivas.',
+            'url'         => get_permalink(),
+        );
+    } elseif (is_page_template('template-contato.php')) {
+        $schema = array(
+            '@context'    => 'https://schema.org',
+            '@type'       => 'ContactPage',
+            'name'        => get_the_title() ?: 'Contato',
+            'description' => get_field('contact_description') ?: 'Entre em contato para orçamentos de projetos WordPress, auditorias de SEO técnico e desenvolvimento sob medida.',
+            'url'         => get_permalink(),
+        );
+    } elseif (is_singular('project')) {
+        global $post;
+        $live_url = get_field('project_live_url', $post->ID);
+        $code_url = get_field('project_code_url', $post->ID);
+        $tech_stack = get_field('project_tech_stack', $post->ID);
+
+        $schema = array(
+            '@context'          => 'https://schema.org',
+            '@type'             => 'SoftwareSourceCode',
+            'name'              => get_the_title($post),
+            'description'       => get_the_excerpt($post) ?: wp_trim_words(wp_strip_all_tags(get_the_content(null, false, $post)), 25),
+            'programmingLanguage' => $tech_stack ?: 'PHP, JavaScript, WordPress',
+            'codeRepository'    => $code_url ?: home_url('/'),
+            'url'               => get_permalink($post),
+        );
+    }
+
+    if (!empty($schema)) {
+        echo '<script type="application/ld+json">' . wp_json_encode($schema, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT) . '</script>' . "\n";
+    }
+}
+add_action('wp_head', 'abc_tech_render_schema_org', 20);
 
 function abc_tech_scripts()
 {
@@ -278,3 +511,192 @@ function abc_tech_acf_highlight_script()
     </script>
 <?php
 }
+
+/**
+ * =========================================================================
+ * REGISTRO DE STRINGS DO TEMA NO POLYLANG (Painel Idiomas -> Traduções)
+ * =========================================================================
+ */
+function abc_tech_register_polylang_strings()
+{
+    if (!function_exists('pll_register_string')) {
+        return;
+    }
+
+    // Grupo: Portfólio & Filtros
+    pll_register_string('Portfolio Filters', 'Portfólio de', 'abc-tech');
+    pll_register_string('Portfolio Filters', 'Projetos', 'abc-tech');
+    pll_register_string('Portfolio Filters', 'Uma seleção de projetos de alta performance, focados em arquitetura WordPress, otimização técnica de SEO e interfaces conversivas.', 'abc-tech');
+    pll_register_string('Portfolio Filters', 'Todos', 'abc-tech');
+    pll_register_string('Portfolio Filters', 'WordPress', 'abc-tech');
+    pll_register_string('Portfolio Filters', 'PHP', 'abc-tech');
+    pll_register_string('Portfolio Filters', 'JavaScript / React', 'abc-tech');
+    pll_register_string('Portfolio Filters', 'SEO Técnico', 'abc-tech');
+    pll_register_string('Portfolio Filters', 'Visualização:', 'abc-tech');
+    pll_register_string('Portfolio Filters', 'Ver em Lista', 'abc-tech');
+    pll_register_string('Portfolio Filters', 'Ver em Grid', 'abc-tech');
+    pll_register_string('Portfolio Filters', 'Live', 'abc-tech');
+    pll_register_string('Portfolio Filters', 'Role', 'abc-tech');
+    pll_register_string('Portfolio Filters', 'Highlights', 'abc-tech');
+    pll_register_string('Portfolio Filters', 'Ver Case', 'abc-tech');
+    pll_register_string('Portfolio Filters', 'Nenhum projeto encontrado.', 'abc-tech');
+    pll_register_string('Portfolio Filters', 'Voltar ao topo', 'abc-tech');
+
+    // Grupo: General UI
+    pll_register_string('General UI', 'Pular para o conteúdo principal', 'abc-tech');
+    pll_register_string('General UI', 'Abrir menu', 'abc-tech');
+    pll_register_string('General UI', 'Vamos Conversar', 'abc-tech');
+    pll_register_string('General UI', 'Fale Conosco', 'abc-tech');
+    pll_register_string('General UI', 'Entre em Contato', 'abc-tech');
+    pll_register_string('General UI', 'Todos os direitos reservados.', 'abc-tech');
+
+    // Grupo: Página 404
+    pll_register_string('404 Page', 'Oops! Rota não encontrada.', 'abc-tech');
+    pll_register_string('404 Page', 'Parece que você tentou acessar um endpoint que não existe. A página pode ter sido movida, excluída ou talvez você tenha digitado a URL incorretamente.', 'abc-tech');
+    pll_register_string('404 Page', 'Voltar para a Home', 'abc-tech');
+}
+add_action('init', 'abc_tech_register_polylang_strings');
+
+/**
+ * Função Auxiliar de Tradução compatível com Polylang e gettext
+ */
+function abc_tech_tr($string)
+{
+    if (function_exists('pll__')) {
+        return pll__($string);
+    }
+    return __($string, 'abc-tech');
+}
+
+/**
+ * =========================================================================
+ * GOOGLE ANALYTICS (GA4) INTEGRATION
+ * =========================================================================
+ */
+function abc_tech_render_google_analytics()
+{
+?>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-PCQG3Q4TVD"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-PCQG3Q4TVD');
+    </script>
+<?php
+}
+add_action('wp_head', 'abc_tech_render_google_analytics', 1);
+
+/**
+ * =========================================================================
+ * AGENT DISCOVERY & LINK HEADERS (RFC 8288 & RFC 9727)
+ * =========================================================================
+ */
+function abc_tech_send_agent_headers()
+{
+    if (is_admin()) return;
+
+    $link_headers = array(
+        '</.well-known/api-catalog>; rel="api-catalog"',
+        '</.well-known/agent-skills/index.json>; rel="agent-skills"',
+        '</.well-known/mcp/server-card.json>; rel="mcp-server"',
+        '</.well-known/oauth-protected-resource>; rel="oauth-protected-resource"',
+        '</.well-known/openid-configuration>; rel="authorizing-issuer"'
+    );
+    header('Link: ' . implode(', ', $link_headers), false);
+}
+add_action('send_headers', 'abc_tech_send_agent_headers');
+
+/**
+ * =========================================================================
+ * MARKDOWN NEGOTIATION FOR AGENTS (Accept: text/markdown)
+ * =========================================================================
+ */
+function abc_tech_handle_markdown_negotiation()
+{
+    if (is_admin()) return;
+
+    $accept_header = isset($_SERVER['HTTP_ACCEPT']) ? $_SERVER['HTTP_ACCEPT'] : '';
+    $is_markdown_req = (strpos($accept_header, 'text/markdown') !== false) || isset($_GET['markdown']);
+
+    if ($is_markdown_req) {
+        header('Content-Type: text/markdown; charset=utf-8');
+        header('Vary: Accept');
+
+        $site_name = get_bloginfo('name');
+        $site_desc = get_bloginfo('description');
+        $title     = is_front_page() ? $site_name : get_the_title();
+        $content   = '';
+
+        if (is_singular() || is_front_page()) {
+            global $post;
+            if ($post) {
+                $content = wp_strip_all_tags(apply_filters('the_content', $post->post_content));
+            }
+        }
+
+        $markdown_output  = "# " . $title . "\n\n";
+        $markdown_output .= "> " . $site_desc . "\n\n";
+        $markdown_output .= "URL: " . esc_url(home_url($_SERVER['REQUEST_URI'])) . "\n\n";
+        $markdown_output .= "## Overview\n\n";
+        $markdown_output .= $content ?: "Allyson Belo - WordPress Architect & Technical SEO Specialist. High-performance custom themes, Core Web Vitals optimization, and clean PHP architecture.\n\n";
+        $markdown_output .= "## Contact & Info\n\n";
+        $markdown_output .= "- Email: contato@allysonbelo.com\n";
+        $markdown_output .= "- GitHub: https://github.com/allysonbelo\n";
+        $markdown_output .= "- LinkedIn: https://www.linkedin.com/in/allysoncavalcante/\n";
+
+        header('X-Markdown-Tokens: ' . str_word_count($markdown_output));
+        echo $markdown_output;
+        exit;
+    }
+}
+add_action('template_redirect', 'abc_tech_handle_markdown_negotiation', 1);
+
+/**
+ * =========================================================================
+ * ROBOTS.TXT CONTENT SIGNALS & SITEMAP FILTER
+ * =========================================================================
+ */
+function abc_tech_custom_robots_txt($output, $public)
+{
+    $site_url = home_url();
+    $robots = "User-agent: *\n";
+    $robots .= "Allow: /\n\n";
+    $robots .= "Content-Signal: ai-train=no, search=yes, ai-input=no\n\n";
+    $robots .= "Sitemap: {$site_url}/sitemap_index.xml\n";
+    return $robots;
+}
+add_filter('robots_txt', 'abc_tech_custom_robots_txt', 100, 2);
+
+/**
+ * =========================================================================
+ * ROTEAMENTO DINÂMICO DOS ARQUIVOS .WELL-KNOWN (PREVINE 404 EM SERVIDORES LOCAL/NGINX/APACHE)
+ * =========================================================================
+ */
+function abc_tech_handle_well_known_requests()
+{
+    $req_uri = isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '';
+    $path_info = parse_url($req_uri, PHP_URL_PATH);
+
+    if (preg_match('#^\/\.well-known\/(.+)$#i', $path_info, $matches)) {
+        $path = sanitize_text_field(urldecode($matches[1]));
+        $file_path = ABSPATH . '.well-known/' . $path;
+
+        if (file_exists($file_path)) {
+            $ext = pathinfo($file_path, PATHINFO_EXTENSION);
+            if ($ext === 'json' || strpos($path, 'acp.json') !== false || strpos($path, 'index.json') !== false || strpos($path, 'server-card.json') !== false) {
+                header('Content-Type: application/json; charset=utf-8');
+            } elseif ($path === 'api-catalog') {
+                header('Content-Type: application/linkset+json; charset=utf-8');
+            } else {
+                header('Content-Type: application/json; charset=utf-8');
+            }
+            header('Access-Control-Allow-Origin: *');
+            readfile($file_path);
+            exit;
+        }
+    }
+}
+add_action('init', 'abc_tech_handle_well_known_requests', 0);

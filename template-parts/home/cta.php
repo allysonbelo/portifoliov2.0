@@ -1,26 +1,26 @@
 <?php
 /**
  * Template Part: Call to Action (CTA) Section
- * Padrões aplicados: Late Escaping (Security), i18n (Tradução) e ACF Free.
+ * Padrões aplicados: Late Escaping (Security), i18n e ACF Link Array handling.
  */
 
-// Resgate dos Campos ACF com fallbacks traduzíveis
 $cta_title    = get_field('cta_title') ?: __('Pronto para otimizar sua presença digital?', 'abc-tech');
 $cta_desc     = get_field('cta_description') ?: __('Se você busca uma arquitetura WordPress robusta que passe nas métricas mais rígidas do Google, precisamos conversar.', 'abc-tech');
 
 $cta_btn_text = get_field('cta_btn_text') ?: __('Vamos Conversar', 'abc-tech');
-$cta_btn_link = get_field('cta_btn_link') ?: 'mailto:contato@allysonbelo.com';
+
+// CTA Botão: Extração de Array do campo Link
+$cta_btn_field = get_field('cta_btn_link');
+$cta_btn_url   = is_array($cta_btn_field) ? $cta_btn_field['url'] : ($cta_btn_field ?: 'mailto:contato@allysonbelo.com');
+$cta_btn_target= is_array($cta_btn_field) && $cta_btn_field['target'] ? $cta_btn_field['target'] : '_self';
 ?>
 
 <section id="contato" class="cta-section editable-section">
-    
     <?php 
-    // Ícone de Edição Contextual
     if (function_exists('abc_tech_edit_section_icon')) {
         abc_tech_edit_section_icon('group_cta_section'); 
     }
     ?>
-
     <div class="container cta-inner reveal-element">
         
         <div class="cta-icon">
@@ -39,7 +39,7 @@ $cta_btn_link = get_field('cta_btn_link') ?: 'mailto:contato@allysonbelo.com';
             <?php echo esc_html( $cta_desc ); ?>
         </p>
 
-        <a href="<?php echo esc_url( $cta_btn_link ); ?>" class="btn btn-primary">
+        <a href="<?php echo esc_url( $cta_btn_url ); ?>" target="<?php echo esc_attr( $cta_btn_target ); ?>" class="btn btn-primary">
             <?php echo esc_html( $cta_btn_text ); ?>
         </a>
 

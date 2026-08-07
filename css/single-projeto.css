@@ -5,7 +5,11 @@
 /* 1. HERO SECTION (Forçando o espaçamento do Header) */
 main.project-single .project-hero {
     /* O padding-top agressivo de 180px garante que descole do header fixo */
-    padding-top: clamp(160px, 15vw, 200px); 
+    padding-top: clamp(60px, 15vw, 120px);
+    padding-bottom: clamp(60px, 8vw, 100px);
+}
+
+.project-editorial{
     padding-bottom: clamp(60px, 8vw, 100px);
 }
 
@@ -19,7 +23,8 @@ main.project-single .hero-grid {
 /* Força 50/50 no Desktop */
 @media (min-width: 1024px) {
     main.project-single .hero-grid {
-        grid-template-columns: 1fr 1fr; 
+        grid-template-columns: 1.3fr 1fr;
+        align-items: flex-start;
     }
 }
 
@@ -107,27 +112,46 @@ main.project-single .window-header-mini {
     border-bottom: 1px solid var(--border-glass);
 }
 
-main.project-single .mac-dots { display: flex; gap: 6px; }
-main.project-single .mac-dots .dot { width: 10px; height: 10px; border-radius: 50%; }
-main.project-single .dot-red { background-color: #FF5F56; }
-main.project-single .dot-yellow { background-color: #FFBD2E; }
-main.project-single .dot-green { background-color: #27C93F; }
-main.project-single .featured-project-img { width: 100%; height: auto; display: block; }
+main.project-single .mac-dots {
+    display: flex;
+    gap: 6px;
+}
+
+main.project-single .mac-dots .dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+}
+
+main.project-single .dot-red {
+    background-color: #FF5F56;
+}
+
+main.project-single .dot-yellow {
+    background-color: #FFBD2E;
+}
+
+main.project-single .dot-green {
+    background-color: #27C93F;
+}
+
+main.project-single .featured-project-img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
 
 /* =========================================
    2. EDITORIAL BODY (O Card de Leitura)
    ========================================= */
-main.project-single .project-editorial {
-    padding: clamp(2rem, 5vw, 6rem) 20px;
-}
 
 main.project-single .editorial-content {
-    max-width: 840px !important; 
-    margin: 0 auto !important; 
+    max-width: 1120px !important;
+    margin: 0 auto !important;
     background-color: var(--bg-surface);
     border: 1px solid var(--border-glass);
     border-radius: var(--radius-card);
-    padding: clamp(32px, 6vw, 64px) !important;
+    padding: clamp(22px, 6vw, 64px) !important;
     box-shadow: 0 32px 64px rgba(0, 0, 0, 0.3);
 }
 
@@ -203,7 +227,7 @@ main.project-single .editorial-content .wp-block-rank-math-toc-block h2 {
 }
 
 /* Listas gerais e itens do TOC */
-main.project-single .editorial-content ul, 
+main.project-single .editorial-content ul,
 main.project-single .editorial-content ol {
     margin-bottom: 2.5em;
     padding-left: 1.5rem;
@@ -215,8 +239,10 @@ main.project-single .editorial-content .wp-block-rank-math-toc-block ul {
     padding-left: 0;
     margin-bottom: 0;
 }
+
 main.project-single .editorial-content .wp-block-rank-math-toc-block ul ul {
-    padding-left: 20px; /* Indentação de sub-itens */
+    padding-left: 20px;
+    /* Indentação de sub-itens */
     margin-top: 8px;
 }
 
@@ -233,6 +259,7 @@ main.project-single .editorial-content a {
     text-decoration: none;
     transition: opacity 0.3s ease;
 }
+
 main.project-single .editorial-content a:hover {
     opacity: 0.8;
 }
@@ -278,6 +305,7 @@ main.project-single .editorial-content .wp-block-button__link {
     font-family: var(--font-mono);
     font-size: 14px;
 }
+
 main.project-single .editorial-content .wp-block-button__link:hover {
     background-color: var(--color-secondary) !important;
     color: var(--bg-base) !important;
@@ -289,7 +317,8 @@ main.project-single .editorial-content .wp-block-button__link:hover {
 main.project-single .editorial-content .rank-math-faq-item {
     border-bottom: 1px solid var(--border-glass);
     padding: 24px 0;
-    overflow: hidden; /* Evita que o texto vaze durante a animação */
+    overflow: hidden;
+    /* Evita que o texto vaze durante a animação */
 }
 
 main.project-single .editorial-content .rank-math-faq-item:last-child {
@@ -303,7 +332,8 @@ main.project-single .editorial-content .rank-math-question {
     color: var(--text-main);
     margin: 0;
     font-weight: 600;
-    cursor: pointer; /* Mostra a mãozinha de clique */
+    cursor: pointer;
+    /* Mostra a mãozinha de clique */
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -328,11 +358,12 @@ main.project-single .editorial-content .rank-math-answer {
     color: var(--text-muted);
     font-size: 1.05rem;
     line-height: 1.6;
-    
+
     /* Configuração base para a animação JS */
     max-height: 0;
     opacity: 0;
-    overflow: hidden; /* Obriga o texto a ficar contido */
+    overflow: hidden;
+    /* Obriga o texto a ficar contido */
     margin-top: 0;
     transition: max-height 0.4s ease-in-out, opacity 0.4s ease-in-out, margin-top 0.4s ease-in-out;
 }
@@ -351,18 +382,19 @@ main.project-single .editorial-content .rank-math-faq-item.is-open .rank-math-qu
 
 /* Expande a resposta suavemente */
 main.project-single .editorial-content .rank-math-faq-item.is-open .rank-math-answer {
-    max-height: 800px; /* Um valor seguro que caiba o texto */
+    max-height: 800px;
+    /* Um valor seguro que caiba o texto */
     opacity: 1;
     margin-top: 16px;
     transition: max-height 0.6s ease-in, opacity 0.5s ease-in 0.1s, margin-top 0.3s ease;
 }
 
 /* =========================================
-   3. TECH STACK SECTION
+   3. TECH STACK SECTION (Layout Moderno e Compacto)
    ========================================= */
 main.project-single .project-tech-stack {
-    margin-top: clamp(4rem, 8vw, 8rem);
     padding-top: clamp(4rem, 8vw, 6rem);
+    padding-bottom: clamp(4rem, 8vw, 6rem);
     border-top: 1px solid var(--border-glass);
 }
 
@@ -380,16 +412,72 @@ main.project-single .section-title {
 
 main.project-single .tech-grid {
     display: grid;
-    grid-template-columns: 1fr;
-    gap: 24px;
+    /* Grid fluido: Cria colunas automaticamente baseadas no tamanho do ecrã */
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 16px;
+}
+
+/* O novo Card Horizontal */
+main.project-single .stack-card {
+    background-color: var(--bg-surface);
+    border: 1px solid var(--border-glass);
+    border-radius: var(--radius-soft);
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+main.project-single .stack-card:hover {
+    transform: translateY(-3px);
+    border-color: #00ffb291;
+    /* Mantendo a identidade visual do verde SEO */
+    box-shadow: 0 8px 24px rgba(0, 255, 178, 0.05);
+}
+
+/* Ícone alinhado à esquerda */
+main.project-single .stack-icon {
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0) 100%);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--border-glass);
+    flex-shrink: 0;
+    /* Impede o ícone de encolher */
+}
+
+/* Ajusta o tamanho do símbolo </> */
+main.project-single .stack-icon span {
+    font-size: 16px !important;
+    color: var(--color-seo-green) !important;
+    font-weight: 700;
+}
+
+/* O Texto da Tecnologia */
+main.project-single .stack-name {
+    font-family: var(--font-mono);
+    font-size: 15px;
+    color: var(--text-main);
+    margin: 0;
+    /* Remove a margem antiga que empurrava para baixo */
+    line-height: 1.2;
+    letter-spacing: 0.5px;
 }
 
 @media (min-width: 768px) {
-    main.project-single .tech-grid { grid-template-columns: repeat(2, 1fr); }
+    main.project-single .tech-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
 }
 
 @media (min-width: 1024px) {
-    main.project-single .tech-grid { grid-template-columns: repeat(4, 1fr); }
+    main.project-single .tech-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
 }
 
 main.project-single .stack-card {
@@ -407,7 +495,6 @@ main.project-single .stack-icon {
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 24px;
     border: 1px solid var(--border-glass);
 }
 
@@ -415,7 +502,6 @@ main.project-single .stack-name {
     font-family: var(--font-mono);
     font-size: 16px;
     color: var(--text-main);
-    margin-bottom: 8px;
 }
 
 main.project-single .stack-desc {
@@ -466,7 +552,8 @@ main.project-single .editorial-content .icon-skill-project img {
 }
 
 main.project-single .editorial-content .wp-block-cover__background {
-    display: none !important; /* Remove o fundo nativo do WordPress no cover */
+    display: none !important;
+    /* Remove o fundo nativo do WordPress no cover */
 }
 
 main.project-single .editorial-content .wp-block-cover p {
@@ -505,7 +592,8 @@ main.project-single .editorial-content .wp-block-group.is-layout-flex[style*="fo
 /* Força o flex-nowrap do WP a virar um CSS Grid responsivo */
 main.project-single .editorial-content .wp-block-group.is-nowrap.is-layout-flex {
     display: grid !important;
-    grid-template-columns: repeat(2, 1fr); /* 2 colunas no mobile */
+    grid-template-columns: repeat(2, 1fr);
+    /* 2 colunas no mobile */
     gap: 24px;
     flex-wrap: wrap;
     margin: 3em 0;
@@ -513,38 +601,41 @@ main.project-single .editorial-content .wp-block-group.is-nowrap.is-layout-flex 
 
 @media (min-width: 768px) {
     main.project-single .editorial-content .wp-block-group.is-nowrap.is-layout-flex {
-        grid-template-columns: repeat(4, 1fr); /* 4 colunas no Desktop */
+        grid-template-columns: repeat(4, 1fr);
+        /* 4 colunas no Desktop */
     }
 }
 
 /* Transforma as colunas internas em Cards Elevados */
-main.project-single .editorial-content .wp-block-group.is-nowrap > .wp-block-group {
+main.project-single .editorial-content .wp-block-group.is-nowrap>.wp-block-group {
     background: var(--bg-surface) !important;
     border: 1px solid var(--border-glass) !important;
     border-radius: var(--radius-card) !important;
     padding: 32px 16px !important;
-    box-shadow: 0 16px 32px rgba(0,0,0,0.2);
+    box-shadow: 0 16px 32px rgba(0, 0, 0, 0.2);
     transition: transform 0.3s ease, border-color 0.3s ease;
     align-items: center;
 }
 
-main.project-single .editorial-content .wp-block-group.is-nowrap > .wp-block-group:hover {
+main.project-single .editorial-content .wp-block-group.is-nowrap>.wp-block-group:hover {
     transform: translateY(-4px);
-    border-color: var(--color-seo-green) !important; /* Brilha verde no hover */
+    border-color: var(--color-seo-green) !important;
+    /* Brilha verde no hover */
 }
 
 /* Os números (ex: 96, 100) */
-main.project-single .editorial-content .wp-block-group.is-nowrap > .wp-block-group p:first-child {
+main.project-single .editorial-content .wp-block-group.is-nowrap>.wp-block-group p:first-child {
     font-family: var(--font-mono);
     font-size: clamp(2.5rem, 4vw, 3rem) !important;
     font-weight: 700 !important;
     margin-bottom: 8px !important;
-    color: var(--color-seo-green) !important; /* Força verde SEO ao invés do azul do WP */
+    color: var(--color-seo-green) !important;
+    /* Força verde SEO ao invés do azul do WP */
     line-height: 1;
 }
 
 /* Os rótulos (ex: Performance, SEO) */
-main.project-single .editorial-content .wp-block-group.is-nowrap > .wp-block-group p:last-child {
+main.project-single .editorial-content .wp-block-group.is-nowrap>.wp-block-group p:last-child {
     font-family: var(--font-body);
     font-size: 0.85rem !important;
     color: var(--text-muted) !important;

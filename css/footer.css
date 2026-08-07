@@ -32,6 +32,29 @@
     letter-spacing: -0.02em;
 }
 
+.footer-logo-link {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+}
+
+.footer-logo {
+    height: auto;
+    max-height: 38px;
+    width: auto;
+    object-fit: contain;
+    background: transparent !important;
+    border-radius: 0 !important;
+    padding: 0 !important;
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), filter 0.3s ease;
+}
+
+.footer-logo-link:hover .footer-logo {
+    transform: scale(1.04);
+    filter: drop-shadow(0 0 8px rgba(251, 146, 60, 0.4));
+}
+
 .footer-copyright {
     color: var(--color-primary); /* Laranja #E3872D conforme o design */
     font-family: var(--font-body);
@@ -40,7 +63,17 @@
 }
 
 /* Navegação Social */
-.footer-social ul {
+.footer-social ul,
+.footer-social ol,
+.footer-social li,
+.footer-navigation ul,
+.footer-navigation li {
+    list-style: none !important;
+    list-style-type: none !important;
+}
+
+.footer-social ul,
+.footer-navigation ul {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
@@ -49,7 +82,22 @@
     margin: 0;
 }
 
-.footer-social a {
+.footer-social li,
+.footer-navigation li {
+    padding: 0;
+    margin: 0;
+}
+
+.footer-social li::before,
+.footer-social li::after,
+.footer-navigation li::before,
+.footer-navigation li::after {
+    content: none !important;
+    display: none !important;
+}
+
+.footer-social a,
+.footer-navigation a {
     font-family: var(--font-mono); /* Tipografia técnica: JetBrains Mono */
     font-size: 14px;
     color: var(--text-muted); /* Cor cinza sutil do design */
@@ -59,7 +107,9 @@
 }
 
 .footer-social a:hover,
-.footer-social a:focus {
+.footer-social a:focus,
+.footer-navigation a:hover,
+.footer-navigation a:focus {
     color: var(--color-secondary); /* Efeito neon blue ao passar o mouse */
     outline: none;
 }
@@ -87,4 +137,45 @@
         justify-content: flex-end;
         gap: 32px;
     }
+}
+
+/* =========================================
+   BOTÃO VOLTAR AO TOPO (Back to Top)
+   ========================================= */
+.back-to-top-btn {
+    position: fixed;
+    bottom: 28px;
+    right: 28px;
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: rgba(10, 15, 26, 0.85);
+    border: 1px solid rgba(56, 189, 248, 0.3);
+    color: #38bdf8;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 999;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(20px);
+    transition: all 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+}
+
+.back-to-top-btn.is-visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.back-to-top-btn:hover {
+    background: var(--color-primary, #ea580c);
+    color: #ffffff;
+    border-color: #ea580c;
+    transform: translateY(-4px);
+    box-shadow: 0 0 20px rgba(234, 88, 12, 0.5);
 }

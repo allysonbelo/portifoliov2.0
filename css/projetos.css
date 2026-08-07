@@ -12,10 +12,32 @@
 }
 
 .projects-hero .page-description {
-    max-width: 600px;
+    max-width: 920px;
     margin: 0 auto;
-    font-size: clamp(1rem, 1.5vw, 1.125rem);
-    color: var(--text-muted);
+    font-size: clamp(0.95rem, 1.2vw, 1.05rem);
+    line-height: 1.8;
+    color: #cbd5e1;
+    text-align: center;
+    background: rgba(15, 23, 42, 0.4);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: var(--radius-card, 16px);
+    padding: 24px 32px;
+    box-shadow: 0 16px 32px rgba(0, 0, 0, 0.2);
+}
+
+.projects-hero .page-description p {
+    margin-bottom: 1rem;
+}
+
+.projects-hero .page-description p:last-child {
+    margin-bottom: 0;
+}
+
+.projects-hero .page-description strong {
+    color: var(--color-white, #ffffff);
+    font-weight: 600;
 }
 
 .projects-showcase {

@@ -12,13 +12,22 @@ get_header();
 // =========================================================================
 
 // Hero
-// Hero
-$hero_prompt  = get_field('about_prompt') ?: __('// SYSTEM.OUT.PRINTLN("HELLO, WORLD");', 'abc-tech'); // <-- Adicionado aqui
-$hero_title_1 = get_field('about_title_1') ?: __('Arquitetando a Web', 'abc-tech');
+$hero_prompt  = get_field('about_prompt') ?: __('// SYSTEM.OUT.PRINTLN("HELLO, WORLD");', 'abc-tech');
 $hero_title_1 = get_field('about_title_1') ?: __('Arquitetando a Web', 'abc-tech');
 $hero_title_2 = get_field('about_title_2') ?: __('Linha por Linha.', 'abc-tech');
 $hero_bio     = get_field('about_bio') ?: __('<p>Sou Allyson Belo, um desenvolvedor movido pela busca incessante pela performance e precisão. Minha trajetória na tecnologia começou não apenas com o desejo de criar interfaces bonitas, mas com a obsessão de entender como a web funciona em sua essência.</p><p>Acredito que o verdadeiro design reside na fundação de um código limpo, semântico e altamente otimizado. Como arquiteto focado em WordPress e SEO Técnico, transformo problemas complexos em soluções elegantes, garantindo que cada projeto não apenas brilhe visualmente, mas domine os motores de busca.</p><p>Quando não estou auditando Core Web Vitals ou estruturando ecossistemas complexos de dados, estou explorando novas fronteiras no desenvolvimento Front-End, sempre buscando a interseção perfeita entre forma e função.</p>', 'abc-tech');
-$hero_cv_url  = get_field('about_cv_file') ?: '#';
+
+// Tratamento flexível para o campo de Download do CV (File Array, ID ou URL String)
+$cv_field    = get_field('about_cv_file');
+$hero_cv_url = '#';
+if (is_array($cv_field) && isset($cv_field['url'])) {
+    $hero_cv_url = $cv_field['url'];
+} elseif (is_numeric($cv_field)) {
+    $hero_cv_url = wp_get_attachment_url($cv_field);
+} elseif (is_string($cv_field) && !empty($cv_field)) {
+    $hero_cv_url = $cv_field;
+}
+
 $hero_image   = get_field('about_image');
 $status_label = get_field('about_status_label') ?: __('STATUS', 'abc-tech');
 $status_value = get_field('about_status_value') ?: __('Otimização Extrema', 'abc-tech');
@@ -31,7 +40,7 @@ $metrics_title = get_field('about_metrics_title') ?: __('Métricas Operacionais'
 
 ?>
 
-<main id="primary" class="site-main page-about">
+<div class="page-about">
 
     <!-- ========================================================== -->
     <!-- 1. HERO SECTION -->
@@ -59,7 +68,11 @@ $metrics_title = get_field('about_metrics_title') ?: __('Métricas Operacionais'
                 </h1>
 
                 <div class="about-bio">
-                    <?php echo wp_kses_post(wpautop($hero_bio)); ?>
+                    <?php if (get_the_content()) : ?>
+                        <?php the_content(); ?>
+                    <?php else : ?>
+                        <?php echo wp_kses_post(wpautop($hero_bio)); ?>
+                    <?php endif; ?>
                 </div>
 
                 <a href="<?php echo esc_url($hero_cv_url); ?>" class="btn-download-cv" target="_blank" rel="noopener noreferrer">
@@ -255,6 +268,6 @@ $metrics_title = get_field('about_metrics_title') ?: __('Métricas Operacionais'
         </div>
     </section>
 
-</main>
+</div>
 
 <?php get_footer(); ?>

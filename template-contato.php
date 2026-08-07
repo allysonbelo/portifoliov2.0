@@ -35,7 +35,7 @@ $github_text    = get_field('contact_github_text') ?: 'github.com/allysonbelo';
 $github_url     = get_field('contact_github_url') ?: 'https://github.com/allysonbelo';
 ?>
 
-<main id="primary" class="site-main page-contact">
+<div class="page-contact">
 
     <section class="contact-section editable-section">
 
@@ -54,9 +54,15 @@ $github_url     = get_field('contact_github_url') ?: 'https://github.com/allyson
                         <?php echo esc_html($contact_badge); ?>
                     </span>
                     <h1 class="contact-title"><?php echo esc_html($contact_title); ?></h1>
-                    <p class="contact-description">
-                        <?php echo esc_html($contact_desc); ?>
-                    </p>
+                    <?php if (get_the_content()) : ?>
+                        <div class="contact-description">
+                            <?php the_content(); ?>
+                        </div>
+                    <?php else : ?>
+                        <p class="contact-description">
+                            <?php echo esc_html($contact_desc); ?>
+                        </p>
+                    <?php endif; ?>
                 </div>
 
                 <div class="cf7-terminal-wrapper">
@@ -138,6 +144,6 @@ $github_url     = get_field('contact_github_url') ?: 'https://github.com/allyson
 
         </div>
     </section>
-</main>
+</div>
 
 <?php get_footer(); ?>

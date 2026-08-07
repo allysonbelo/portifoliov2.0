@@ -34,6 +34,29 @@
     text-transform: uppercase;
 }
 
+.site-logo-link, .custom-logo-link {
+    display: inline-flex;
+    align-items: center;
+    text-decoration: none;
+}
+
+.site-logo, .custom-logo-link img {
+    height: auto;
+    max-height: 44px;
+    width: auto;
+    object-fit: contain;
+    background: transparent !important;
+    border-radius: 0 !important;
+    padding: 0 !important;
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), filter 0.3s ease;
+}
+
+.site-logo-link:hover .site-logo,
+.custom-logo-link:hover img {
+    transform: scale(1.04);
+    filter: drop-shadow(0 0 10px rgba(56, 189, 248, 0.4));
+}
+
 /* =========================================
    BOTÃO CTA (Vamos Conversar) - Com Animação
    ========================================= */
@@ -229,6 +252,11 @@
    DESKTOP (A partir de 1024px)
    ========================================= */
 @media (min-width: 1024px) {
+
+    .pll-parent-menu-item .sub-menu {
+        gap: 10px !important;
+    }
+
     .menu-toggle {
         display: none;
     }

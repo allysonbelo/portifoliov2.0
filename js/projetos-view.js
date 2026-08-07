@@ -36,7 +36,48 @@ document.addEventListener('DOMContentLoaded', () => {
     // 3. Aplica a visualização inicial assim que a página carrega
     setView(savedView);
 
-    // 4. Aguarda o clique do usuário para alternar
+    // 4. Aguarda o clique do usuário para alternar a visualização
     btnList.addEventListener('click', () => setView('list'));
     btnGrid.addEventListener('click', () => setView('grid'));
+
+    // 5. Filtro Dinâmico de Projetos por Tecnologia
+    const filterBtns = document.querySelectorAll('.tech-filter-btn');
+    const projectCards = document.querySelectorAll('.project-card');
+
+    if (filterBtns.length && projectCards.length) {
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const filter = btn.getAttribute('data-filter').toLowerCase();
+
+                // Atualiza classe ativa dos botões
+                filterBtns.forEach(b => {
+                    b.classList.remove('is-active');
+                    b.style.background = 'rgba(255,255,255,0.05)';
+                    b.style.borderColor = 'rgba(255,255,255,0.1)';
+                });
+                btn.classList.add('is-active');
+                btn.style.background = 'var(--color-blue, #0073aa)';
+                btn.style.borderColor = 'var(--color-blue, #0073aa)';
+
+                // Filtra os cards
+                projectCards.forEach(card => {
+                    const techData = (card.getAttribute('data-tech') || '').toLowerCase();
+
+                    if (filter === 'all' || techData.includes(filter)) {
+                        card.style.display = '';
+                        card.style.opacity = '1';
+                        card.style.transform = 'scale(1)';
+                    } else {
+                        card.style.opacity = '0';
+                        card.style.transform = 'scale(0.95)';
+                        setTimeout(() => {
+                            if (!btn.classList.contains('is-active') || filter !== 'all' && !techData.includes(filter)) {
+                                card.style.display = 'none';
+                            }
+                        }, 200);
+                    }
+                });
+            });
+        });
+    }
 });

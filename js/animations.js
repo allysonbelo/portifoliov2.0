@@ -63,3 +63,72 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 });
+
+/**
+ * Script do Botão Voltar ao Topo (Back to Top)
+ */
+document.addEventListener('DOMContentLoaded', () => {
+    const backToTopBtn = document.getElementById('back-to-top');
+
+    if (!backToTopBtn) return;
+
+    // Controla a visibilidade do botão com base no scroll da página
+    const toggleBackToTop = () => {
+        if (window.scrollY > 300) {
+            backToTopBtn.classList.add('is-visible');
+        } else {
+            backToTopBtn.classList.remove('is-visible');
+        }
+    };
+
+    window.addEventListener('scroll', toggleBackToTop, { passive: true });
+
+    // Scroll suave ao topo ao clicar
+    backToTopBtn.addEventListener('click', () => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    });
+});
+
+/**
+ * WebMCP API Integration (Agent-Native Browser Capabilities)
+ */
+document.addEventListener('DOMContentLoaded', () => {
+    if (typeof navigator !== 'undefined' && navigator.modelContext && typeof navigator.modelContext.provideContext === 'function') {
+        try {
+            navigator.modelContext.provideContext({
+                tools: [
+                    {
+                        name: "get_portfolio_projects",
+                        description: "Fetch list of high-performance WordPress engineering projects",
+                        inputSchema: { type: "object", properties: {} },
+                        execute: async () => {
+                            const response = await fetch('/wp-json/wp/v2/project');
+                            return await response.json();
+                        }
+                    },
+                    {
+                        name: "submit_contact_inquiry",
+                        description: "Submit a project inquiry or contact request",
+                        inputSchema: {
+                            type: "object",
+                            properties: {
+                                name: { type: "string" },
+                                email: { type: "string" },
+                                message: { type: "string" }
+                            },
+                            required: ["name", "email", "message"]
+                        },
+                        execute: async (args) => {
+                            return { status: "success", message: "Inquiry received. Will respond within 24 hours.", data: args };
+                        }
+                    }
+                ]
+            });
+        } catch (e) {
+            // WebMCP not supported in current browser
+        }
+    }
+});

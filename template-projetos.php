@@ -8,12 +8,12 @@
 get_header(); 
 
 // Resgate dos Campos da Página (Hero) com fallbacks traduzíveis
-$hero_title_1 = get_field('portfolio_title_1') ?: __('Portfólio de', 'abc-tech');
-$hero_title_2 = get_field('portfolio_title_2') ?: __('Projetos', 'abc-tech');
-$hero_desc    = get_field('portfolio_description') ?: __('Uma seleção de projetos de alta performance, focados em arquitetura WordPress, otimização técnica de SEO e interfaces conversivas.', 'abc-tech');
+$hero_title_1 = get_field('portfolio_title_1') ?: abc_tech_tr('Portfólio de');
+$hero_title_2 = get_field('portfolio_title_2') ?: abc_tech_tr('Projetos');
+$hero_desc    = get_field('portfolio_description') ?: abc_tech_tr('Uma seleção de projetos de alta performance, focados em arquitetura WordPress, otimização técnica de SEO e interfaces conversivas.');
 ?>
 
-<main id="primary" class="site-main">
+<div class="page-portfolio">
     
     <section class="projects-hero editable-section reveal-element">
         <?php 
@@ -23,23 +23,51 @@ $hero_desc    = get_field('portfolio_description') ?: __('Uma seleção de proje
         }
         ?>
         <div class="container">
+            <div class="portfolio-badge reveal-element" style="display: inline-flex; align-items: center; gap: 8px; background: rgba(0, 209, 255, 0.08); border: 1px solid rgba(0, 209, 255, 0.2); color: var(--color-secondary, #00d1ff); padding: 6px 14px; border-radius: 20px; font-family: var(--font-mono); font-size: 0.8rem; margin-bottom: 16px;">
+                <span style="width: 6px; height: 6px; border-radius: 50%; background: var(--color-secondary, #00d1ff); box-shadow: 0 0 8px var(--color-secondary, #00d1ff);"></span>
+                <span>// PORTFOLIO.SHOWCASE</span>
+            </div>
             <h1 class="page-title">
                 <?php echo esc_html($hero_title_1); ?>
                 <span class="text-blue"><?php echo esc_html($hero_title_2); ?></span>
             </h1>
-            <p class="page-description">
-                <?php echo esc_html($hero_desc); ?>
-            </p>
+            <?php if (get_the_content()) : ?>
+                <div class="page-description">
+                    <?php the_content(); ?>
+                </div>
+            <?php else : ?>
+                <p class="page-description">
+                    <?php echo esc_html($hero_desc); ?>
+                </p>
+            <?php endif; ?>
         </div>
     </section>
 
     <section class="projects-showcase">
         <div class="container">
 
-            <div class="projects-controls reveal-element">
-                <span class="view-label"><?php esc_html_e('Visualização:', 'abc-tech'); ?></span>
-                <div class="view-toggle-group">
-                    <button id="view-list" class="view-btn is-active" aria-label="<?php esc_attr_e('Ver em Lista', 'abc-tech'); ?>">
+            <div class="projects-controls reveal-element" style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1rem; margin-bottom: 2rem;">
+                <div class="tech-filter-group" style="display: flex; flex-wrap: wrap; gap: 8px;">
+                    <button class="tech-filter-btn is-active" data-filter="all" style="background: rgba(255,255,255,0.05); color: var(--color-white, #fff); border: 1px solid rgba(255,255,255,0.1); padding: 6px 14px; border-radius: 20px; font-size: 0.85rem; cursor: pointer; transition: all 0.3s ease;">
+                        <?php echo esc_html(abc_tech_tr('Todos')); ?>
+                    </button>
+                    <button class="tech-filter-btn" data-filter="wordpress" style="background: rgba(255,255,255,0.05); color: var(--color-white, #fff); border: 1px solid rgba(255,255,255,0.1); padding: 6px 14px; border-radius: 20px; font-size: 0.85rem; cursor: pointer; transition: all 0.3s ease;">
+                        <?php echo esc_html(abc_tech_tr('WordPress')); ?>
+                    </button>
+                    <button class="tech-filter-btn" data-filter="php" style="background: rgba(255,255,255,0.05); color: var(--color-white, #fff); border: 1px solid rgba(255,255,255,0.1); padding: 6px 14px; border-radius: 20px; font-size: 0.85rem; cursor: pointer; transition: all 0.3s ease;">
+                        <?php echo esc_html(abc_tech_tr('PHP')); ?>
+                    </button>
+                    <button class="tech-filter-btn" data-filter="javascript" style="background: rgba(255,255,255,0.05); color: var(--color-white, #fff); border: 1px solid rgba(255,255,255,0.1); padding: 6px 14px; border-radius: 20px; font-size: 0.85rem; cursor: pointer; transition: all 0.3s ease;">
+                        <?php echo esc_html(abc_tech_tr('JavaScript / React')); ?>
+                    </button>
+                    <button class="tech-filter-btn" data-filter="seo" style="background: rgba(255,255,255,0.05); color: var(--color-white, #fff); border: 1px solid rgba(255,255,255,0.1); padding: 6px 14px; border-radius: 20px; font-size: 0.85rem; cursor: pointer; transition: all 0.3s ease;">
+                        <?php echo esc_html(abc_tech_tr('SEO Técnico')); ?>
+                    </button>
+                </div>
+
+                <div class="view-toggle-group" style="display: flex; align-items: center; gap: 8px;">
+                    <span class="view-label" style="font-size: 0.85rem; color: #888; margin-right: 4px;"><?php echo esc_html(abc_tech_tr('Visualização:')); ?></span>
+                    <button id="view-list" class="view-btn is-active" aria-label="<?php echo esc_attr(abc_tech_tr('Ver em Lista')); ?>">
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <line x1="8" y1="6" x2="21" y2="6"></line>
                             <line x1="8" y1="12" x2="21" y2="12"></line>
@@ -49,7 +77,7 @@ $hero_desc    = get_field('portfolio_description') ?: __('Uma seleção de proje
                             <line x1="3" y1="18" x2="3.01" y2="18"></line>
                         </svg>
                     </button>
-                    <button id="view-grid" class="view-btn" aria-label="<?php esc_attr_e('Ver em Grid', 'abc-tech'); ?>">
+                    <button id="view-grid" class="view-btn" aria-label="<?php echo esc_attr(abc_tech_tr('Ver em Grid')); ?>">
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <rect x="3" y="3" width="7" height="7"></rect>
                             <rect x="14" y="3" width="7" height="7"></rect>
@@ -79,14 +107,24 @@ $hero_desc    = get_field('portfolio_description') ?: __('Uma seleção de proje
                         
                         // Custom Fields do CPT "project"
                         $is_live          = get_field('project_is_live');
-                        $tech_stack       = get_field('project_tech_stack');
+                        $tech_stack       = get_field('project_tech_stack') ?: '';
                         $project_role     = get_field('project_role') ?: __('Custom Theme Developer', 'abc-tech'); 
                         $highlights_raw   = get_field('project_highlights') ?: __('PageSpeed 100/100, LCP < 1.2s, SEO Técnico', 'abc-tech');
+
+                        // Obtém os nomes das taxonomias associadas ao post se existirem
+                        $terms = get_the_terms(get_the_ID(), 'tech_stack');
+                        $tax_names = array();
+                        if ($terms && !is_wp_error($terms)) {
+                            foreach ($terms as $t) {
+                                $tax_names[] = strtolower($t->slug);
+                            }
+                        }
+                        $all_tech_search = strtolower($tech_stack . ' ' . implode(' ', $tax_names) . ' ' . $project_role . ' ' . $highlights_raw);
 
                         $delay = ($count > 0) ? 'style="transition-delay: 0.' . ($count % 4) . 's;"' : '';
                 ?>
 
-                        <article class="project-card reveal-element" <?php echo $delay; ?>>
+                        <article class="project-card reveal-element" data-tech="<?php echo esc_attr($all_tech_search); ?>" <?php echo $delay; ?>>
                             <a href="<?php echo esc_url(get_permalink()); ?>" class="project-link">
 
                                 <div class="project-image-wrapper">
@@ -112,7 +150,7 @@ $hero_desc    = get_field('portfolio_description') ?: __('Uma seleção de proje
 
                                         <div class="project-meta-top">
                                             <?php if ($is_live) : ?>
-                                                <span class="live-indicator"><span class="dot"></span><?php esc_html_e('Live', 'abc-tech'); ?></span>
+                                                <span class="live-indicator"><span class="dot"></span><?php echo esc_html(abc_tech_tr('Live')); ?></span>
                                             <?php endif; ?>
                                             <span class="project-year"><?php echo esc_html(get_the_date('Y')); ?></span>
                                         </div>
@@ -129,12 +167,12 @@ $hero_desc    = get_field('portfolio_description') ?: __('Uma seleção de proje
                                         <div class="project-specs">
 
                                             <div class="spec-item">
-                                                <span class="spec-label"><?php esc_html_e('Role', 'abc-tech'); ?></span>
+                                                <span class="spec-label"><?php echo esc_html(abc_tech_tr('Role')); ?></span>
                                                 <span class="spec-value token-keyword"><?php echo esc_html($project_role); ?></span>
                                             </div>
 
                                             <div class="spec-item">
-                                                <span class="spec-label"><?php esc_html_e('Highlights', 'abc-tech'); ?></span>
+                                                <span class="spec-label"><?php echo esc_html(abc_tech_tr('Highlights')); ?></span>
                                                 <?php
                                                 // Transforma a string em um array limpo e codifica em JSON para o JavaScript ler
                                                 $highlights_array = array_map('trim', explode(',', $highlights_raw));
@@ -162,7 +200,7 @@ $hero_desc    = get_field('portfolio_description') ?: __('Uma seleção de proje
                                             <?php endif; ?>
 
                                             <span class="btn-view-case">
-                                                <?php esc_html_e('Ver Case', 'abc-tech'); ?>
+                                                <?php echo esc_html(abc_tech_tr('Ver Case')); ?>
                                                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                                     <line x1="5" y1="12" x2="19" y2="12"></line>
                                                     <polyline points="12 5 19 12 12 19"></polyline>
@@ -180,12 +218,12 @@ $hero_desc    = get_field('portfolio_description') ?: __('Uma seleção de proje
                     endwhile;
                     wp_reset_postdata();
                 else : ?>
-                    <p class="text-white"><?php esc_html_e('Nenhum projeto encontrado.', 'abc-tech'); ?></p>
+                    <p class="text-white"><?php echo esc_html(abc_tech_tr('Nenhum projeto encontrado.')); ?></p>
                 <?php endif; ?>
 
             </div>
         </div>
     </section>
-</main>
+</div>
 
 <?php get_footer(); ?>

@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+  <defs>
+    <!-- Gradient Blue -->
+    <linearGradient id="fav-blue" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38bdf8" />
+      <stop offset="100%" stop-color="#0284c7" />
+    </linearGradient>
+    <!-- Gradient Orange -->
+    <linearGradient id="fav-orange" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fb923c" />
+      <stop offset="100%" stop-color="#ea580c" />
+    </linearGradient>
+  </defs>
+
+  <style>
+    /* Animação CSS nativa para a aba do navegador (Favicon Animado) */
+    .fav-slash {
+      animation: favSlashPulse 2.5s infinite ease-in-out;
+      transform-origin: 16px 16px;
+    }
+    @keyframes favSlashPulse {
+      0%, 100% { stroke: #fb923c; opacity: 1; }
+      50% { stroke: #00ffb2; opacity: 0.85; }
+    }
+
+    .fav-left {
+      animation: favLeftMove 3s infinite ease-in-out;
+    }
+    .fav-right {
+      animation: favRightMove 3s infinite ease-in-out;
+    }
+    @keyframes favLeftMove {
+      0%, 100% { transform: translateX(0px); }
+      50% { transform: translateX(-1px); }
+    }
+    @keyframes favRightMove {
+      0%, 100% { transform: translateX(0px); }
+      50% { transform: translateX(1px); }
+    }
+  </style>
+
+  <!-- Fundo escuro arredondado para alto contraste nas abas do navegador -->
+  <rect width="32" height="32" rx="7" fill="#0a0f1a" />
+
+  <!-- Símbolo de Código </> -->
+  <path class="fav-left" d="M 10 9 L 4 16 L 10 23" stroke="url(#fav-blue)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+  <path class="fav-slash" d="M 19 7 L 13 25" stroke="url(#fav-orange)" stroke-width="3" stroke-linecap="round" fill="none" />
+  <path class="fav-right" d="M 22 9 L 28 16 L 22 23" stroke="url(#fav-blue)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+</svg>

@@ -177,6 +177,9 @@
     font-family: var(--font-mono);
     font-size: 13px;
     color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 /* =========================================
@@ -215,6 +218,13 @@
     /* Coloca os itens de infra em 2 colunas dentro do próprio card */
     .infra-grid {
         grid-template-columns: 1fr 1fr;
+    }
+
+    .single-project .reveal-element.is-visible {
+
+        transition-delay: 0.2s;
+        position: sticky;
+        top: 90px;
     }
 }
 

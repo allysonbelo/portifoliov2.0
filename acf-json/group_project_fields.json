@@ -1,0 +1,141 @@
+{
+    "key": "group_project_fields",
+    "title": "Especificações Técnicas do Projeto",
+    "fields": [
+        {
+            "key": "field_proj_live",
+            "label": "Projeto está no ar? (Live)",
+            "name": "project_is_live",
+            "aria-label": "",
+            "type": "true_false",
+            "instructions": "",
+            "required": false,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "message": "Sim, exibir a tag verde 'Live'",
+            "default_value": 0,
+            "ui": 1,
+            "ui_on_text": "",
+            "ui_off_text": ""
+        },
+        {
+            "key": "field_proj_role",
+            "label": "A sua Função (Role)",
+            "name": "project_role",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "Ex: Custom Theme Developer, Lead WP Architect...",
+            "required": false,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_proj_highlights",
+            "label": "Destaques Técnicos (Highlights)",
+            "name": "project_highlights",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "Para o efeito de digitação. Separe por vírgulas. Ex: PageSpeed 100/100, LCP < 1.2s, SEO Técnico",
+            "required": false,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_proj_stack",
+            "label": "Tech Stack",
+            "name": "project_tech_stack",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "Separe as tecnologias por vírgula. Ex: PHP 8, ACF Pro, SCSS",
+            "required": false,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_proj_live_url",
+            "label": "Link Live Demo",
+            "name": "project_live_url",
+            "aria-label": "",
+            "type": "url",
+            "instructions": "URL para o projeto em produção. Deixe em branco para ocultar o botão.",
+            "required": false,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "placeholder": "https://"
+        },
+        {
+            "key": "field_proj_code_url",
+            "label": "Link View Code / GitHub",
+            "name": "project_code_url",
+            "aria-label": "",
+            "type": "url",
+            "instructions": "URL do repositório. Deixe em branco para ocultar o botão.",
+            "required": false,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "placeholder": "https://github.com/..."
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "post_type",
+                "operator": "==",
+                "value": "project"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "acf_after_title",
+    "style": "default",
+    "label_placement": "left",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": true,
+    "description": "",
+    "show_in_rest": 0,
+    "display_title": "",
+    "allow_ai_access": false,
+    "ai_description": ""
+}

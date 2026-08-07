@@ -9,3 +9,184 @@ Text Domain: abc-tech
 Domain Path: /languages
 */
 
+/* =========================================================================
+   POLYLANG: DROPDOWN DE BANDEIRAS SVG (CÓDIGO OTIMIZADO)
+   ========================================================================= */
+
+/* 1. Ocultar textos e decorações padrão do tema */
+.pll-parent-menu-item a span {
+    display: none !important;
+}
+
+.pll-parent-menu-item a::after,
+.pll-parent-menu-item a::before {
+    display: none !important;
+    content: none !important;
+}
+
+/* 2. Item Pai (A bandeira que fica sempre visível no menu) */
+.pll-parent-menu-item {
+    position: relative !important;
+    display: flex !important;
+    align-items: center !important;
+}
+
+.pll-parent-menu-item>a {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    border: none !important;
+    background: transparent !important;
+}
+
+/* 3. A Caixa do Dropdown (Sub-menu flutuante) */
+.pll-parent-menu-item .sub-menu {
+    position: absolute !important;
+    top: 100% !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    background-color: #0F172A !important;
+    min-width: 50px !important;
+    padding: 8px 0 !important;
+    margin: 10px 0 0 0 !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border-radius: 6px !important;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5) !important;
+    display: none !important;
+    flex-direction: column !important;
+    list-style: none !important;
+    z-index: 99999 !important;
+}
+
+/* Ponte Invisível para não perder o Hover */
+.pll-parent-menu-item .sub-menu::before {
+    content: '' !important;
+    position: absolute !important;
+    top: -15px !important;
+    left: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 15px !important;
+    background: transparent !important;
+}
+
+/* Revela o Dropdown quando o rato passa por cima */
+.pll-parent-menu-item:hover .sub-menu {
+    display: flex !important;
+}
+
+/* 4. Estrutura dos itens dentro do dropdown */
+.pll-parent-menu-item .sub-menu li {
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    display: block !important;
+}
+
+.pll-parent-menu-item .sub-menu li a {
+    display: flex !important;
+    justify-content: center !important;
+    padding: 8px 0 !important;
+    width: 100% !important;
+    border: none !important;
+    background: transparent !important;
+}
+
+.pll-parent-menu-item .sub-menu li a:hover {
+    background-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+/* =========================================================================
+   5. BANDEIRAS SVG DE ALTA RESOLUÇÃO E ESTILIZAÇÃO UNIFICADA
+   ========================================================================= */
+
+/* Substituição universal baseada no atributo ALT da imagem */
+.pll-parent-menu-item img[alt="Português"],
+.lang-item img[alt="Português"] {
+    content: url('https://flagcdn.com/br.svg') !important;
+}
+
+.pll-parent-menu-item img[alt="English"],
+.lang-item img[alt="English"] {
+    content: url('https://flagcdn.com/us.svg') !important;
+}
+
+.pll-parent-menu-item img[alt="Español"],
+.lang-item img[alt="Español"] {
+    content: url('https://flagcdn.com/es.svg') !important;
+}
+
+/* Estilo Base das Bandeiras (Tamanho e Proporção) */
+.pll-parent-menu-item img {
+    width: 24px !important;
+    height: 18px !important;
+    object-fit: cover !important;
+    border-radius: 3px !important;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2) !important;
+    display: inline-block !important;
+    margin: 0 !important;
+}
+
+/* Efeito nas bandeiras inativas (dentro da caixa suspensa) */
+.pll-parent-menu-item .sub-menu img {
+    opacity: 0.5;
+    transition: opacity 0.2s ease, transform 0.2s ease !important;
+}
+
+/* Destaque cromático e zoom ao passar o rato numa bandeira da lista */
+.pll-parent-menu-item .sub-menu a:hover img {
+    opacity: 1;
+    transform: scale(1.15);
+}
+
+/* =========================================================================
+   6. AJUSTES PARA MOBILE (Dropdown Horizontal à Direita)
+   ========================================================================= */
+@media (max-width: 768px) {
+
+    /* Remove a borda branca (outline/tap highlight) nativa dos browsers mobile */
+    .pll-parent-menu-item>a,
+    .pll-parent-menu-item>a:focus,
+    .pll-parent-menu-item>a:active {
+        outline: none !important;
+        -webkit-tap-highlight-color: transparent !important;
+        box-shadow: none !important;
+    }
+
+    /* Reposiciona a caixa para abrir à direita e muda para linha (row) */
+    .pll-parent-menu-item .sub-menu {
+        flex-direction: row !important;
+        top: 50% !important;
+        transform: translateY(-50%) translateX(15px) !important;
+        /* Desloca para a direita */
+        margin: 0 !important;
+        min-width: auto !important;
+        left: 20% !important;
+        gap: 20px;
+    }
+
+    /* Animação suave deslizando da direita no toque */
+    .pll-parent-menu-item:hover .sub-menu,
+    .pll-parent-menu-item:focus-within .sub-menu {
+        display: flex !important;
+        transform: translateY(-50%) translateX(5px) !important;
+    }
+
+    /* Ajusta a 'Ponte Invisível' para o eixo horizontal (esquerda da caixa) */
+    .pll-parent-menu-item .sub-menu::before {
+        top: 0 !important;
+        left: -15px !important;
+        width: 15px !important;
+        height: 100% !important;
+    }
+
+    /* Ajusta as bandeiras para ficarem lado a lado (inline) */
+    .pll-parent-menu-item .sub-menu li {
+        width: auto !important;
+        display: inline-block !important;
+    }
+
+    .pll-parent-menu-item .sub-menu li a {
+        padding: 6px 8px !important;
+    }
+}
