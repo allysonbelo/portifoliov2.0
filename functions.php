@@ -612,6 +612,7 @@ add_action('send_headers', 'abc_tech_send_agent_headers');
 /**
  * =========================================================================
  * MARKDOWN NEGOTIATION FOR AGENTS (Accept: text/markdown)
+ * Runs at init priority 0 to bypass LiteSpeed cache for markdown requests.
  * =========================================================================
  */
 function abc_tech_handle_markdown_negotiation()
@@ -621,38 +622,72 @@ function abc_tech_handle_markdown_negotiation()
     $accept_header = isset($_SERVER['HTTP_ACCEPT']) ? $_SERVER['HTTP_ACCEPT'] : '';
     $is_markdown_req = (strpos($accept_header, 'text/markdown') !== false) || isset($_GET['markdown']);
 
-    if ($is_markdown_req) {
-        header('Content-Type: text/markdown; charset=utf-8');
-        header('Vary: Accept');
+    if (!$is_markdown_req) return;
 
-        $site_name = get_bloginfo('name');
-        $site_desc = get_bloginfo('description');
-        $title     = is_front_page() ? $site_name : get_the_title();
-        $content   = '';
+    // Bypass LiteSpeed, WP Super Cache, and other full-page caches
+    define('LSCACHE_NO_CACHE', true);
+    header('X-LiteSpeed-Cache-Control: no-cache');
+    header('Cache-Control: no-store, no-cache, must-revalidate');
+    header('Vary: Accept');
+    header('Content-Type: text/markdown; charset=utf-8');
+    header('Access-Control-Allow-Origin: *');
 
-        if (is_singular() || is_front_page()) {
-            global $post;
-            if ($post) {
-                $content = wp_strip_all_tags(apply_filters('the_content', $post->post_content));
-            }
-        }
+    // Build page context from WP query or static metadata
+    global $post;
+    $site_name = get_bloginfo('name');
+    $site_desc = get_bloginfo('description');
+    $req_path  = isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '/';
+    $url       = esc_url(home_url($req_path));
 
-        $markdown_output  = "# " . $title . "\n\n";
-        $markdown_output .= "> " . $site_desc . "\n\n";
-        $markdown_output .= "URL: " . esc_url(home_url($_SERVER['REQUEST_URI'])) . "\n\n";
-        $markdown_output .= "## Overview\n\n";
-        $markdown_output .= $content ?: "Allyson Belo - WordPress Architect & Technical SEO Specialist. High-performance custom themes, Core Web Vitals optimization, and clean PHP architecture.\n\n";
-        $markdown_output .= "## Contact & Info\n\n";
-        $markdown_output .= "- Email: contato@allysonbelo.com\n";
-        $markdown_output .= "- GitHub: https://github.com/allysonbelo\n";
-        $markdown_output .= "- LinkedIn: https://www.linkedin.com/in/allysoncavalcante/\n";
-
-        header('X-Markdown-Tokens: ' . str_word_count($markdown_output));
-        echo $markdown_output;
-        exit;
+    // Try to get actual post content
+    $content = '';
+    if ($post && !empty($post->post_content)) {
+        $content = wp_strip_all_tags(apply_filters('the_content', $post->post_content));
     }
+
+    // Fallback context based on URL path
+    if (empty($content)) {
+        if (strpos($req_path, '/projetos') !== false) {
+            $content = "Portfolio of WordPress development and technical SEO projects by Allyson Belo. Each project demonstrates expertise in custom theme architecture, Core Web Vitals optimization, and performance-first WordPress development.";
+        } elseif (strpos($req_path, '/sobre') !== false) {
+            $content = "Allyson Belo is a WordPress Architect and Technical SEO Specialist with expertise in high-performance custom themes, PHP architecture, and Core Web Vitals optimization.";
+        } elseif (strpos($req_path, '/contato') !== false) {
+            $content = "Contact page for project inquiries and collaboration requests. Allyson Belo is available for WordPress development, Technical SEO, and performance optimization projects.";
+        } else {
+            $content = "Allyson Belo - WordPress Architect & Technical SEO Specialist. Expert in high-performance custom WordPress themes, Core Web Vitals, and clean PHP architecture.";
+        }
+    }
+
+    $title = $site_name;
+    if ($post) {
+        $the_title = get_the_title($post);
+        if ($the_title) $title = $the_title;
+    }
+
+    $md  = "# " . $title . "\n\n";
+    $md .= "> " . $site_desc . "\n\n";
+    $md .= "**URL:** " . $url . "\n\n";
+    $md .= "---\n\n";
+    $md .= "## Overview\n\n";
+    $md .= $content . "\n\n";
+    $md .= "---\n\n";
+    $md .= "## Discovery Endpoints\n\n";
+    $md .= "| Resource | URL |\n";
+    $md .= "|---|---|\n";
+    $md .= "| Agent Skills Index | " . home_url('/.well-known/agent-skills/index.json') . " |\n";
+    $md .= "| API Catalog | " . home_url('/.well-known/api-catalog') . " |\n";
+    $md .= "| MCP Server Card | " . home_url('/.well-known/mcp/server-card.json') . " |\n";
+    $md .= "| WordPress REST API | " . home_url('/wp-json/wp/v2/') . " |\n\n";
+    $md .= "## Contact & Info\n\n";
+    $md .= "- Email: contato@allysonbelo.com\n";
+    $md .= "- GitHub: https://github.com/allysonbelo\n";
+    $md .= "- LinkedIn: https://www.linkedin.com/in/allysoncavalcante/\n";
+
+    header('X-Markdown-Tokens: ' . str_word_count($md));
+    echo $md;
+    exit;
 }
-add_action('template_redirect', 'abc_tech_handle_markdown_negotiation', 1);
+add_action('init', 'abc_tech_handle_markdown_negotiation', 0);
 
 /**
  * =========================================================================
