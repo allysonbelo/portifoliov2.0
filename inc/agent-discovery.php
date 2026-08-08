@@ -22,6 +22,7 @@ add_action('send_headers', function() {
     );
     header('Link: ' . implode(', ', $link_headers), false);
     header('Content-Signal: ai-train=no, search=yes, ai-input=no');
+    header('Vary: Accept', false);
 });
 
 /**
@@ -130,65 +131,63 @@ add_action('wp_head', function() {
 
 /**
  * 3. Dynamic WordPress Markdown Negotiation (Accept: text/markdown)
- * Dynamically converts current WP Post/Page/Archive into Markdown!
+ * Runs early at init priority 0 to bypass caching plugins and output Markdown.
  */
-add_action('template_redirect', function() {
+add_action('init', function() {
     if (is_admin()) return;
 
     $accept = isset($_SERVER['HTTP_ACCEPT']) ? $_SERVER['HTTP_ACCEPT'] : '';
-    $is_md = (strpos($accept, 'text/markdown') !== false) || isset($_GET['markdown']);
+    $is_md = (strpos(strtolower($accept), 'text/markdown') !== false) || isset($_GET['markdown']);
 
     if (!$is_md) return;
 
-    // Cache Bypass for LiteSpeed & Caching Plugins
+    // Universal Cache Bypass for WP-Rocket, LiteSpeed, W3TC, AccelerateWP, etc.
     if (!defined('LSCACHE_NO_CACHE')) define('LSCACHE_NO_CACHE', true);
+    if (!defined('DONOTCACHEPAGE')) define('DONOTCACHEPAGE', true);
+    if (!defined('DONOTCACHEOBJECT')) define('DONOTCACHEOBJECT', true);
+    if (!defined('DONOTCACHEDB')) define('DONOTCACHEDB', true);
+
     header('X-LiteSpeed-Cache-Control: no-cache');
-    header('Cache-Control: no-store, no-cache, must-revalidate');
+    header('Cache-Control: no-store, no-cache, must-revalidate, max-age=0');
+    header('Pragma: no-cache');
     header('Vary: Accept');
     header('Content-Type: text/markdown; charset=utf-8');
     header('Access-Control-Allow-Origin: *');
 
     $site_name = get_bloginfo('name');
     $site_desc = get_bloginfo('description');
-    $current_url = esc_url(home_url(add_query_arg(array(), $GLOBALS['wp']->request)));
+    $req_uri   = isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '/';
+    $current_url = esc_url(home_url($req_uri));
 
     $md  = "# {$site_name}\n\n";
     $md .= "> {$site_desc}\n\n";
     $md .= "**URL Canonical:** {$current_url}\n\n";
     $md .= "---\n\n";
 
-    if (is_singular()) {
-        global $post;
-        $title = get_the_title($post);
-        $content = wp_strip_all_tags(apply_filters('the_content', $post->post_content));
-        
-        $md .= "## {$title}\n\n";
-        if (has_excerpt($post)) {
-            $md .= "> " . wp_strip_all_tags(get_the_excerpt($post)) . "\n\n";
-        }
-        $md .= "{$content}\n\n";
-    } elseif (is_search()) {
-        $query = get_search_query();
-        $md .= "## Resultados da Pesquisa por: {$query}\n\n";
-        if (have_posts()) {
-            while (have_posts()) {
-                the_post();
-                $md .= "### [" . get_the_title() . "](" . get_permalink() . ")\n";
-                $md .= wp_strip_all_tags(get_the_excerpt()) . "\n\n";
+    // Try to resolve URL to post ID
+    $post_id = url_to_postid($current_url);
+    if ($post_id) {
+        $post = get_post($post_id);
+        if ($post) {
+            $title = get_the_title($post);
+            $content = wp_strip_all_tags(apply_filters('the_content', $post->post_content));
+            $md .= "## {$title}\n\n";
+            if (has_excerpt($post)) {
+                $md .= "> " . wp_strip_all_tags(get_the_excerpt($post)) . "\n\n";
             }
-        } else {
-            $md .= "Nenhum resultado encontrado.\n\n";
+            $md .= "{$content}\n\n";
         }
     } else {
         $md .= "## Visão Geral do Site\n\n";
         $md .= "Allyson Belo - Arquiteto WordPress & Especialista em SEO Técnico.\n";
-        $md .= "Desenvolvimento de temas sob medida de alta performance, arquitetura limpa PHP e otimização Core Web Vitals.\n\n";
+        $md .= "Desenvolvimento de temas sob medida de alta performance, arquitetura limpa em PHP e otimização Core Web Vitals.\n\n";
         
         $md .= "### Últimos Projetos\n\n";
-        $projects = get_posts(array('post_type' => 'project', 'posts_per_page' => 5));
+        $projects = get_posts(array('post_type' => 'project', 'posts_per_page' => 10));
         if (!empty($projects)) {
             foreach ($projects as $proj) {
-                $md .= "- **[" . get_the_title($proj) . "](" . get_permalink($proj) . ")**: " . wp_strip_all_tags(get_the_excerpt($proj)) . "\n";
+                $excerpt = wp_strip_all_tags(get_the_excerpt($proj));
+                $md .= "- **[" . get_the_title($proj) . "](" . get_permalink($proj) . ")**: {$excerpt}\n";
             }
             $md .= "\n";
         }
@@ -212,7 +211,7 @@ add_action('template_redirect', function() {
     header('x-markdown-tokens: ' . str_word_count($md));
     echo $md;
     exit;
-});
+}, 0);
 
 /**
  * 4. Custom WordPress Robots.txt Filter (Content-Signals)
