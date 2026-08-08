@@ -1,8 +1,8 @@
 <?php
 /**
- * Agent Discovery & AI Readiness Module
+ * Agent Discovery & AI Readiness Module (Monolithic WordPress Theme Edition)
  * 
- * Based on the Agent-Ready Blueprint (WebMCP, AI Discovery, Link Relations & Content Negotiation)
+ * Fully adapted for native WordPress architecture (PHP, WP REST API, Template Hooks & Dynamic Queries).
  */
 
 if (!defined('ABSPATH')) exit;
@@ -14,21 +14,26 @@ add_action('send_headers', function() {
     if (is_admin()) return;
 
     $link_headers = array(
-        '</.well-known/api-catalog>; rel="api-catalog"',
-        '</.well-known/mcp/server-card.json>; rel="mcp-server"',
-        '</.well-known/agent-skills/index.json>; rel="agent-skills"',
-        '</auth.md>; rel="authorizing-agents"',
-        '</llms.txt>; rel="service-doc"'
+        '<' . esc_url(home_url('/.well-known/api-catalog')) . '>; rel="api-catalog"',
+        '<' . esc_url(home_url('/.well-known/mcp/server-card.json')) . '>; rel="mcp-server"',
+        '<' . esc_url(home_url('/.well-known/agent-skills/index.json')) . '>; rel="agent-skills"',
+        '<' . esc_url(home_url('/auth.md')) . '>; rel="authorizing-agents"',
+        '<' . esc_url(home_url('/llms.txt')) . '>; rel="service-doc"'
     );
     header('Link: ' . implode(', ', $link_headers), false);
     header('Content-Signal: ai-train=no, search=yes, ai-input=no');
 });
 
 /**
- * 2. HTML <head> Tags (Link Relations & WebMCP Inline Fallback)
+ * 2. HTML <head> Tags (Link Relations & Native WebMCP Integration)
  */
 add_action('wp_head', function() {
     if (is_admin()) return;
+    $home = esc_url(home_url());
+    $search_url = esc_url(home_url('/?s='));
+    $contact_url = esc_url(home_url('/contato/'));
+    $projects_url = esc_url(home_url('/projetos/'));
+    $rest_api_url = esc_url(rest_url('wp/v2/project'));
     ?>
     <!-- AI Agent Discovery Link Relations -->
     <link rel="api-catalog" href="<?php echo esc_url(home_url('/.well-known/api-catalog')); ?>" type="application/linkset+json">
@@ -37,14 +42,14 @@ add_action('wp_head', function() {
     <link rel="authorizing-agents" href="<?php echo esc_url(home_url('/auth.md')); ?>" type="text/markdown">
     <link rel="llms" href="<?php echo esc_url(home_url('/llms.txt')); ?>" type="text/plain">
 
-    <!-- WebMCP Target Registration (Navegadores & Agentes de IA) -->
+    <!-- Native WebMCP Target Registration for WordPress Monolith -->
     <script>
     (function() {
         if (typeof window === 'undefined') return;
 
         const searchTool = {
             name: 'search_portfolio',
-            description: 'Pesquisa projetos, cases de engenharia WordPress e artigos no site.',
+            description: 'Pesquisa projetos de engenharia WordPress e artigos no site.',
             inputSchema: {
                 type: 'object',
                 properties: { query: { type: 'string', description: 'Termo de busca' } },
@@ -57,14 +62,25 @@ add_action('wp_head', function() {
             },
             execute: async function(args) {
                 var q = (args && args.query) || '';
-                window.location.href = '/projetos/?search=' + encodeURIComponent(q);
-                return { message: 'Redirecionando para busca de projetos: ' + q };
+                window.location.href = '<?php echo $search_url; ?>' + encodeURIComponent(q);
+                return { message: 'Navegado para a pesquisa WordPress por: ' + q };
+            }
+        };
+
+        const getProjectsTool = {
+            name: 'get_projects_api',
+            description: 'Obtém a lista completa de projetos em formato JSON via WordPress REST API.',
+            inputSchema: { type: 'object', properties: {} },
+            execute: async function() {
+                const res = await fetch('<?php echo $rest_api_url; ?>');
+                const data = await res.json();
+                return { projects: data };
             }
         };
 
         const contactTool = {
             name: 'contact_developer',
-            description: 'Redireciona para o formulário de contato com o arquiteto WordPress Allyson Belo.',
+            description: 'Redireciona para o formulário de contato do arquiteto WordPress Allyson Belo.',
             inputSchema: {
                 type: 'object',
                 properties: {
@@ -84,12 +100,12 @@ add_action('wp_head', function() {
                 required: ['name', 'email', 'message']
             },
             execute: async function(args) {
-                window.location.href = '/contato/';
-                return { message: 'Navegado para a página de contato.' };
+                window.location.href = '<?php echo $contact_url; ?>';
+                return { message: 'Redirecionando para a página de contato.' };
             }
         };
 
-        const tools = [searchTool, contactTool];
+        const tools = [searchTool, getProjectsTool, contactTool];
 
         const targets = [
             typeof navigator !== 'undefined' ? navigator.modelContext : null,
@@ -113,9 +129,10 @@ add_action('wp_head', function() {
 }, 1);
 
 /**
- * 3. Content Negotiation: Responde em Markdown (Accept: text/markdown)
+ * 3. Dynamic WordPress Markdown Negotiation (Accept: text/markdown)
+ * Dynamically converts current WP Post/Page/Archive into Markdown!
  */
-function abc_tech_handle_markdown_negotiation() {
+add_action('template_redirect', function() {
     if (is_admin()) return;
 
     $accept = isset($_SERVER['HTTP_ACCEPT']) ? $_SERVER['HTTP_ACCEPT'] : '';
@@ -123,7 +140,7 @@ function abc_tech_handle_markdown_negotiation() {
 
     if (!$is_md) return;
 
-    // Directives to bypass server cache
+    // Cache Bypass for LiteSpeed & Caching Plugins
     if (!defined('LSCACHE_NO_CACHE')) define('LSCACHE_NO_CACHE', true);
     header('X-LiteSpeed-Cache-Control: no-cache');
     header('Cache-Control: no-store, no-cache, must-revalidate');
@@ -133,32 +150,72 @@ function abc_tech_handle_markdown_negotiation() {
 
     $site_name = get_bloginfo('name');
     $site_desc = get_bloginfo('description');
-    $host = isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : 'allysonbelo.com';
+    $current_url = esc_url(home_url(add_query_arg(array(), $GLOBALS['wp']->request)));
 
-    $md  = "# {$site_name} - Portfolio & Arquitetura WordPress\n\n";
+    $md  = "# {$site_name}\n\n";
     $md .= "> {$site_desc}\n\n";
-    $md .= "## Visão Geral\n";
-    $md .= "Allyson Belo é Arquiteto WordPress e Especialista em SEO Técnico, focado no desenvolvimento de temas sob medida de alta performance, arquitetura limpa em PHP e otimização para Core Web Vitals.\n\n";
-    $md .= "## Páginas Principais\n";
-    $md .= "- **Início**: https://{$host}/\n";
-    $md .= "- **Projetos**: https://{$host}/projetos/\n";
-    $md .= "- **Sobre**: https://{$host}/sobre/\n";
-    $md .= "- **Contato**: https://{$host}/contato/\n\n";
-    $md .= "## Discovery & Ferramentas\n";
-    $md .= "- **LLMs Info**: https://{$host}/llms.txt\n";
-    $md .= "- **API Catalog**: https://{$host}/.well-known/api-catalog\n";
-    $md .= "- **MCP Server**: https://{$host}/.well-known/mcp/server-card.json\n";
-    $md .= "- **Agent Skills**: https://{$host}/.well-known/agent-skills/index.json\n";
-    $md .= "- **REST API**: https://{$host}/wp-json/wp/v2/\n";
+    $md .= "**URL Canonical:** {$current_url}\n\n";
+    $md .= "---\n\n";
+
+    if (is_singular()) {
+        global $post;
+        $title = get_the_title($post);
+        $content = wp_strip_all_tags(apply_filters('the_content', $post->post_content));
+        
+        $md .= "## {$title}\n\n";
+        if (has_excerpt($post)) {
+            $md .= "> " . wp_strip_all_tags(get_the_excerpt($post)) . "\n\n";
+        }
+        $md .= "{$content}\n\n";
+    } elseif (is_search()) {
+        $query = get_search_query();
+        $md .= "## Resultados da Pesquisa por: {$query}\n\n";
+        if (have_posts()) {
+            while (have_posts()) {
+                the_post();
+                $md .= "### [" . get_the_title() . "](" . get_permalink() . ")\n";
+                $md .= wp_strip_all_tags(get_the_excerpt()) . "\n\n";
+            }
+        } else {
+            $md .= "Nenhum resultado encontrado.\n\n";
+        }
+    } else {
+        $md .= "## Visão Geral do Site\n\n";
+        $md .= "Allyson Belo - Arquiteto WordPress & Especialista em SEO Técnico.\n";
+        $md .= "Desenvolvimento de temas sob medida de alta performance, arquitetura limpa PHP e otimização Core Web Vitals.\n\n";
+        
+        $md .= "### Últimos Projetos\n\n";
+        $projects = get_posts(array('post_type' => 'project', 'posts_per_page' => 5));
+        if (!empty($projects)) {
+            foreach ($projects as $proj) {
+                $md .= "- **[" . get_the_title($proj) . "](" . get_permalink($proj) . ")**: " . wp_strip_all_tags(get_the_excerpt($proj)) . "\n";
+            }
+            $md .= "\n";
+        }
+        
+        $md .= "### Links Principais\n";
+        $md .= "- [Início](" . home_url('/') . ")\n";
+        $md .= "- [Projetos](" . home_url('/projetos/') . ")\n";
+        $md .= "- [Sobre](" . home_url('/sobre/') . ")\n";
+        $md .= "- [Contato](" . home_url('/contato/') . ")\n\n";
+    }
+
+    $md .= "---\n\n";
+    $md .= "## Discovery & WP REST API Endpoints\n\n";
+    $md .= "| Recurso | URL |\n";
+    $md .= "|---|---|\n";
+    $md .= "| API Catalog | " . home_url('/.well-known/api-catalog') . " |\n";
+    $md .= "| MCP Server Card | " . home_url('/.well-known/mcp/server-card.json') . " |\n";
+    $md .= "| Agent Skills Index | " . home_url('/.well-known/agent-skills/index.json') . " |\n";
+    $md .= "| WP REST API Projects | " . rest_url('wp/v2/project') . " |\n";
 
     header('x-markdown-tokens: ' . str_word_count($md));
     echo $md;
     exit;
-}
-add_action('init', 'abc_tech_handle_markdown_negotiation', 0);
+});
 
 /**
- * 4. Custom Robots.txt Filter (Content-Signals)
+ * 4. Custom WordPress Robots.txt Filter (Content-Signals)
  */
 add_filter('robots_txt', function($output, $public) {
     $site_url = home_url();
@@ -170,7 +227,7 @@ add_filter('robots_txt', function($output, $public) {
 }, 100, 2);
 
 /**
- * 5. Programmatic Router for /.well-known & auth.md & llms.txt Fallback
+ * 5. Programmatic Router for /.well-known, auth.md & llms.txt Fallbacks
  */
 add_action('init', function() {
     $req_uri = isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '';
@@ -179,16 +236,18 @@ add_action('init', function() {
     if ($path === '/llms.txt') {
         header('Content-Type: text/plain; charset=utf-8');
         header('Access-Control-Allow-Origin: *');
-        echo "# Allyson Belo - WordPress Architect\n\n";
-        echo "> Desenvolvedor especializado em arquitetura de temas customizados, performance e SEO técnico.\n\n";
-        echo "## Links Principais\n";
-        echo "- [Portfolio](https://allysonbelo.com/projetos/)\n";
-        echo "- [Sobre](https://allysonbelo.com/sobre/)\n";
-        echo "- [Contato](https://allysonbelo.com/contato/)\n\n";
-        echo "## Descoberta de Agentes\n";
-        echo "- API Catalog: /.well-known/api-catalog\n";
-        echo "- MCP Server: /.well-known/mcp/server-card.json\n";
-        echo "- Agent Skills: /.well-known/agent-skills/index.json\n";
+        echo "# " . get_bloginfo('name') . " - WordPress Architect\n\n";
+        echo "> " . get_bloginfo('description') . "\n\n";
+        echo "## Recursos e Páginas Principais\n";
+        echo "- [Página Inicial](" . home_url('/') . ")\n";
+        echo "- [Projetos](" . home_url('/projetos/') . ")\n";
+        echo "- [Sobre](" . home_url('/sobre/') . ")\n";
+        echo "- [Contato](" . home_url('/contato/') . ")\n\n";
+        echo "## Descoberta e REST API\n";
+        echo "- API Catalog: " . home_url('/.well-known/api-catalog') . "\n";
+        echo "- MCP Server: " . home_url('/.well-known/mcp/server-card.json') . "\n";
+        echo "- Agent Skills: " . home_url('/.well-known/agent-skills/index.json') . "\n";
+        echo "- WP REST API: " . rest_url('wp/v2/') . "\n";
         exit;
     }
 
@@ -197,11 +256,11 @@ add_action('init', function() {
         header('Access-Control-Allow-Origin: *');
         echo "# Auth.md\n\n";
         echo "## Regras de Acesso\n";
-        echo "1. **Scraping / Leitura**: Permitido para indexação de busca e resposta a usuários.\n";
+        echo "1. **Scraping / Leitura**: Permitido para indexação de busca e resposta aos usuários.\n";
         echo "2. **Treinamento de Modelos**: Não permitido (`Content-Signal: ai-train=no`).\n";
         echo "3. **Limites de Taxa**: Máximo de 60 requisições por minuto por IP.\n\n";
         echo "## Contato\n";
-        echo "Para integração via MCP ou contato direto: `contato@allysonbelo.com`.\n";
+        echo "Para suporte de integração de IA: `contato@allysonbelo.com`.\n";
         exit;
     }
 }, 0);
