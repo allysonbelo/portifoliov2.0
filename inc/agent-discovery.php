@@ -7,6 +7,9 @@
 
 if (!defined('ABSPATH')) exit;
 
+// Remove WP Core default unquoted Link headers (shortlink) to ensure RFC 8288 compliance
+remove_action('template_redirect', 'wp_shortlink_header', 11);
+
 /**
  * 1. HTTP Link Headers & Content-Signals (RFC 8288)
  */
