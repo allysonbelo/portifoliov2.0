@@ -31,7 +31,7 @@ $hero_desc    = get_field('portfolio_description') ?: abc_tech_tr('Uma seleção
                 <?php echo esc_html($hero_title_1); ?>
                 <span class="text-blue"><?php echo esc_html($hero_title_2); ?></span>
             </h1>
-            <?php if (get_the_content()) : ?>
+            <?php if (is_page() && get_the_content()) : ?>
                 <div class="page-description">
                     <?php the_content(); ?>
                 </div>
