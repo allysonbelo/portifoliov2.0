@@ -31,15 +31,9 @@ $hero_desc    = get_field('portfolio_description') ?: abc_tech_tr('Uma seleção
                 <?php echo esc_html($hero_title_1); ?>
                 <span class="text-blue"><?php echo esc_html($hero_title_2); ?></span>
             </h1>
-            <?php if (is_page() && get_the_content()) : ?>
-                <div class="page-description">
-                    <?php the_content(); ?>
-                </div>
-            <?php else : ?>
-                <p class="page-description">
-                    <?php echo esc_html($hero_desc); ?>
-                </p>
-            <?php endif; ?>
+            <p class="page-description">
+                <?php echo esc_html($hero_desc); ?>
+            </p>
         </div>
     </section>
 
@@ -159,8 +153,10 @@ $hero_desc    = get_field('portfolio_description') ?: abc_tech_tr('Uma seleção
 
                                         <div class="project-excerpt">
                                             <?php
-                                            $clean_excerpt = has_excerpt() ? get_the_excerpt() : wp_trim_words(wp_strip_all_tags(get_the_content()), 18, '...');
-                                            echo esc_html($clean_excerpt);
+                                            $raw_text = wp_strip_all_tags(get_the_content());
+                                            $raw_text = preg_replace('/^(Table of Contents|Project Overview|The Challenge|Technical Execution)[^\.\!\?]*[\.\!\?]*/i', '', $raw_text);
+                                            $clean_excerpt = has_excerpt() ? get_the_excerpt() : wp_trim_words($raw_text, 18, '...');
+                                            echo esc_html(trim($clean_excerpt));
                                             ?>
                                         </div>
 
