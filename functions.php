@@ -81,7 +81,8 @@ function abc_tech_register_cpts()
         'show_in_menu'       => true,
         'menu_position'      => 5,
         'menu_icon'          => 'dashicons-portfolio',
-        'has_archive'        => true,
+        'has_archive'        => false,
+        'rewrite'            => array('slug' => 'project', 'with_front' => false),
         'show_in_rest'       => true,
         'capability_type'    => 'post',
     );
