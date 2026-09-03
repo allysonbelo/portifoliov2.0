@@ -16,6 +16,14 @@ if (! defined('ABSPATH')) {
     <meta charset="<?php bloginfo('charset'); ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="profile" href="https://gmpg.org/xfn/11">
+    <!-- Microsoft Clarity -->
+    <script type="text/javascript">
+        (function(c,l,a,r,i,t,y){
+            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+        })(window, document, "clarity", "script", "ya6pgg0s55");
+    </script>
     <?php wp_head(); ?>
 </head>
 
@@ -41,7 +49,7 @@ if (! defined('ABSPATH')) {
             </div>
 
             <!-- Mobile Menu Toggle -->
-            <button id="menu-toggle" class="menu-toggle" aria-controls="primary-menu" aria-expanded="false" aria-label="<?php echo esc_attr(abc_tech_tr('Abrir menu')); ?>">
+            <button type="button" id="menu-toggle" class="menu-toggle" aria-controls="primary-menu" aria-expanded="false" aria-label="<?php echo esc_attr(abc_tech_tr('Abrir menu')); ?>">
                 <span class="hamburger-box">
                     <span class="hamburger-inner"></span>
                 </span>
@@ -49,6 +57,17 @@ if (! defined('ABSPATH')) {
 
             <!-- Navegação Principal -->
             <nav id="site-navigation" class="main-navigation">
+                <!-- Header exclusivo do Drawer Mobile -->
+                <div class="drawer-header">
+                    <span class="drawer-title"><?php echo esc_html(abc_tech_tr('Navegação')); ?></span>
+                    <button type="button" id="drawer-close" class="drawer-close-btn" aria-label="<?php echo esc_attr(abc_tech_tr('Fechar menu')); ?>">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="18" y1="6" x2="6" y2="18"></line>
+                            <line x1="6" y1="6" x2="18" y2="18"></line>
+                        </svg>
+                    </button>
+                </div>
+
                 <?php
                 wp_nav_menu(array(
                     'theme_location' => 'menu-1',
@@ -85,6 +104,9 @@ if (! defined('ABSPATH')) {
 
         </div>
     </header>
+
+    <!-- Overlay / Backdrop para o Menu Mobile Drawer -->
+    <div id="menu-backdrop" class="menu-backdrop" aria-hidden="true"></div>
 
     <!-- Início do conteúdo principal -->
     <main id="primary" class="site-main">

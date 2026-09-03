@@ -3,18 +3,15 @@
    ========================================= */
 
 .site-header {
-    background-color: var(--bg-base);
+    background-color: rgba(10, 15, 26, 0.95);
     border-bottom: 1px solid var(--border-glass);
     position: sticky;
     top: 0;
-    z-index: 100;
+    z-index: 99990;
     padding: 0;
     height: 80px;
     display: flex;
     align-items: center;
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    background-color: rgba(10, 15, 26, 0.85);
 }
 
 .header-inner {
@@ -130,12 +127,25 @@
 }
 
 .menu-toggle {
-    display: block;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     background: transparent;
     border: none;
     cursor: pointer;
-    padding: 8px;
-    z-index: 101;
+    padding: 10px;
+    min-width: 48px;
+    min-height: 48px;
+    z-index: 1001;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+/* Evita que toques em elementos filhos (spans) interfiram no evento do botão */
+.menu-toggle * {
+    pointer-events: none;
 }
 
 /* Estrutura rígida para alinhar as linhas perfeitamente */
@@ -198,35 +208,118 @@
     transform: translateY(-8px) rotate(-45deg);
 }
 
-.main-navigation {
-    /* Removido o display: none */
-    display: flex;
-    position: absolute;
-    top: 80px;
+/* =========================================
+   BACKDROP DO MENU MOBILE (DRAWER)
+   ========================================= */
+.menu-backdrop {
+    position: fixed;
+    top: 0;
     left: 0;
-    width: 100%;
-    background-color: var(--bg-surface);
-    padding: 32px 20px;
-    border-bottom: 1px solid var(--border-glass);
-    flex-direction: column;
-    gap: clamp(1.5rem, 5vh, 2rem);
-
-    /* Configuração da Animação */
+    width: 100vw;
+    height: 100vh;
+    height: 100dvh;
+    background: rgba(4, 18, 48, 0.7);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
     opacity: 0;
     visibility: hidden;
-    transform: translateY(-15px);
-    /* Inicia levemente acima */
     pointer-events: none;
-    /* Evita cliques acidentais invisíveis */
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    /* Curva suave padrão Material */
+    transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.3s ease;
+    z-index: 99980;
 }
 
-.main-navigation.is-open {
+.menu-backdrop.is-active {
     opacity: 1;
     visibility: visible;
-    transform: translateY(0);
     pointer-events: auto;
+}
+
+body.menu-open {
+    overflow: hidden !important;
+}
+
+/* Header do Drawer (Apenas Mobile) */
+.drawer-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 1.25rem;
+    border-bottom: 1px solid var(--border-glass);
+    margin-bottom: 0.5rem;
+}
+
+.drawer-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.85rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-blue, #38bdf8);
+    font-weight: 600;
+}
+
+.drawer-close-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border-glass);
+    border-radius: 8px;
+    color: #ffffff;
+    cursor: pointer;
+    width: 38px;
+    height: 38px;
+    padding: 0;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+}
+
+.drawer-close-btn:active {
+    transform: scale(0.92);
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.drawer-close-btn * {
+    pointer-events: none;
+}
+
+/* =========================================
+   MENU MOBILE DRAWER (Desliza da Direita para a Esquerda)
+   ========================================= */
+.main-navigation {
+    display: flex !important;
+    position: fixed !important;
+    top: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    left: auto !important;
+    width: 85vw !important;
+    max-width: 360px !important;
+    height: 100vh !important;
+    height: 100dvh !important;
+    background-color: #041230 !important; /* Cor sólida direta para evitar falhas de variável */
+    border-left: 1px solid rgba(255, 255, 255, 0.08) !important;
+    box-shadow: -15px 0 50px rgba(0, 0, 0, 0.8) !important;
+    padding: 24px 20px 32px !important;
+    flex-direction: column !important;
+    gap: 1.5rem !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    -webkit-overflow-scrolling: touch !important;
+    z-index: 999999 !important; /* Garante que fique acima de tudo */
+
+    /* Estado inicial: fora da tela à direita */
+    transform: translateX(100%) !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.35s ease !important;
+}
+
+/* Estado Aberto: desliza da direita para a esquerda */
+.main-navigation.is-open {
+    transform: translateX(0) !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
 }
 
 .main-navigation ul {
@@ -235,17 +328,39 @@
     margin: 0;
     display: flex;
     flex-direction: column;
-    gap: clamp(1rem, 4vh, 1.5rem);
+    gap: 1.25rem;
 }
 
-/* CORREÇÃO: Aplicar estilo de texto técnico APENAS aos links da lista <ul> */
+/* Links do menu no Mobile */
 .main-navigation ul a {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 1rem;
+    font-size: 1.05rem;
     font-weight: 500;
     color: #dac2b1;
     text-decoration: none;
-    transition: color 0.2s ease;
+    display: flex;
+    align-items: center;
+    padding: 6px 0;
+    transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.main-navigation ul a:hover,
+.main-navigation ul a:active {
+    color: var(--color-blue, #38bdf8);
+    transform: translateX(4px);
+}
+
+.main-navigation .header-cta {
+    margin-top: auto;
+    padding-top: 1.5rem;
+    width: 100%;
+}
+
+.main-navigation .header-cta .btn {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    text-align: center;
 }
 
 /* =========================================
@@ -253,61 +368,123 @@
    ========================================= */
 @media (min-width: 1024px) {
 
+    .site-header {
+        background-color: rgba(10, 15, 26, 0.85);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+    }
+
+    .menu-backdrop {
+        display: none !important;
+    }
+
+    .drawer-header {
+        display: none !important;
+    }
+
+    .pll-parent-menu-item,
+    .lang-item {
+        display: flex !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        position: relative !important;
+        z-index: 999 !important;
+    }
+
+    .pll-parent-menu-item img,
+    .lang-item img {
+        display: inline-block !important;
+        width: 24px !important;
+        min-width: 24px !important;
+        height: 18px !important;
+        min-height: 18px !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+    }
+
     .pll-parent-menu-item .sub-menu {
         gap: 10px !important;
     }
 
     .menu-toggle {
-        display: none;
+        display: none !important;
+    }
+
+    .site-branding {
+        flex-shrink: 0 !important;
     }
 
     .main-navigation {
-        /* Reset das propriedades de animação do mobile */
-        opacity: 1;
-        visibility: visible;
-        transform: none;
-        pointer-events: auto;
+        /* Reset do drawer para a barra horizontal do desktop */
+        position: static !important;
+        transform: none !important;
+        visibility: visible !important;
+        pointer-events: auto !important;
+        opacity: 1 !important;
+        width: auto !important;
+        max-width: none !important;
+        min-width: 0 !important;
+        height: auto !important;
+        background-color: transparent !important;
+        border: none !important;
+        box-shadow: none !important;
+        padding: 0 !important;
+        overflow: visible !important;
+        z-index: auto !important;
 
-        display: flex;
-        position: static;
-        /* Ocupa todo o espaço restante entre a logo e a margem direita */
-        flex: 1;
-        background-color: transparent;
-        padding: 0;
-        border: none;
-        flex-direction: row;
-        align-items: center;
+        display: flex !important;
+        flex: 1 1 auto !important;
+        flex-direction: row !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        gap: 0 !important;
     }
 
     .main-navigation ul {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        gap: clamp(1rem, 3vw, 2.5rem);
-        /* O "pulo do gato": centraliza a lista no meio do espaço restante */
-        margin: 0 auto;
+        display: flex !important;
+        flex-direction: row !important;
+        align-items: center !important;
+        gap: clamp(1rem, 2.5vw, 2.5rem) !important;
+        margin: 0 auto !important;
+        flex-shrink: 0 !important;
     }
 
-    /* Restrito apenas aos links do WordPress */
     .main-navigation ul a {
-        padding: 8px 0;
-        position: relative;
+        padding: 8px 0 !important;
+        position: relative !important;
+        transform: none !important;
     }
 
     .main-navigation ul a:hover,
     .main-navigation li.current-menu-item a,
     .main-navigation li.current_page_item a {
-        color: var(--color-primary);
+        color: var(--color-primary) !important;
     }
 
     .main-navigation li.current-menu-item a::after,
     .main-navigation li.current_page_item a::after {
-        content: '';
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        height: 2px;
-        background-color: var(--color-primary);
+        content: '' !important;
+        position: absolute !important;
+        bottom: 0 !important;
+        left: 0 !important;
+        width: 100% !important;
+        height: 2px !important;
+        background-color: var(--color-primary) !important;
+    }
+
+    .main-navigation .header-cta {
+        position: relative !important;
+        transform: none !important;
+        right: auto !important;
+        top: auto !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        width: auto !important;
+        flex-shrink: 0 !important;
+    }
+
+    .main-navigation .header-cta .btn {
+        width: auto !important;
+        white-space: nowrap !important;
     }
 }

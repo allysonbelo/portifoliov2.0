@@ -281,8 +281,10 @@ function abc_tech_scripts()
     wp_enqueue_style('abc-tech-fonts', get_template_directory_uri() . '/css/fonts.css', array(), $version);
     wp_enqueue_style('abc-tech-base', get_template_directory_uri() . '/css/base.css', array('abc-tech-reset', 'abc-tech-fonts'), $version);
 
-    // Arquivos modulares criados anteriormente
-    wp_enqueue_style('abc-tech-header', get_template_directory_uri() . '/css/header.css', array('abc-tech-base'), $version);
+    // Arquivos modulares criados anteriormente (com cache busting dinâmico para header)
+    $header_css_path = get_template_directory() . '/css/header.css';
+    $header_css_ver  = file_exists($header_css_path) ? filemtime($header_css_path) : $version;
+    wp_enqueue_style('abc-tech-header', get_template_directory_uri() . '/css/header.css', array('abc-tech-base'), $header_css_ver);
     wp_enqueue_style('abc-tech-footer', get_template_directory_uri() . '/css/footer.css', array('abc-tech-base'), $version);
 
     // Enfileiramento das seções
@@ -349,8 +351,10 @@ function abc_tech_scripts()
     // Arquivo style.css principal
     wp_enqueue_style('abc-tech-style', get_stylesheet_uri(), array('abc-tech-base'), $version);
 
-    // Enfileiramento do JavaScript Modular (carregado no footer)
-    wp_enqueue_script('abc-tech-navigation', get_template_directory_uri() . '/js/navigation.js', array(), $version, true);
+    // Enfileiramento do JavaScript Modular (carregado no footer, com cache busting para navigation)
+    $nav_js_path = get_template_directory() . '/js/navigation.js';
+    $nav_js_ver  = file_exists($nav_js_path) ? filemtime($nav_js_path) : $version;
+    wp_enqueue_script('abc-tech-navigation', get_template_directory_uri() . '/js/navigation.js', array(), $nav_js_ver, true);
     wp_enqueue_script('abc-tech-animations', get_template_directory_uri() . '/js/animations.js', array(), $version, true);
     wp_enqueue_script('abc-tech-typing', get_template_directory_uri() . '/js/typing-hero.js', array(), $version, true);
     wp_enqueue_script('abc-tech-projetos-view', get_template_directory_uri() . '/js/projetos-view.js', array(), $version, true);
@@ -596,3 +600,10 @@ add_action('wp_head', 'abc_tech_render_google_analytics', 1);
  * =========================================================================
  */
 require_once get_template_directory() . '/inc/agent-discovery.php';
+
+/**
+ * =========================================================================
+ * GERENCIADOR DE LICENÇAS (SERVIDOR)
+ * =========================================================================
+ */
+require_once get_template_directory() . '/inc/license-manager.php';

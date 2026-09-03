@@ -142,7 +142,7 @@ Domain Path: /languages
 /* =========================================================================
    6. AJUSTES PARA MOBILE (Dropdown Horizontal à Direita)
    ========================================================================= */
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
 
     /* Remove a borda branca (outline/tap highlight) nativa dos browsers mobile */
     .pll-parent-menu-item>a,
@@ -153,31 +153,35 @@ Domain Path: /languages
         box-shadow: none !important;
     }
 
-    /* Reposiciona a caixa para abrir à direita e muda para linha (row) */
-    .pll-parent-menu-item .sub-menu {
-        flex-direction: row !important;
-        top: 50% !important;
-        transform: translateY(-50%) translateX(15px) !important;
-        /* Desloca para a direita */
-        margin: 0 !important;
-        min-width: auto !important;
-        left: 20% !important;
-        gap: 20px;
+    /* Ajusta o pai para acomodar o submenu inline no fluxo do drawer */
+    .pll-parent-menu-item {
+        flex-direction: column !important;
+        align-items: flex-start !important;
     }
 
-    /* Animação suave deslizando da direita no toque */
+    /* Reposiciona a caixa para baixo (inline no fluxo normal) e muda para linha (row) */
+    .pll-parent-menu-item .sub-menu {
+        position: static !important;
+        flex-direction: row !important;
+        transform: none !important;
+        margin: 15px 0 10px 0 !important;
+        min-width: auto !important;
+        left: 0 !important;
+        gap: 20px !important;
+        background: transparent !important;
+        border: none !important;
+        box-shadow: none !important;
+    }
+
+    /* Animação suave (apenas revelar, sem transladar) */
     .pll-parent-menu-item:hover .sub-menu,
     .pll-parent-menu-item:focus-within .sub-menu {
         display: flex !important;
-        transform: translateY(-50%) translateX(5px) !important;
     }
 
-    /* Ajusta a 'Ponte Invisível' para o eixo horizontal (esquerda da caixa) */
+    /* Remove a ponte invisível, pois o elemento agora é estático */
     .pll-parent-menu-item .sub-menu::before {
-        top: 0 !important;
-        left: -15px !important;
-        width: 15px !important;
-        height: 100% !important;
+        display: none !important;
     }
 
     /* Ajusta as bandeiras para ficarem lado a lado (inline) */
@@ -187,6 +191,7 @@ Domain Path: /languages
     }
 
     .pll-parent-menu-item .sub-menu li a {
-        padding: 6px 8px !important;
+        padding: 0 !important;
+        background: transparent !important;
     }
 }

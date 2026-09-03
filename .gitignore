@@ -1,0 +1,6 @@
+# Archives
+*.zip
+
+# Local deploy scripts & credentials
+deploy.ps1
+ftp_sync.txt
