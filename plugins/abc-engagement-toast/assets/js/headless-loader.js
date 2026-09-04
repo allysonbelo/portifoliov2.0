@@ -51,9 +51,9 @@
         pluginBase = apiBase + '/wp-content/plugins/abc-toast';
     }
 
-    // 3. Injeta o CSS oficial no <head>
-    const cssHref = pluginBase + '/assets/css/engagement-toast.css';
-    if (!document.querySelector('link[href="' + cssHref + '"]')) {
+    // 3. Injeta o CSS oficial no <head> com controle de versão/cache
+    const cssHref = pluginBase + '/assets/css/engagement-toast.css?v=1.4.1';
+    if (!document.querySelector('link[href*="engagement-toast.css"]')) {
         const link = document.createElement('link');
         link.rel = 'stylesheet';
         link.href = cssHref;
