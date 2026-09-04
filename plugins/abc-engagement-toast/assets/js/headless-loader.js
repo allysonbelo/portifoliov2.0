@@ -367,9 +367,7 @@
 
                     setTimeout(function() {
                         toastElement.classList.add('is-visible');
-                    }, 50 + toastQueueDelay);
-
-                    toastQueueDelay += 200;
+                    }, 50);
                 }
 
                 switch (data.trigger) {

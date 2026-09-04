@@ -3,7 +3,7 @@
  * Plugin Name: ABC Engagement Toast (Popup Style)
  * Plugin URI:  https://allysonbelo.com
  * Description: Notificações inteligentes tipo Toast e Popups de alta conversão com múltiplos gatilhos e validação por chave de licença remota.
- * Version:     1.4.0
+ * Version:     1.4.1
  * Author:      Allyson Belo
  * Author URI:  https://allysonbelo.com
  * Text Domain: abc-engagement-toast
@@ -15,7 +15,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-define('ABC_ENGAGEMENT_TOAST_VERSION', '1.4.0');
+define('ABC_ENGAGEMENT_TOAST_VERSION', '1.4.1');
 define('ABC_ENGAGEMENT_TOAST_PATH', plugin_dir_path(__FILE__));
 define('ABC_ENGAGEMENT_TOAST_URL', plugin_dir_url(__FILE__));
 define('ABC_ENGAGEMENT_TOAST_BASENAME', plugin_basename(__FILE__));

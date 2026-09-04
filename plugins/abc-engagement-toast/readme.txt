@@ -4,7 +4,7 @@ Tags: toast, popup, engagement, notifications, conversion
 Requires at least: 5.6
 Tested up to: 6.7
 Requires PHP: 7.4
-Stable tag: 1.0.0
+Stable tag: 1.4.1
 License: Proprietary
 
 Notificações inteligentes tipo Toast e Popups com gatilhos de rolagem, atraso e intenção de saída, protegidas por chave de licença remota.
@@ -41,6 +41,10 @@ O plugin possui suporte nativo para sites Headless (Next.js, React, Astro, Vue, 
    `GET https://SEU-WORDPRESS/wp-json/abc-toast/v1/toasts`
 
 == Changelog ==
+
+= 1.4.1 =
+* Correção no headless-loader.js: remoção de variável indefinida que impedia a aplicação da classe `.is-visible` e deixava o popup transparente/oculto sob o overlay escuro.
+* Melhoria nos z-indexes e centralização responsiva na posição central (`pos-center`).
 
 = 1.1.0 =
 * Adicionado suporte nativo a sites Headless (Next.js/React) com endpoint REST API protegido por licença e script universal `headless-loader.js`.
